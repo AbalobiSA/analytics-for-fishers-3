@@ -6,13 +6,21 @@
         .module('app')
         .service('authService', authService);
 
-    authService.$inject = ['$rootScope', '$state', 'angularAuth0', 'authManager', 'jwtHelper', '$location', '$ionicPopup'];
+    authService.$inject = ['$rootScope', '$state', 'angularAuth0',
+        'authManager', 'jwtHelper', '$location', '$ionicPopup',
+        'stateService', 'dataService'];
 
-    function authService($rootScope, $state, angularAuth0, authManager, jwtHelper, $location, $ionicPopup) {
+    function authService($rootScope, $state, angularAuth0,
+                         authManager, jwtHelper, $location, $ionicPopup,
+                        stateService, dataService) {
 
         var userProfile = JSON.parse(localStorage.getItem('profile')) || {};
 
         function login(username, password) {
+
+            stateService.setUsername(username);
+            stateService.setPassword(password);
+
             angularAuth0.login({
                 connection: 'Username-Password-Authentication',
                 responseType: 'token',
@@ -46,6 +54,7 @@
         function logout() {
             localStorage.removeItem('id_token');
             localStorage.removeItem('profile');
+            dataService.clearAll();
             authManager.unauthenticate();
             userProfile = {};
 
@@ -71,6 +80,12 @@
             }
 
             localStorage.setItem('id_token', authResult.idToken);
+            localStorage.setItem('access_token', authResult.accessToken);
+
+            // stateService.setAccessToken();
+
+            console.log(JSON.stringify(authResult, null, 4));
+
             authManager.authenticate();
 
             angularAuth0.getProfile(authResult.idToken, function (error, profileData) {
@@ -90,6 +105,8 @@
             if (token) {
                 if (!jwtHelper.isTokenExpired(token)) {
                     if (!$rootScope.isAuthenticated) {
+                        // localStorage.removeItem('access_token');
+                        dataService.clearAll();
                         authManager.authenticate();
                     }
                 }

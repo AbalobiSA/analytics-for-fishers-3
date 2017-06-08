@@ -1,19 +1,56 @@
-<ion-view view-title="Auth0 Ionic Quickstart" ng-controller="HomeController as vm">
+<ion-view view-title="{{vm.getViewTitle()}}" ng-controller="HomeController as vm">
     <ion-content class="padding">
         <div ng-hide="isAuthenticated">
-            <p>Welcome to the Auth0 Ionic Sample! Please log in:</p>
+            <p>Welcome to Abalobi Fisher Analytics! Please log in:</p>
             <button class="button button-full button-positive" ng-click="vm.login()">
                 Log In / Sign Up
             </button>
         </div>
         <div ng-show="isAuthenticated">
-            <p>Thank you for logging in!</p>
-            <div class="profile-area">
-                <pre>{{vm.getProfile()}}</pre>
+            <p>You are logged in as: <br>{{vm.getProfile().email}}</p>
+            <div class="cs-spacer"></div>
+
+            <div ng-show="vm.isLoading">
+                <h3>Loading...</h3>
             </div>
+            <div class="card" ng-repeat="item in vm.recentCatches()" ng-show="!vm.isLoading">
+                <!--{{item}}-->
+                <div class="item infoEntryHeader">
+                    Date: <span class="noBold">{{item.date}}</span><br/>
+                    Landing site: <span class="noBold">{{item.site_back_up || item.community}}</span>
+                </div>
+                <div class="item item-text-wrap">
+                    <ul class="list">
+                        <strong><p>{{item.species}}</p></strong>
+                        <p ng-show="item.items !== null">{{item.items}} items</p>
+                        <p ng-show="item.crates !== null">{{item.crates}} crates</p>
+                        <p ng-show="item.weight !== null">Weight: {{item.weight}} kg</p>
+                    </ul>
+                </div>
+            </div>
+            <div ng-show="!vm.isLoading && vm.recentCatches().length === 0">
+                <h3>No Recent Catches to display.</h3>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
             <button class="button button-full button-dark" ng-click="vm.logout()">
                 Log Out
             </button>
+
+            <div class="cs-spacer">
+                <h4>Developer Console</h4>
+                <pre>{{vm.consoletext()}}</pre>
+            </div>
         </div>
     </ion-content>
 </ion-view>

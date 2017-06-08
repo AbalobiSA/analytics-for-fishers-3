@@ -5,9 +5,9 @@
         .module('app')
         .controller('LoginController', LoginController);
 
-    LoginController.$inject = ['authService'];
+    LoginController.$inject = ['authService', 'stateService'];
 
-    function LoginController(authService) {
+    function LoginController(authService, stateService) {
         var vm = this;
 
         vm.username = "";
@@ -33,7 +33,7 @@
         }
 
         function isNull(input) {
-            console.log("Checking: " + input);
+            // console.log("Checking: " + input);
             // console.log("Value: " input);
             switch (input) {
                 case "": return true;
