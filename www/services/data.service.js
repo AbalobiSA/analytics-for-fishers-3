@@ -34,7 +34,7 @@
          * @param errorCB
          * @param refreshData {boolean} Should we refresh the data?
          */
-        function getRecentTrips(successCB, errorCB, refreshData) {
+        function getRecentCatches(successCB, errorCB, refreshData) {
             let access_token = localStorage.getItem('access_token');
             console.log("Debug: TOKEN: " + access_token);
 
@@ -63,7 +63,7 @@
         }
 
         return {
-            getRecentTrips: getRecentTrips,
+            getRecentCatches: getRecentCatches,
             clearAll: clearAll
         }
     }
