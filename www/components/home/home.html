@@ -1,4 +1,10 @@
 <ion-view view-title="{{vm.getViewTitle()}}" ng-controller="HomeController as vm">
+
+    <ion-nav-buttons side="left" ng-show="isAuthenticated">
+        <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+    </ion-nav-buttons>
+
+
     <ion-content class="padding">
         <div ng-hide="isAuthenticated">
             <p>Welcome to Abalobi Fisher Analytics! Please log in:</p>

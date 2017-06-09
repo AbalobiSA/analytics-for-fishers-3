@@ -4,17 +4,39 @@
 angular.module('app').config(function ($stateProvider, $urlRouterProvider, angularAuth0Provider) {
     $stateProvider
     // setup an abstract state for the tabs directive
-        .state('home', {
-            url: '/home',
-            templateUrl: 'components/home/home.html'
+
+        .state('menu', {
+            url: "/app",
+            controller: 'SidemenuCtrl',
+            abstract: true,
+            templateUrl: 'partials/sidemenu/sidemenu.html'
         })
 
-        .state('login', {
-            url: '/',
-            templateUrl: 'components/login/login.html'
+        .state('menu.home', {
+            url: '/home',
+            views: {
+                'menuContent' : {
+                    templateUrl: 'components/home/home.html',
+                    // conroller: 'HomeController'
+                }
+            }
+
+        })
+
+        .state('menu.login', {
+            url: '/login',
+            views: {
+                'menuContent' : {
+                    templateUrl: 'components/login/login.html',
+                    controller: 'LoginController'
+                }
+            }
+
         });
 
-    $urlRouterProvider.otherwise('/');
+
+
+    $urlRouterProvider.otherwise('/app/home');
 
     // Initialization for the angular-auth0 library
     angularAuth0Provider.init({

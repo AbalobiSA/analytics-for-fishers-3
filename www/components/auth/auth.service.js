@@ -58,7 +58,7 @@
             authManager.unauthenticate();
             userProfile = {};
 
-            $state.go('login');
+            $state.go('menu.login');
         }
 
         function authenticateAndGetProfile() {
@@ -96,7 +96,7 @@
                 localStorage.setItem('profile', JSON.stringify(profileData));
                 userProfile = profileData;
 
-                $location.path('/home');
+                $location.path('/app/home');
             });
         }
 
