@@ -66,7 +66,7 @@
         }
 
         function login() {
-            $state.go("login");
+            $state.go("menu.login");
         }
 
         function getProfile() {

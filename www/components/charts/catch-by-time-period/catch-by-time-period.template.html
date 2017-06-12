@@ -1,0 +1,49 @@
+<!--<div style="height: 50px !important;"></div>-->
+<div class="padding" style="margin-top: 50px !important" ng-controller="catchByTimePeriodController as $ctrl">
+    <div class="list" ng-if="$ctrl.isManager == true">
+        <label class="item item-input item-select">
+            <div class="input-label">
+                Select Fisher:
+            </div>
+            <select ng-model="$ctrl.selectedFisher"
+                    ng-options="fisher.lkup_main_fisher_id__r.Name for fisher in $ctrl.fisherList"
+                    ng-change="$ctrl.fisherChange($ctrl.selectedFisher)"></select>
+        </label>
+    </div>
+
+    <div class="list">
+        <label class="item item-input item-select">
+            <div class="input-label">
+                Select time interval:
+            </div>
+            <select ng-model="$ctrl.selectedInterval" ng-options="interval for interval in $ctrl.intervals"
+                    ng-change="$ctrl.intervalChange($ctrl.selectedInterval)"></select>
+        </label>
+    </div>
+
+    <div class="list">
+        <label class="item item-input item-select">
+            <div class="input-label">
+                Catch summary:
+            </div>
+            <select ng-model="$ctrl.selectedCalculationMethod" ng-options="method for method in $ctrl.methods"
+                    ng-change="$ctrl.calculationMethodChange($ctrl.selectedCalculationMethod)"></select>
+        </label>
+    </div>
+
+    <div>
+        Title x: {{$ctrl.xTitle}} <br>
+        Title y: {{$ctrl.yTitle}} <br>
+        <pre>{{$ctrl.dataMap}}</pre>
+    </div>
+
+    <br/>
+
+    <div>
+        <stacked-bar-chart data="$ctrl.dataMap" xtitle="$ctrl.xTitle" ytitle="$ctrl.yTitle"
+                           width=300 height=400></stacked-bar-chart>
+    </div>
+    <loading-overlay loading="$ctrl.loading"></loading-overlay>
+
+
+</div>

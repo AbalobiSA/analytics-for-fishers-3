@@ -15,7 +15,7 @@ angular.module('app').config(function ($stateProvider, $urlRouterProvider, angul
         .state('menu.home', {
             url: '/home',
             views: {
-                'menuContent' : {
+                'menuContent': {
                     templateUrl: 'components/home/home.html',
                     // conroller: 'HomeController'
                 }
@@ -26,14 +26,27 @@ angular.module('app').config(function ($stateProvider, $urlRouterProvider, angul
         .state('menu.login', {
             url: '/login',
             views: {
-                'menuContent' : {
+                'menuContent': {
                     templateUrl: 'components/login/login.html',
                     controller: 'LoginController'
                 }
             }
 
-        });
+        })
 
+/*============================================================================
+        Graphs
+ ============================================================================*/
+
+        .state('menu.catchtimeperiod', {
+            url: "/catch-by-time-period",
+            views: {
+                'menuContent': {
+                    templateUrl: "components/charts/catch-by-time-period/catch-by-time-period.template.html",
+                    controller: 'catchByTimePeriodController'
+                }
+            }
+        });
 
 
     $urlRouterProvider.otherwise('/app/home');
