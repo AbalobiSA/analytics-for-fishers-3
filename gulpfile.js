@@ -7,16 +7,20 @@ let minifyCss = require('gulp-minify-css');
 let rename = require('gulp-rename');
 let sh = require('shelljs');
 let babel = require('gulp-babel');
+let plumber = require('gulp-plumber');
 
 let paths = {
     sass: ['./src/scss/**/*.scss'],
     src: ['./src/**']
 };
 
-gulp.task('default', ['sass']);
+gulp.task("serve:before", ['default']);
+
+gulp.task('default', ['babel', 'sass']);
 
 gulp.task('sass', function (done) {
     gulp.src('./src/scss/ionic.app.scss')
+        .pipe(plumber())
         .pipe(sass())
         .on('error', sass.logError)
         .pipe(gulp.dest('./www/css/'))
@@ -27,6 +31,8 @@ gulp.task('sass', function (done) {
         .pipe(gulp.dest('./www/css/'))
         .on('end', done);
 });
+
+
 
 gulp.task('watch', function () {
     gulp.watch(paths.sass, ['sass']);
@@ -63,27 +69,31 @@ gulp.task('babel', function () {
 /*============================================================================
     Handle the dist foler
  ============================================================================*/
-    sh.rm('-rf', dist);
+    // sh.rm('-rf', dist);
 
 /*============================================================================
     Components folders
  ============================================================================*/
     gulp.src('src/components/**/*.js')
+        .pipe(plumber())
         .pipe(babel({
             presets: ['es2015']
         }))
         .pipe(gulp.dest(componentsDist));
 
     gulp.src('src/components/**/*.html')
+        .pipe(plumber())
         .pipe(gulp.dest(componentsDist));
 
     gulp.src('src/components/**/*.css')
+        .pipe(plumber())
         .pipe(gulp.dest(componentsDist));
 
 /*============================================================================
     JS Folder
  ============================================================================*/
     gulp.src('src/js/**/*.js')
+        .pipe(plumber())
         .pipe(babel({
             presets: ['es2015']
         }))
@@ -94,6 +104,7 @@ gulp.task('babel', function () {
     Partials
  ============================================================================*/
     gulp.src('src/partials/**/*.js')
+        .pipe(plumber())
         .pipe(babel({
             presets: ['es2015']
         }))
@@ -101,12 +112,14 @@ gulp.task('babel', function () {
 
     // Handle the partials templates
     gulp.src('src/partials/**/*.html')
-    .pipe(gulp.dest(partialsDist));
+        .pipe(plumber())
+        .pipe(gulp.dest(partialsDist));
 
 /*============================================================================
     Services
  ============================================================================*/
     gulp.src('src/services/*.js')
+        .pipe(plumber())
         .pipe(babel({
             presets: ['es2015']
         }))
@@ -117,13 +130,15 @@ gulp.task('babel', function () {
  ============================================================================*/
 
     gulp.src('src/*.js')
+        .pipe(plumber())
         .pipe(babel({
             presets: ['es2015']
         }))
         .pipe(gulp.dest(dist));
 
     gulp.src('src/*.html')
-    .pipe(gulp.dest(dist));
+        .pipe(plumber())
+        .pipe(gulp.dest(dist));
 
 /*============================================================================
     Libs Folder
@@ -133,23 +148,27 @@ gulp.task('babel', function () {
         // .pipe(babel({
         //     presets: ['es2015']
         // }))
+        .pipe(plumber())
         .pipe(gulp.dest(path.join(dist, "lib")));
 
     gulp.src('src/lib/**/build/*.js')
         // .pipe(babel({
         //     presets: ['es2015']
         // }))
+        .pipe(plumber())
         .pipe(gulp.dest(path.join(dist, "lib")));
 
     gulp.src('src/lib/**/*.min.js')
     // .pipe(babel({
     //     presets: ['es2015']
     // }))
+        .pipe(plumber())
         .pipe(gulp.dest(path.join(dist, "lib")));
 
     gulp.src('src/lib/ionic/**/*.*')
     // .pipe(babel({
     //     presets: ['es2015']
     // }))
+        .pipe(plumber())
         .pipe(gulp.dest(path.join(dist, "lib/ionic")));
 });

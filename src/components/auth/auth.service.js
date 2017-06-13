@@ -14,7 +14,7 @@
                          authManager, jwtHelper, $location, $ionicPopup,
                         stateService, dataService) {
 
-        var userProfile = JSON.parse(localStorage.getItem('profile')) || {};
+        let userProfile = JSON.parse(localStorage.getItem('profile')) || {};
 
         function login(username, password) {
 
