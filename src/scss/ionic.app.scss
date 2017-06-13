@@ -32,49 +32,9 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 }
 
 /*============================================================================
-    Recent Trips Page
+    Imports
  ============================================================================*/
 
-.recentTripsTitle {
-    margin: 20px;
-    font-weight: 900;
-}
+@import './recent-trips';
 
-.infoEntryHeader {
-    font-weight: 700;
-    font-size: 12pt;
-    background-color: #e2e2e2;
-}
-
-.infoEntry {
-    font-size: 12pt;
-    padding-bottom: 0px;
-    white-space: nowrap;
-    min-height: 20px;
-}
-
-.infoEntryFisherName {
-    display: block;
-    padding-bottom: 16px;
-}
-
-.infoEntry:last-child{
-    padding-bottom: 16px;
-}
-
-.infoEntry li:last-child{
-    margin-bottom: 16px;
-}
-
-.infoEntry .infoEntryKey {
-    float: left;
-    font-weight: bold;
-}
-
-.infoEntry .infoEntryValue {
-    float: right;
-}
-
-.noBold {
-    font-weight: normal;
-}
+// Test
