@@ -2,12 +2,13 @@
  * Created by Carl on 2017-06-08.
  */
 angular.module('app')
-    .controller('SidemenuCtrl', function ($scope) {
+    .controller('SidemenuCtrl', function ($scope, authService, $ionicSideMenuDelegate) {
     // $scope.refreshing = false;
-    // $scope.logout = function () {
-    //     console.log("logging out");
-    //     force.logout();
-    // };
+    $scope.logout = function () {
+        $ionicSideMenuDelegate.toggleLeft();
+        console.log("logging out");
+        authService.logout();
+    };
     //
     // $scope.refresh = function () {
     //     console.log("refreshing");
