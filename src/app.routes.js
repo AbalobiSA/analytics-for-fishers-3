@@ -9,7 +9,7 @@ angular.module('app').config(function ($stateProvider, $urlRouterProvider, angul
             url: "/app",
             controller: 'SidemenuCtrl',
             abstract: true,
-            templateUrl: 'partials/sidemenu/sidemenu.html'
+            templateUrl: 'components/sidemenu/sidemenu.html'
         })
 
         .state('menu.home', {
