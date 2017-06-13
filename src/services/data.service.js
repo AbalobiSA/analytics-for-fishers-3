@@ -27,6 +27,10 @@
         let catchByTimePeriod_monthly;
         let catchByTimePeriod_weekly;
 
+        let expensesIncomehByTimePeriod_yearly;
+        let expensesIncomehByTimePeriod_monthly;
+        let expensesIncomehByTimePeriod_weekly;
+
         const TIME_INTERVALS = ["Yearly", "Monthly", "Weekly"];
         const QUANTITY_AGGREGATION_TYPES = ["Items", "Weight", "Crates"];
 
@@ -123,6 +127,58 @@
             }
         }
 
+        function queryExpensesIncomeByTimePeriod(interval, successCB, errorCB, refreshData) {
+            let access_token = localStorage.getItem('access_token');
+            let endpoint = "/api/analytics/expenses_income_by_time_period";
+            // console.log("Debug: Querying catches over time: " + interval);
+            // console.log("Debug: Access token: " + access_token);
+
+            // let expensesIncomehByTimePeriod_yearly;
+            // let expensesIncomehByTimePeriod_monthly;
+            // let expensesIncomehByTimePeriod_weekly;
+
+            if (refreshData || handleIntervalObjectSelection(interval)) {
+                console.log("MAKING REQUEEST: " + interval);
+                $http({
+                    method: 'GET',
+                    url: SERVER_IP + endpoint,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'access_token' : access_token,
+                        'interval' : interval
+                    }
+                }).then((response) => {
+                    // Handle the query interval
+                    switch (interval.toLowerCase()) {
+                        case "weekly" : expensesIncomehByTimePeriod_weekly = Rx.Observable
+                            .from(response.data.records);
+                            successCB(expensesIncomehByTimePeriod_weekly);
+                            break;
+                        case "monthly" : expensesIncomehByTimePeriod_monthly = Rx.Observable
+                            .from(response.data.records);
+                            successCB(expensesIncomehByTimePeriod_monthly);
+                            break;
+                        case "yearly" : expensesIncomehByTimePeriod_yearly = Rx.Observable
+                            .from(response.data.records);
+                            successCB(expensesIncomehByTimePeriod_yearly);
+                            break;
+                    }
+                }, (error) => {
+                    errorCB(error);
+                });
+            }
+            else {
+                switch (interval.toLowerCase()) {
+                    case "weekly" : successCB(expensesIncomehByTimePeriod_weekly);
+                        break;
+                    case "monthly" : successCB(expensesIncomehByTimePeriod_monthly);
+                        break;
+                    case "yearly" : successCB(expensesIncomehByTimePeriod_yearly);
+                        break;
+                }
+            }
+        }
+
 /*============================================================================
         Aggregating Functions
  ============================================================================*/
@@ -167,6 +223,7 @@
             getRecentCatches: getRecentCatches,
             queryCatchByTimePeriod: queryCatchByTimePeriod,
             clearAll: clearAll,
+            queryExpensesIncomeByTimePeriod: queryExpensesIncomeByTimePeriod,
 
             TIME_INTERVALS: TIME_INTERVALS,
             QUANTITY_AGGREGATION_TYPES: QUANTITY_AGGREGATION_TYPES,

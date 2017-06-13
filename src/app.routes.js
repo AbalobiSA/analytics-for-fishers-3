@@ -31,7 +31,6 @@ angular.module('app').config(function ($stateProvider, $urlRouterProvider, angul
                     controller: 'LoginController'
                 }
             }
-
         })
 
 /*============================================================================
@@ -44,6 +43,15 @@ angular.module('app').config(function ($stateProvider, $urlRouterProvider, angul
                 'menuContent': {
                     templateUrl: "components/charts/catch-by-time-period/catch-by-time-period.template.html",
                     controller: 'catchByTimePeriodController'
+                }
+            }
+        })
+
+        .state('menu.expenseincomereport', {
+            url: "/expenses-income-report",
+            views: {
+                'menuContent': {
+                    templateUrl: "components/expenses-income-report/expenses-income-report.template.html"
                 }
             }
         });
