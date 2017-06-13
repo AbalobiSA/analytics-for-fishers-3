@@ -2,44 +2,29 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="152d6a74-6ac1-40d2-83c7-33fd72f1df96" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/scss/main.scss" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/scss/recent-trips.scss" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/css/style.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/lib/angular-auth0/dist/angular-auth0.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/lib/angular-jwt/dist/angular-jwt.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/lib/auth0.js/build/auth0.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/lib/chart.js/dist/Chart.bundle.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/lib/chart.js/dist/Chart.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/lib/d3/d3.min.js" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/scss/ionic.app.scss" afterPath="$PROJECT_DIR$/src/scss/ionic.app.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.bowerrc" afterPath="$PROJECT_DIR$/.bowerrc" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/www/app.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/www/app.routes.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/www/app.run.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/www/auth0.variables.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/www/components/auth/auth.service.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/www/components/charts/catch-by-time-period/catch-by-time-period.component.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/www/components/charts/catch-by-time-period/catch-by-time-period.controller.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/www/components/charts/catch-by-time-period/catch-by-time-period.module.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/www/components/charts/stacked-bar-chart/stacked-bar-chart.component.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/www/components/charts/stacked-bar-chart/stacked-bar-chart.module.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/www/components/home/home.controller.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/www/components/home/home.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/www/components/login/login.controller.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/www/components/navbar/navbar.controller.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/www/index.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/www/partials/sidemenu/sidemenu.controller.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/www/services/data.service.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/www/services/resultsUtil.service.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/www/services/state.service.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/www/services/storage.service.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/www/services/string-util.service.js" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/02-custom-login.iml" afterPath="$PROJECT_DIR$/.idea/02-custom-login.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gulpfile.js" afterPath="$PROJECT_DIR$/gulpfile.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ionic.config.json" afterPath="$PROJECT_DIR$/ionic.config.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/app.js" afterPath="$PROJECT_DIR$/www/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/app.routes.js" afterPath="$PROJECT_DIR$/www/app.routes.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/app.run.js" afterPath="$PROJECT_DIR$/www/app.run.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/auth0.variables.js" afterPath="$PROJECT_DIR$/www/auth0.variables.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/components/auth/auth.service.js" afterPath="$PROJECT_DIR$/www/components/auth/auth.service.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/components/charts/catch-by-time-period/catch-by-time-period.component.js" afterPath="$PROJECT_DIR$/www/components/charts/catch-by-time-period/catch-by-time-period.component.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/components/charts/catch-by-time-period/catch-by-time-period.controller.js" afterPath="$PROJECT_DIR$/www/components/charts/catch-by-time-period/catch-by-time-period.controller.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/components/charts/catch-by-time-period/catch-by-time-period.module.js" afterPath="$PROJECT_DIR$/www/components/charts/catch-by-time-period/catch-by-time-period.module.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/components/charts/stacked-bar-chart/stacked-bar-chart.component.js" afterPath="$PROJECT_DIR$/www/components/charts/stacked-bar-chart/stacked-bar-chart.component.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/components/charts/stacked-bar-chart/stacked-bar-chart.module.js" afterPath="$PROJECT_DIR$/www/components/charts/stacked-bar-chart/stacked-bar-chart.module.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/components/home/home.controller.js" afterPath="$PROJECT_DIR$/www/components/home/home.controller.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/components/home/home.html" afterPath="$PROJECT_DIR$/www/components/home/home.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/components/login/login.controller.js" afterPath="$PROJECT_DIR$/www/components/login/login.controller.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/components/navbar/navbar.controller.js" afterPath="$PROJECT_DIR$/www/components/navbar/navbar.controller.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/index.html" afterPath="$PROJECT_DIR$/www/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/partials/sidemenu/sidemenu.controller.js" afterPath="$PROJECT_DIR$/www/partials/sidemenu/sidemenu.controller.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/services/data.service.js" afterPath="$PROJECT_DIR$/www/services/data.service.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/services/resultsUtil.service.js" afterPath="$PROJECT_DIR$/www/services/resultsUtil.service.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/services/state.service.js" afterPath="$PROJECT_DIR$/www/services/state.service.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/services/storage.service.js" afterPath="$PROJECT_DIR$/www/services/storage.service.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/services/string-util.service.js" afterPath="$PROJECT_DIR$/www/services/string-util.service.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/yarn.lock" afterPath="$PROJECT_DIR$/yarn.lock" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -54,21 +39,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name=".bowerrc" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.bowerrc">
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="21">
-              <caret line="1" column="26" lean-forward="true" selection-start-line="1" selection-start-column="26" selection-end-line="1" selection-end-column="26" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="189">
-              <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+            <state relative-caret-position="378">
+              <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -226,20 +201,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="www" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="analytics-for-fishers3" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="analytics-for-fishers3" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -381,7 +342,7 @@
       <workItem from="1496993881429" duration="8492000" />
       <workItem from="1497251711987" duration="16191000" />
       <workItem from="1497337969166" duration="1652000" />
-      <workItem from="1497339847155" duration="3919000" />
+      <workItem from="1497339847155" duration="4106000" />
     </task>
     <task id="LOCAL-00001" summary="chore: added IDE folder to gitignore">
       <created>1496832541091</created>
@@ -418,11 +379,18 @@
       <option name="project" value="LOCAL" />
       <updated>1497271994736</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="feature: converted app to gulp and ES6 structure">
+      <created>1497343843201</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1497343843201</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="58786000" />
+    <option name="totallyTimeSpent" value="58973000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="0" width="1936" height="1038" extended-state="0" />
@@ -460,7 +428,8 @@
     <MESSAGE value="feature: added client aggregation code (ported from fisheranalytics2)" />
     <MESSAGE value="feature: added sidemenu" />
     <MESSAGE value="feature: added first graph" />
-    <option name="LAST_COMMIT_MESSAGE" value="feature: added first graph" />
+    <MESSAGE value="feature: converted app to gulp and ES6 structure" />
+    <option name="LAST_COMMIT_MESSAGE" value="feature: converted app to gulp and ES6 structure" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -693,14 +662,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="17" column="52" lean-forward="true" selection-start-line="17" selection-start-column="52" selection-end-line="17" selection-end-column="52" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/scss/recent-trips.scss">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="462">
@@ -733,18 +694,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.bowerrc">
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="21">
-          <caret line="1" column="26" lean-forward="true" selection-start-line="1" selection-start-column="26" selection-end-line="1" selection-end-column="26" />
+        <state relative-caret-position="147">
+          <caret line="7" column="8" lean-forward="true" selection-start-line="7" selection-start-column="8" selection-end-line="7" selection-end-column="8" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
+    <entry file="file://$PROJECT_DIR$/.bowerrc">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+        <state relative-caret-position="21">
+          <caret line="1" column="26" lean-forward="false" selection-start-line="1" selection-start-column="26" selection-end-line="1" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
           <folding />
         </state>
       </provider>
