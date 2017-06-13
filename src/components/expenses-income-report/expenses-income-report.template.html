@@ -1,71 +1,83 @@
-<div ng-controller="expensesIncomeReportController as $ctrl">
+<div class="padding navbar-margin" ng-controller="expensesIncomeReportController as $ctrl">
 
-    <div class="list" ng-if="$ctrl.isManager == true">
-        <label class="item item-input item-select">
-            <div class="input-label">
-                Select Fisher:
-            </div>
-            <select ng-model="$ctrl.selectedFisher"
-                    ng-options="fisher.lkup_main_fisher_id__r.Name for fisher in $ctrl.fisherList"
-                    ng-change="$ctrl.fisherChange($ctrl.selectedFisher)"></select>
-        </label>
+    <h1 class="text-center">Income & Expenses</h1>
+
+    <div ng-show="$ctrl.loading">Loading...</div>
+
+    <div ng-show="!$ctrl.loading && $ctrl.noDataExists()">
+        <p>Unable to fetch data! Please ensure you have a connection, then click the button below to try again.</p>
+        <button class="button button-default button-block button-dark" ng-click="$ctrl.requestData()">Retry</button>
     </div>
 
-    <div class="list">
-        <label class="item item-input item-select">
-            <div class="input-label">
-                Select time month:
-            </div>
-            <select ng-model="$ctrl.selectedMonth" ng-options="month for month in $ctrl.months"
-                    ng-change="$ctrl.monthChange($ctrl.selectedMonth)"></select>
-        </label>
-    </div>
+    <div class="main-content" ng-show="!$ctrl.loading && !$ctrl.noDataExists()">
+        <div class="list" ng-if="$ctrl.isManager == true">
+            <label class="item item-input item-select">
+                <div class="input-label">
+                    Select Fisher:
+                </div>
+                <select ng-model="$ctrl.selectedFisher"
+                        ng-options="fisher.lkup_main_fisher_id__r.Name for fisher in $ctrl.fisherList"
+                        ng-change="$ctrl.fisherChange($ctrl.selectedFisher)"></select>
+            </label>
+        </div>
 
-    <div class="card" ng-if="$ctrl.expenses || $ctrl.income">
-        <div class="item infoEntryHeader">
-            Date: <span class="noBold">{{$ctrl.income.key}}</span><br/>
-            Total Expense: <span class="noBold">
+        <div class="list">
+            <label class="item item-input item-select">
+                <div class="input-label">
+                    Select time month:
+                </div>
+                <select ng-model="$ctrl.selectedMonth" ng-options="month for month in $ctrl.months"
+                        ng-change="$ctrl.monthChange($ctrl.selectedMonth)"></select>
+            </label>
+        </div>
+
+        <div class="card" ng-if="$ctrl.expenses || $ctrl.income">
+            <div class="item infoEntryHeader">
+                Date: <span class="noBold">{{$ctrl.income.key}}</span><br/>
+                Total Expense: <span class="noBold">
             <span ng-if="$ctrl.isNumber($ctrl.expenses.total)">R {{$ctrl.expenses.total | number:2}}</span>
             <span ng-if="!$ctrl.isNumber($ctrl.expenses.total)">{{$ctrl.expenses.total}}</span>
         </span><br/>
-            Total Income: <span class="noBold">R {{$ctrl.income.total | number:2}}</span>
-        </div>
-        <div class="item item-text-wrap" ng-if="$ctrl.expenses.total > 0" ng-class="{ 'expense': $ctrl.expenses }">
-            <ul class="list">
-                <li class="infoEntry">
-                    <div ng-if="$ctrl.expenses.cost_harbour_fee > 0"><span class="infoEntryKey">Harbour Fee: <span
-                        class="noBold">R {{$ctrl.expenses.cost_harbour_fee | number:2}}</span></span><br/></div>
-                    <div ng-if="$ctrl.expenses.cost_bait > 0"><span class="infoEntryKey">Bait: <span class="noBold">R {{$ctrl.expenses.cost_bait | number:2}}</span></span><br/>
-                    </div>
-                    <div ng-if="$ctrl.expenses.cost_food > 0"><span class="infoEntryKey">Food: <span class="noBold">R {{$ctrl.expenses.cost_food | number:2}}</span></span><br/>
-                    </div>
-                    <div ng-if="$ctrl.expenses.cost_fuel > 0"><span class="infoEntryKey">Fuel: <span class="noBold">R {{$ctrl.expenses.cost_fuel | number:2}}</span></span><br/>
-                    </div>
-                    <div ng-if="$ctrl.expenses.cost_oil > 0"><span class="infoEntryKey">Oil: <span class="noBold">R {{$ctrl.expenses.cost_oil | number:2}}</span></span><br/>
-                    </div>
-                    <div ng-if="$ctrl.expenses.cost_transport > 0"><span class="infoEntryKey">Transport: <span
-                        class="noBold">R {{$ctrl.expenses.cost_transport | number:2}}</span></span><br/></div>
-                    <div ng-if="$ctrl.expenses.cost_other > 0"><span class="infoEntryKey">Other: <span class="noBold">R {{$ctrl.expenses.cost_other | number:2}}</span></span><br/>
-                    </div>
-                </li>
-            </ul>
-        </div>
+                Total Income: <span class="noBold">R {{$ctrl.income.total | number:2}}</span>
+            </div>
+            <div class="item item-text-wrap" ng-if="$ctrl.expenses.total > 0" ng-class="{ 'expense': $ctrl.expenses }">
+                <ul class="list">
+                    <li class="infoEntry">
+                        <div ng-if="$ctrl.expenses.cost_harbour_fee > 0"><span class="infoEntryKey">Harbour Fee: <span
+                            class="noBold">R {{$ctrl.expenses.cost_harbour_fee | number:2}}</span></span><br/></div>
+                        <div ng-if="$ctrl.expenses.cost_bait > 0"><span class="infoEntryKey">Bait: <span class="noBold">R {{$ctrl.expenses.cost_bait | number:2}}</span></span><br/>
+                        </div>
+                        <div ng-if="$ctrl.expenses.cost_food > 0"><span class="infoEntryKey">Food: <span class="noBold">R {{$ctrl.expenses.cost_food | number:2}}</span></span><br/>
+                        </div>
+                        <div ng-if="$ctrl.expenses.cost_fuel > 0"><span class="infoEntryKey">Fuel: <span class="noBold">R {{$ctrl.expenses.cost_fuel | number:2}}</span></span><br/>
+                        </div>
+                        <div ng-if="$ctrl.expenses.cost_oil > 0"><span class="infoEntryKey">Oil: <span class="noBold">R {{$ctrl.expenses.cost_oil | number:2}}</span></span><br/>
+                        </div>
+                        <div ng-if="$ctrl.expenses.cost_transport > 0"><span class="infoEntryKey">Transport: <span
+                            class="noBold">R {{$ctrl.expenses.cost_transport | number:2}}</span></span><br/></div>
+                        <div ng-if="$ctrl.expenses.cost_other > 0"><span class="infoEntryKey">Other: <span class="noBold">R {{$ctrl.expenses.cost_other | number:2}}</span></span><br/>
+                        </div>
+                    </li>
+                </ul>
+            </div>
 
-        <div class="item item-text-wrap income" ng-repeat="item in $ctrl.income.summaries">
-            <ul class="list">
-                <li class="infoEntry">
-                    <h1>{{item.key}}</h1>
-                    <div ng-show="item.batch > 0"><span class="infoEntryKey">Batches: <span class="noBold">{{item.batch | number}} sold</span></span><br/>
-                    </div>
-                    <div ng-show="item.crates > 0"><span class="infoEntryKey">Crates: <span class="noBold">{{item.crates | number}} sold</span></span><br/>
-                    </div>
-                    <div ng-show="item.items > 0"><span class="infoEntryKey">Items: <span class="noBold">{{item.items | number}} items</span></span><br/>
-                    </div>
-                    <div ng-show="item.weight > 0"><span class="infoEntryKey">Weight: <span class="noBold">{{item.weight | number:2}} kg</span></span><br/>
-                    </div>
-                </li>
-            </ul>
+            <div class="item item-text-wrap income" ng-repeat="item in $ctrl.income.summaries">
+                <ul class="list">
+                    <li class="infoEntry">
+                        <h1>{{item.key}}</h1>
+                        <div ng-show="item.batch > 0"><span class="infoEntryKey">Batches: <span class="noBold">{{item.batch | number}} sold</span></span><br/>
+                        </div>
+                        <div ng-show="item.crates > 0"><span class="infoEntryKey">Crates: <span class="noBold">{{item.crates | number}} sold</span></span><br/>
+                        </div>
+                        <div ng-show="item.items > 0"><span class="infoEntryKey">Items: <span class="noBold">{{item.items | number}} items</span></span><br/>
+                        </div>
+                        <div ng-show="item.weight > 0"><span class="infoEntryKey">Weight: <span class="noBold">{{item.weight | number:2}} kg</span></span><br/>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
+
 
 </div>

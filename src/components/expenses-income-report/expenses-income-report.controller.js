@@ -41,12 +41,15 @@
                 requestData();
             }
         });
+        ctrl.loading = false;
 
         function requestData(){
             ctrl.loading = true;
             sfdata.queryExpensesIncomeByTimePeriod(ctrl.selectedInterval, handlerResponse, showError, false);
                 // .then(handlerResponse, showError);
         }
+
+        ctrl.requestData = requestData;
 
         const handleFisherListResponse = function (fList) {
             if(ctrl.isManager){
@@ -62,9 +65,15 @@
 
         const handlerResponse = function(result){
             console.log("handling e/i response");
-            expensesResponseDataObs = result[0];
-            incomeResponseDataObs = result[1];
-            handleFisherListResponse(result[2]);
+            try{
+                expensesResponseDataObs = result[0];
+                incomeResponseDataObs = result[1];
+                handleFisherListResponse(result[2]);
+            } catch (ex) {
+                console.log(ex);
+                ctrl.loading = false;
+            }
+
             // refreshBus.post(false);
             ctrl.loading = false;
             collectMonths(expensesResponseDataObs, incomeResponseDataObs);
@@ -171,8 +180,19 @@
             return year+"-"+month;
         };
 
+        function isEmpty(input) {
+            return (input === undefined || input === null || input === "");
+        }
+
+
+        ctrl.noDataExists = function() {
+            console.log(expensesResponseDataObs);
+            return (isEmpty(expensesResponseDataObs) || isEmpty(incomeResponseDataOb));
+        };
+
+
         const showError = function(err) {
-            console.log("error");
+            console.log(`Errpr: ${JSON.stringify(err, null, 4)}`);
             ctrl.loading = false;
             // refreshBus.post(false);
         }
