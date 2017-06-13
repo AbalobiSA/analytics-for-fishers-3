@@ -37,6 +37,10 @@
             // requestData();
         };
 
+        ctrl.printThings = function () {
+            console.log(JSON.stringify(responseObs, null, 4));
+        };
+
         $scope.$on('$ionicView.enter', function() {
             if (!ctrl.loading) {
                 ctrl.loading = true;
@@ -102,17 +106,32 @@
             // console.log(JSON.stringify(responseObs, null, 4));
 
             responseObs
-                .groupBy(record => sfdata.groupByInterval(ctrl.selectedInterval, record))
+                .groupBy(record => sfdata.groupByInterval(ctrl.selectedInterval.toLowerCase(), record))
                 .flatMap(aggregateSpecies)
                 .toArray()
                 .map(data => data.sort((a, b) => ResultsUtil.sortByInterval(ctrl.selectedInterval, a, b)))
-                .map(data => data.slice(0, 12))
+                .map(data => data.slice(getFirstPosition(data), data.length))
                 .subscribe(data => {
                     ctrl.dataMap = data;
                     ctrl.xTitle = getXTitle(ctrl.selectedInterval);
                     ctrl.yTitle = getYTitle(ctrl.selectedCalculationMethod);
                     // $state.reload(); //Fixes reloading issues
                 });
+        }
+
+        /**
+         * Determines what part of the data object to show.
+         * Should always start at the current month - 12
+         * @param data - Full array of data
+         * @returns {number} - Start position
+         */
+        function getFirstPosition(data) {
+            let lastPosition = data.length;
+            if (data.length - 12 < 0) {
+                return 0;
+            } else {
+                return (data.length - 12);
+            }
         }
 
         function getYTitle(method) {
