@@ -54,6 +54,15 @@ angular.module('app').config(function ($stateProvider, $urlRouterProvider, angul
                     templateUrl: "components/expenses-income-report/expenses-income-report.template.html"
                 }
             }
+        })
+
+        .state('menu.reportmailer', {
+            url: "/report-mailer",
+            views: {
+                'menuContent': {
+                    templateUrl: "components/report-mailer/report-mailer.template.html"
+                }
+            }
         });
 
 

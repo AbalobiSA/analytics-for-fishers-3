@@ -12,9 +12,9 @@
     stateService.$inject = ['$rootScope', 'angularAuth0', 'authManager', 'jwtHelper', '$location', '$ionicPopup'];
 
     function stateService($rootScope, angularAuth0, authManager, jwtHelper, $location, $ionicPopup) {
-        var globalUsername = "";
-        var globalPassword = "";
-        var globalAccessToken = "";
+        let globalUsername = "";
+        let globalPassword = "";
+        let globalAccessToken = "";
 
         function setUsername(input) {
             if ($rootScope.isAuthenticated) {
