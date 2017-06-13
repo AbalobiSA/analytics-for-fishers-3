@@ -8,10 +8,11 @@
     LoginController.$inject = ['authService', 'stateService'];
 
     function LoginController(authService, stateService) {
-        var vm = this;
+        let vm = this;
 
         vm.username = "";
         vm.password = "";
+        vm.rememberMe = false;
 
         vm.login = login;
         vm.signup = signup;

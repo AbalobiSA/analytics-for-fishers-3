@@ -5,7 +5,7 @@
             <!--<ion-nav-back-button>-->
                 <!---->
             <!--</ion-nav-back-button>-->
-            <ion-nav-buttons side="left">
+            <ion-nav-buttons side="left" ng-if="isAuthenticated">
                 <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
                 </button>
             </ion-nav-buttons>
@@ -39,9 +39,9 @@
                 <ion-item menu-close href="#/app/report-mailer">
                     E-mail my data
                 </ion-item>
-                <ion-item menu-close href="#/app/login">
-                    Login Page
-                </ion-item>
+                <!--<ion-item menu-close href="#/app/login">-->
+                    <!--Login Page-->
+                <!--</ion-item>-->
                 <ion-item menu-close ng-click="logout()">
                     Logout
                 </ion-item>
