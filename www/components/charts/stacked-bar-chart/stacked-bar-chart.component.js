@@ -32,7 +32,6 @@
                     display();
                 }
             });
-
             Object.defineProperty(ctrl, 'xtitle', {
                 get: function(){
                     return xtitle;
@@ -146,9 +145,9 @@
 
             d3.select(container).selectAll("*").remove();
             var svg = d3.select(container).append("svg")
-                // .attr("width", width + margin.left + margin.right)
-                // .attr("height", height + margin.top + margin.bottom+50)
-                .attr("width", "100%")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom+50)
+                // .attr("width", "100%")
                 .attr("height", height + margin.top + margin.bottom+50)
                 .append("g")
                 .attr("transform",

@@ -19,5 +19,62 @@ $dark:                            #444 !default;
 $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 // Include all of Ionic
-@import "www/lib/ionic/scss/ionic";
+//@import "www/lib/ionic/scss/ionic";
 
+/* Empty. Add your own CSS if you like */
+.button-google,
+.button-google:hover {
+    background-color:#dd4b39;
+    color: white;
+}
+.cs-spacer{
+    height: 20px;
+}
+
+/*============================================================================
+    Recent Trips Page
+ ============================================================================*/
+
+.recentTripsTitle {
+    margin: 20px;
+    font-weight: 900;
+}
+
+.infoEntryHeader {
+    font-weight: 700;
+    font-size: 12pt;
+    background-color: #e2e2e2;
+}
+
+.infoEntry {
+    font-size: 12pt;
+    padding-bottom: 0px;
+    white-space: nowrap;
+    min-height: 20px;
+}
+
+.infoEntryFisherName {
+    display: block;
+    padding-bottom: 16px;
+}
+
+.infoEntry:last-child{
+    padding-bottom: 16px;
+}
+
+.infoEntry li:last-child{
+    margin-bottom: 16px;
+}
+
+.infoEntry .infoEntryKey {
+    float: left;
+    font-weight: bold;
+}
+
+.infoEntry .infoEntryValue {
+    float: right;
+}
+
+.noBold {
+    font-weight: normal;
+}
