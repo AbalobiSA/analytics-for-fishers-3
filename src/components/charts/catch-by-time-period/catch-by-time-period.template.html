@@ -1,5 +1,7 @@
 <!--<div style="height: 50px !important;"></div>-->
 <div class="padding" style="margin-top: 50px !important" ng-controller="catchByTimePeriodController as $ctrl">
+
+
     <div class="list" ng-if="$ctrl.isManager == true">
         <label class="item item-input item-select">
             <div class="input-label">
@@ -41,11 +43,22 @@
 
     <br/>
 
-    <div style="position: absolute; bottom: 0; top: 140px; left: 0; right: 0; overflow: scroll;">
-        <stacked-bar-chart data="$ctrl.dataMap" xtitle="$ctrl.xTitle" ytitle="$ctrl.yTitle"
-                           width=300 height=400></stacked-bar-chart>
+    <div ng-show="$ctrl.loading">
+        Loading data. Please wait...
     </div>
-    <loading-overlay loading="$ctrl.loading"></loading-overlay>
+
+    <div ng-show="!$ctrl.loading">
+        <div style="position: absolute; bottom: 0; top: 140px; left: 0; right: 0; overflow: scroll;">
+            <stacked-bar-chart data="$ctrl.dataMap" xtitle="$ctrl.xTitle" ytitle="$ctrl.yTitle"
+                               width=300 height=400>
+            </stacked-bar-chart>
+        </div>
+    </div>
+
+
+    <loading-overlay loading="$ctrl.loading">
+
+    </loading-overlay>
 
 
 </div>

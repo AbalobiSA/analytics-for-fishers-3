@@ -60,6 +60,7 @@
         });
 
         function requestData(){
+            ctrl.loading = true;
             console.log("Debug: Requesting data from server...");
             sfdata.queryCatchByTimePeriod(ctrl.selectedInterval, handlerResponse, showError, false);
         }
