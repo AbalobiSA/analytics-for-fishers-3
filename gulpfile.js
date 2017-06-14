@@ -14,9 +14,45 @@ let paths = {
     src: ['./src/**']
 };
 
+/*============================================================================
+    Configuration
+ ============================================================================*/
 gulp.task("serve:before", ['default']);
 
 gulp.task('default', ['babel', 'sass']);
+
+/*============================================================================
+    Watch Tasks
+ ============================================================================*/
+gulp.task('watch', function () {
+    gulp.watch(paths.sass, ['sass']);
+    gulp.watch(paths.src, ['babel']);
+});
+
+gulp.task('devwatch', function () {
+    gulp.watch(paths.sass, ['devsass']);
+    // gulp.watch(paths.src, ['babel']);
+});
+
+/*============================================================================
+    SASS Related
+ ============================================================================*/
+
+gulp.task("devsass", function(done) {
+    gulp.src('./src/scss/ionic.app.scss')
+        .pipe(plumber())
+        .pipe(sass())
+        .on('error', sass.logError)
+        .pipe(gulp.dest('./src/css/'))
+        .pipe(minifyCss({
+            keepSpecialComments: 0
+        }))
+        .pipe(rename({extname: '.min.css'}))
+        .pipe(gulp.dest('./src/css/'))
+        .on('end', done);
+});
+
+
 
 gulp.task('sass', function (done) {
     gulp.src('./src/scss/ionic.app.scss')
@@ -32,13 +68,9 @@ gulp.task('sass', function (done) {
         .on('end', done);
 });
 
-
-
-gulp.task('watch', function () {
-    gulp.watch(paths.sass, ['sass']);
-    gulp.watch(paths.src, ['babel']);
-});
-
+/*============================================================================
+    Other
+ ============================================================================*/
 gulp.task('install', ['git-check'], function () {
     return bower.commands.install()
         .on('log', function (data) {
@@ -58,6 +90,11 @@ gulp.task('git-check', function (done) {
     }
     done();
 });
+
+
+/*============================================================================
+    Babel
+ ============================================================================*/
 
 gulp.task('babel', function () {
     let path = require('path');

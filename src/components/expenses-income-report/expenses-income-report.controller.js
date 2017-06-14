@@ -49,6 +49,11 @@
                 // .then(handlerResponse, showError);
         }
 
+        ctrl.requestFreshData = function () {
+            ctrl.loading = true;
+            sfdata.queryExpensesIncomeByTimePeriod(ctrl.selectedInterval, handlerResponse, showError, true);
+        };
+
         ctrl.requestData = requestData;
 
         const handleFisherListResponse = function (fList) {
@@ -64,10 +69,23 @@
         };
 
         const handlerResponse = function(result){
+
+            if (result === undefined) {
+                console.log("Error! No data received. Showing error alert.");
+                ctrl.errorToast("No data received.");
+                // showError("Whoops.");
+            }
+
             console.log("handling e/i response");
             try{
-                expensesResponseDataObs = result[0];
-                incomeResponseDataObs = result[1];
+                console.log(result[0]);
+                console.log(result[1]);
+                console.log(result[2]);
+
+                expensesResponseDataObs = Rx.Observable
+                    .from(result[0]);
+                incomeResponseDataObs = Rx.Observable
+                    .from(result[1]);
                 handleFisherListResponse(result[2]);
             } catch (ex) {
                 console.log(ex);
@@ -134,7 +152,7 @@
                 .subscribe(data => {
                     ctrl.expenses = data[0];
                     ctrl.income = data[1];
-                    $state.reload();
+                    // $state.reload();
                 });
         }
 
@@ -187,7 +205,7 @@
 
         ctrl.noDataExists = function() {
             console.log(expensesResponseDataObs);
-            return (isEmpty(expensesResponseDataObs) || isEmpty(incomeResponseDataOb));
+            return (isEmpty(expensesResponseDataObs) || isEmpty(incomeResponseDataObs));
         };
 
 
@@ -195,6 +213,10 @@
             console.log(`Errpr: ${JSON.stringify(err, null, 4)}`);
             ctrl.loading = false;
             // refreshBus.post(false);
+        };
+
+        ctrl.errorToast = function (error) {
+            alert("Error!" , error);
         }
 
     }

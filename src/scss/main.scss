@@ -8,3 +8,41 @@
 .cs-spacer{
     height: 20px;
 }
+.cs-scroll-container{
+    position: relative;
+    height: 1000px;
+    width: 100%;
+}
+.cs-scroller{
+    //overflow-x: scroll;
+    //overflow-y: scroll;
+
+    position: absolute;
+    height: 100%;
+    width: 100%;
+
+    //background-color: green;
+}
+.cs-allow-scroll{
+    overflow-y: scroll;
+}
+.btn-main{
+    @extend .button;
+    @extend .button-block;
+    @extend .button-dark;
+}
+
+/*============================================================================
+    Financial Page
+ ============================================================================*/
+.finance-content {
+    position: relative;
+    //overflow: auto;
+    //overflow-y: scroll;
+    //height: auto;
+}
+
+
+/*============================================================================
+    Testing area
+ ============================================================================*/

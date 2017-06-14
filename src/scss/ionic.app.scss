@@ -19,7 +19,7 @@ $dark:                            #444 !default;
 $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 // Include all of Ionic
-//@import "www/lib/ionic/scss/ionic";
+@import "../lib/ionic/scss/ionic";
 
 /* Empty. Add your own CSS if you like */
 .button-google,
@@ -37,3 +37,4 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 @import './main';
 @import './recent-trips';
+@import './expenses-report';

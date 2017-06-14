@@ -19,7 +19,8 @@
         Variable declarations
  ============================================================================*/
 
-        let SERVER_IP = "http://localhost:8080";
+        // let SERVER_IP = "http://localhost:8080";
+        let SERVER_IP = "http://197.85.186.65:8080";
 
         let recentCatches;
 
@@ -129,7 +130,7 @@
 
         function queryExpensesIncomeByTimePeriod(interval, successCB, errorCB, refreshData) {
             let access_token = localStorage.getItem('access_token');
-            let endpoint = "/api/analytics/expenses_income_by_time_period";
+            let endpoint = "/api/analytics/expenses_income";
             // console.log("Debug: Querying catches over time: " + interval);
             // console.log("Debug: Access token: " + access_token);
 
@@ -138,7 +139,7 @@
             // let expensesIncomehByTimePeriod_weekly;
 
             if (refreshData || handleIntervalObjectSelection(interval)) {
-                console.log("MAKING REQUEEST: " + interval);
+                console.log("MAKING REQUEST: " + interval);
                 $http({
                     method: 'GET',
                     url: SERVER_IP + endpoint,
@@ -149,17 +150,15 @@
                     }
                 }).then((response) => {
                     // Handle the query interval
+                    // console.log("DEBUG: SHOWING RESPONSE " + JSON.stringify(response, null, 4));
                     switch (interval.toLowerCase()) {
-                        case "weekly" : expensesIncomehByTimePeriod_weekly = Rx.Observable
-                            .from(response.data.records);
+                        case "weekly" : expensesIncomehByTimePeriod_weekly = (response.data);
                             successCB(expensesIncomehByTimePeriod_weekly);
                             break;
-                        case "monthly" : expensesIncomehByTimePeriod_monthly = Rx.Observable
-                            .from(response.data.records);
+                        case "monthly" : expensesIncomehByTimePeriod_monthly = (response.data);
                             successCB(expensesIncomehByTimePeriod_monthly);
                             break;
-                        case "yearly" : expensesIncomehByTimePeriod_yearly = Rx.Observable
-                            .from(response.data.records);
+                        case "yearly" : expensesIncomehByTimePeriod_yearly = (response.data);
                             successCB(expensesIncomehByTimePeriod_yearly);
                             break;
                     }
