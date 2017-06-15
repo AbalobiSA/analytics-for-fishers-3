@@ -64,6 +64,10 @@
             sfdata.queryEvolutionOfPrices(ctrl.selectedCalculationMethod, handlerResponse, showError, false);
         }
 
+        ctrl.requestFreshData = function() {
+            sfdata.queryEvolutionOfPrices(ctrl.selectedCalculationMethod, handlerResponse, showError, true);
+        };
+
         const handleFisherListResponse = function (fList) {
             fList.toArray()
                 .filter(fList => ctrl.selectedFisher === null)
@@ -183,6 +187,15 @@
         const getEvoVal = function (method, personalOrCooop, record) {
             let filterMethod = convertPriceCalcMethodToVar(method, personalOrCooop);
             return record[filterMethod];
+        };
+
+        ctrl.noDataExists = function() {
+            // console.log(expensesResponseDataObs);
+            return (isEmpty(responseObs));
+        };
+
+        function isEmpty(input) {
+            return (input === undefined || input === null || input === "");
         }
 
     }

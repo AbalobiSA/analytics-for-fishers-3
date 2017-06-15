@@ -204,7 +204,7 @@
 
 
         ctrl.noDataExists = function() {
-            console.log(expensesResponseDataObs);
+            // console.log(expensesResponseDataObs);
             return (isEmpty(expensesResponseDataObs) || isEmpty(incomeResponseDataObs));
         };
 

@@ -18,7 +18,17 @@
 <!--test-->
         <br/>
 
-        <div>
+        <div ng-show="$ctrl.loading">
+            <h3>Loading....</h3>
+        </div>
+
+        <div ng-show="!$ctrl.loading && $ctrl.noDataExists()">
+            <p>Unable to fetch data! Please ensure you have a connection, then click the button below to try again.</p>
+            <button class="btn-main" ng-click="$ctrl.requestFreshData()">Retry
+            </button>
+        </div>
+
+        <div ng-show="!$ctrl.noDataExists() && !$ctrl.loading">
             <line-chart data="$ctrl.data" xtitle="$ctrl.xTitle" ytitle="$ctrl.yTitle"
                         width=600 height=350></line-chart>
         </div>
