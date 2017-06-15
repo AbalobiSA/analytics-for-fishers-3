@@ -5,12 +5,6 @@
     "watch": {
         "sass": [
             "src/scss/*.scss"
-        ],
-        "livereload": [
-            "www/**/*.html",
-            "www/**/*.js",
-            "www/**/*.css",
-            "www/**"
         ]
     },
     "gulpStartupTasks": [
@@ -22,6 +16,7 @@
     "watchPatterns": [
         "src/scss/**/*",
         "!www/lib/**/*",
-        "www/**"
+        "www/**",
+        "src/**"
     ]
 }

@@ -21,7 +21,6 @@
         ctrl.selectedCalculationMethod = ctrl.methods[0];
         ctrl.selectedInterval = ctrl.intervals[1];
 
-
         ctrl.loading = false;
         ctrl.isManager = false;
         ctrl.fisherList = sfdata.BASE_FISHER_LIST;
