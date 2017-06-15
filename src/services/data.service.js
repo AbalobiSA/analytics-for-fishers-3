@@ -19,8 +19,8 @@
         Variable declarations
  ============================================================================*/
 
-        // let SERVER_IP = "http://localhost:8080";
-        let SERVER_IP = "http://197.85.186.65:8080";
+        let SERVER_IP = "http://localhost:8080";
+        // let SERVER_IP = "http://197.85.186.65:8080";
 
         let recentCatches;
 
@@ -31,6 +31,11 @@
         let expensesIncomehByTimePeriod_yearly;
         let expensesIncomehByTimePeriod_monthly;
         let expensesIncomehByTimePeriod_weekly;
+
+        let priceChange_batch;
+        let priceChange_items;
+        let priceChange_weight;
+        let priceChange_crates;
 
         const TIME_INTERVALS = ["Yearly", "Monthly", "Weekly"];
         const QUANTITY_AGGREGATION_TYPES = ["Items", "Weight", "Crates"];
@@ -178,6 +183,69 @@
             }
         }
 
+        function queryEvolutionOfPrices(interval, successCB, errorCB, refreshData) {
+            let access_token = localStorage.getItem('access_token');
+            let endpoint = "/api/analytics/expenses_income";
+            // console.log("Debug: Querying catches over time: " + interval);
+            // console.log("Debug: Access token: " + access_token);
+
+            // let expensesIncomehByTimePeriod_yearly;
+            // let expensesIncomehByTimePeriod_monthly;
+            // let expensesIncomehByTimePeriod_weekly;
+
+            if (refreshData || handlePriceChangeObject(interval)) {
+                console.log("MAKING REQUEST: " + interval);
+                $http({
+                    method: 'GET',
+                    url: SERVER_IP + '/api/analytics/price_evolution',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'access_token' : access_token,
+                        'interval' : interval
+                    }
+                }).then((response) => {
+                    // Handle the query interval
+                    // console.log("DEBUG: SHOWING RESPONSE " + JSON.stringify(response, null, 4));
+                    switch (interval.toLowerCase()) {
+                        case "batch" :
+                            priceChange_batch = Rx.Observable.from(response.data);
+                            successCB(priceChange_batch);
+                            break;
+                        case "items" :
+                            priceChange_items = Rx.Observable.from(response.data);
+                            successCB(priceChange_items);
+                            break;
+                        case "weight" :
+                            priceChange_weight = Rx.Observable.from(response.data);
+                            successCB(priceChange_weight);
+                            break;
+                        case "crates" :
+                            priceChange_crates = Rx.Observable.from(response.data);
+                            successCB(priceChange_crates);
+                            break;
+                    }
+                }, (error) => {
+                    errorCB(error);
+                });
+            }
+            else {
+                switch (interval.toLowerCase()) {
+                    case "batch" :
+                        successCB(priceChange_batch);
+                        break;
+                    case "items" :
+                        successCB(priceChange_items);
+                        break;
+                    case "weight" :
+                        successCB(priceChange_weight);
+                        break;
+                    case "crates" :
+                        successCB(priceChange_crates);
+                        break;
+                }
+            }
+        }
+
 /*============================================================================
         Aggregating Functions
  ============================================================================*/
@@ -206,6 +274,19 @@
             }
         }
 
+        function handlePriceChangeObject (interval) {
+            switch (interval.toLowerCase()) {
+                case "batch" : return priceChange_batch === undefined;
+                                break;
+                case "items" : return priceChange_items === undefined;
+                                break;
+                case "weight" : return priceChange_weight === undefined;
+                                break;
+                case "crates" : return priceChange_crates === undefined;
+                                break;
+            }
+        }
+
 /*============================================================================
         Utility Functions
  ============================================================================*/
@@ -223,6 +304,7 @@
             queryCatchByTimePeriod: queryCatchByTimePeriod,
             clearAll: clearAll,
             queryExpensesIncomeByTimePeriod: queryExpensesIncomeByTimePeriod,
+            queryEvolutionOfPrices: queryEvolutionOfPrices,
 
             TIME_INTERVALS: TIME_INTERVALS,
             QUANTITY_AGGREGATION_TYPES: QUANTITY_AGGREGATION_TYPES,

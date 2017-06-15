@@ -63,7 +63,16 @@ angular.module('app').config(function ($stateProvider, $urlRouterProvider, angul
                     templateUrl: "components/report-mailer/report-mailer.template.html"
                 }
             }
-        });
+        })
+
+        .state('menu.evolutionofprices', {
+            url: "/evolution-of-prices",
+            views: {
+                'menuContent': {
+                    templateUrl: "components/charts/evolution-of-prices/evolution-of-prices.template.html"
+                }
+            }
+        })
 
 
     $urlRouterProvider.otherwise('/app/home');
