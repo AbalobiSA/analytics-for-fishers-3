@@ -6,7 +6,7 @@
         <!--Manual refresh button-->
         <!--<button class="btn-main" ng-click="$ctrl.requestFreshData()">Force refresh</button>-->
 
-        <div ng-show="$ctrl.loading">Loading...</div>
+        <div ng-show="$ctrl.loading"><h3>Loading...</h3></div>
 
         <div ng-show="!$ctrl.loading && $ctrl.noDataExists()">
             <p>Unable to fetch data! Please ensure you have a connection, then click the button below to try again.</p>

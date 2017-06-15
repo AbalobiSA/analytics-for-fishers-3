@@ -19,8 +19,8 @@
         Variable declarations
  ============================================================================*/
 
-        let SERVER_IP = "http://localhost:8080";
-        // let SERVER_IP = "http://197.85.186.65:8080";
+        // let SERVER_IP = "http://localhost:8080";
+        let SERVER_IP = "http://197.85.186.65:8080";
 
         let recentCatches;
 
@@ -38,6 +38,9 @@
         let priceChange_crates;
 
         let catchDaysData;
+
+        let mainUserEmailAddress;
+        let mainUserAbalobiId;
 
         const TIME_INTERVALS = ["Yearly", "Monthly", "Weekly"];
         const QUANTITY_AGGREGATION_TYPES = ["Items", "Weight", "Crates"];
@@ -265,7 +268,7 @@
                     }
                 }).then((response) => {
                     catchDaysData = (response.data);
-                    console.log(JSON.stringify(response.data, null, 4));
+                    // console.log(JSON.stringify(response.data, null, 4));
                     successCB(catchDaysData);
                 }, (error) => {
                     errorCB(error);
@@ -273,6 +276,35 @@
             }
             else {
                 successCB(catchDaysData);
+            }
+        }
+
+        function getEmailAddress(success, errorCB, refreshData) {
+            let access_token = localStorage.getItem('access_token');
+            let endpoint = "/api/analytics/user_email";
+            // console.log("Debug: Querying catches over time: " + interval);
+            // console.log("Debug: Access token: " + access_token);
+
+            if (refreshData || mainUserEmailAddress === undefined || mainUserAbalobiId === undefined) {
+                console.log("MAKING REQUEST: User Email");
+                $http({
+                    method: 'GET',
+                    url: SERVER_IP + endpoint,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'access_token' : access_token
+                    }
+                }).then((response) => {
+                    console.log(JSON.stringify(response, null, 4));
+                    mainUserEmailAddress = (response.data[0].Email);
+                    mainUserAbalobiId = response.data[0].Id;
+                    success(mainUserEmailAddress, mainUserAbalobiId);
+                }, (error) => {
+                    errorCB(error);
+                });
+            }
+            else {
+                success(mainUserEmailAddress, mainUserAbalobiId);
             }
         }
 
@@ -321,8 +353,29 @@
         Utility Functions
  ============================================================================*/
 
+        /**
+         * Called when the user is logged out. Resets internal storage variables.
+         */
         function clearAll () {
             recentCatches = undefined;
+
+            catchByTimePeriod_yearly = undefined;
+            catchByTimePeriod_monthly = undefined;
+            catchByTimePeriod_weekly = undefined;
+
+            expensesIncomehByTimePeriod_yearly = undefined;
+            expensesIncomehByTimePeriod_monthly = undefined;
+            expensesIncomehByTimePeriod_weekly = undefined;
+
+            priceChange_batch = undefined;
+            priceChange_items = undefined;
+            priceChange_weight = undefined;
+            priceChange_crates = undefined;
+
+            catchDaysData = undefined;
+
+            mainUserEmailAddress = undefined;
+            mainUserAbalobiId = undefined;
         }
 
 /*============================================================================
@@ -330,12 +383,13 @@
  ============================================================================*/
 
         return {
+            clearAll: clearAll,
             getRecentCatches: getRecentCatches,
             queryCatchByTimePeriod: queryCatchByTimePeriod,
-            clearAll: clearAll,
             queryExpensesIncomeByTimePeriod: queryExpensesIncomeByTimePeriod,
             queryEvolutionOfPrices: queryEvolutionOfPrices,
             queryCatchDays: queryCatchDays,
+            getEmailAddress: getEmailAddress,
 
             TIME_INTERVALS: TIME_INTERVALS,
             QUANTITY_AGGREGATION_TYPES: QUANTITY_AGGREGATION_TYPES,

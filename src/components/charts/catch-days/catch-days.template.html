@@ -1,13 +1,18 @@
 <ion-view ng-controller="catchDaysController as $ctrl">
     <ion-content class="padding">
 
-
-        <h2>Fishing &amp; No Fishing Days</h2>
-        <div id="chart"></div>
-        <div>
-            <stacked-bar-chart data="$ctrl.dataMap" xtitle="$ctrl.xTitle" ytitle="$ctrl.yTitle"
-                               width=300 height=400></stacked-bar-chart>
+        <div ng-show="$ctrl.loading">
+            <h3>Loading...</h3>
         </div>
+        <div ng-show="!$ctrl.loading">
+            <h2>Fishing &amp; No Fishing Days</h2>
+            <div id="chart"></div>
+            <div>
+                <stacked-bar-chart data="$ctrl.dataMap" xtitle="$ctrl.xTitle" ytitle="$ctrl.yTitle"
+                                   width=300 height=400></stacked-bar-chart>
+            </div>
+        </div>
+
 
 
     </ion-content>

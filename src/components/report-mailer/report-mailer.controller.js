@@ -7,37 +7,44 @@
         .controller('reportMailerController', reportMailerController);
 
     reportMailerController.$inject = ['$state', '$scope', '$http',
-        '$rootScope','authService', 'stateService', 'dataService', 'StringUtil', 'ResultsUtil', 'userservice'];
+        '$rootScope','authService', 'stateService', 'dataService', 'StringUtil', 'ResultsUtil'];
 
     function reportMailerController($state, $scope, $http,
-        $rootScope, authService, stateService, dataService, StringUtil, ResultsUtil, userservice) {
+        $rootScope, authService, stateService, dataService, StringUtil, ResultsUtil) {
 
         let ctrl = this;
-        let emailPromise = userservice.userEmail();
-        let userIdPromise = userservice.userId();
+        ctrl.loading = false;
+        ctrl.emailSending = false;
         let userId;
-
-        // ctrl.$onInit = function() {
-        //
-        // };
+        let mainEmailAddress;
 
         $scope.$on('$ionicView.enter', function() {
             ctrl.requestStatus = 0;
-            userIdPromise.then(result => userId = result);
-            emailPromise.then(result => {
-                console.log("email -> "+result);
-                ctrl.email = result;
-
-                $scope.$apply();
+            ctrl.loading = true;
+            dataService.getEmailAddress((email, abalobi_id) => {
+                mainEmailAddress = email;
+                userId = abalobi_id;
+                ctrl.email = email;
+                ctrl.loading = false;
+            }, (error) => {
+                console.log("Unable to get email address.");
+                ctrl.loading = false;
             });
         });
 
         ctrl.send = function() {
-            let endpoint = 'http://'+userservice.pdfMailerUri+'/pdf-report?ownerId='+userId+"&destEmail="+ctrl.email;
+            let endpoint = 'http://197.85.186.65:8080/pdf-report?ownerId='+userId+"&destEmail="+ctrl.email;
             console.log("sending -> "+endpoint);
+            ctrl.emailSending = true;
             $http({method: 'GET', url: endpoint})
-                .then(response => ctrl.requestStatus = 1)
-                .catch(reason => ctrl.requestStatus = -1);
+                .then(response => {
+                    ctrl.requestStatus = 1;
+                    ctrl.emailSending = false;
+                })
+                .catch(reason => {
+                    ctrl.requestStatus = -1
+                    ctrl.emailSending = false;
+                });
         }
     }
 

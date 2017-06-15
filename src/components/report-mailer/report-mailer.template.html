@@ -1,4 +1,8 @@
 <div class="padding navbar-margin" ng-controller="reportMailerController as $ctrl">
+    <div ng-show="$ctrl.loading">
+        <h5>Fetching your email address...</h5>
+    </div>
+
     <div id="mailer-address-input">
         <label class="item item-input">
             <span class="input-label">Address to email data to?:</span>
@@ -6,6 +10,7 @@
         </label>
         <div class="cs-spacer"></div>
         <button class="button button-dark button-block" ng-click="$ctrl.send()">Send</button>
+        <p ng-show="$ctrl.emailSending">Generating report...</p>
         <p ng-if="$ctrl.requestStatus > 0">Your report will be sent to the email provided shortly</p>
         <p ng-if="$ctrl.requestStatus < 0">There was an error generating and sending your report</p>
     </div>
