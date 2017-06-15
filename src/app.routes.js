@@ -74,6 +74,15 @@ angular.module('app').config(function ($stateProvider, $urlRouterProvider, angul
             }
         })
 
+        .state('menu.catchdaysreport', {
+            url: "/catch-days-report",
+            views: {
+                'menuContent': {
+                    templateUrl: "components/charts/catch-days/catch-days.template.html"
+                }
+            }
+        })
+
 
     $urlRouterProvider.otherwise('/app/home');
 

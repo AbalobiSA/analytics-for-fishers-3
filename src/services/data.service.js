@@ -37,6 +37,8 @@
         let priceChange_weight;
         let priceChange_crates;
 
+        let catchDaysData;
+
         const TIME_INTERVALS = ["Yearly", "Monthly", "Weekly"];
         const QUANTITY_AGGREGATION_TYPES = ["Items", "Weight", "Crates"];
 
@@ -246,6 +248,34 @@
             }
         }
 
+        function queryCatchDays(successCB, errorCB, refreshData) {
+            let access_token = localStorage.getItem('access_token');
+            let endpoint = "/api/analytics/catch_days";
+            // console.log("Debug: Querying catches over time: " + interval);
+            // console.log("Debug: Access token: " + access_token);
+
+            if (refreshData || catchDaysData === undefined) {
+                console.log("MAKING REQUEST: Catch days data");
+                $http({
+                    method: 'GET',
+                    url: SERVER_IP + endpoint,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'access_token' : access_token
+                    }
+                }).then((response) => {
+                    catchDaysData = (response.data);
+                    console.log(JSON.stringify(response.data, null, 4));
+                    successCB(catchDaysData);
+                }, (error) => {
+                    errorCB(error);
+                });
+            }
+            else {
+                successCB(catchDaysData);
+            }
+        }
+
 /*============================================================================
         Aggregating Functions
  ============================================================================*/
@@ -305,6 +335,7 @@
             clearAll: clearAll,
             queryExpensesIncomeByTimePeriod: queryExpensesIncomeByTimePeriod,
             queryEvolutionOfPrices: queryEvolutionOfPrices,
+            queryCatchDays: queryCatchDays,
 
             TIME_INTERVALS: TIME_INTERVALS,
             QUANTITY_AGGREGATION_TYPES: QUANTITY_AGGREGATION_TYPES,

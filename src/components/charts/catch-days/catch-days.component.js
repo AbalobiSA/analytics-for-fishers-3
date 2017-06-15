@@ -1,32 +1,50 @@
-(function() {
-    "use strict";
+(function () {
 
-    let catchDaysController = function CatchDaysController(sfdata, refreshBus){
-        let ctrl = this;
-        ctrl.loading = false;
-        // ctrl.dataMap;
-        ctrl.xTitle = "Month";
-        ctrl.yTitle = "Days";
+    'use strict';
+
+    angular
+        .module('app')
+        .controller('catchDaysController', catchDaysController);
+
+    catchDaysController.$inject = ['$state', '$scope', '$http',
+        '$rootScope','authService', 'stateService', 'dataService', 'StringUtil', 'ResultsUtil'];
+
+    function catchDaysController($state, $scope, $http,
+                                      $rootScope, authService, stateService, dataService, StringUtil, ResultsUtil) {
+
+        const ctrl = this;
+        const sfdata = dataService;
         let responseObs;
 
+        ctrl.loading = false;
+        ctrl.xTitle = "Month";
+        ctrl.yTitle = "Days";
+
+
         ctrl.$onInit = function() {
-            refreshBus.observable()
-                .filter(evt => evt)
-                .subscribe(evt => requestData());
-            refreshBus.post(null);
+            // refreshBus.observable()
+            //     .filter(evt => evt)
+            //     .subscribe(evt => requestData());
+            // refreshBus.post(null);
         };
+
+        $scope.$on('$ionicView.enter', function() {
+            if (!ctrl.loading) {
+                ctrl.loading = true;
+                requestData();
+            }
+        });
 
         function requestData() {
             ctrl.loading = true;
-            sfdata.queryCatchDays()
-                    .then(handlerResponse, showError);
+            sfdata.queryCatchDays(handlerResponse, showError, false);
         }
 
         const handlerResponse = function(result){
             console.log("##handling ##CD response");
             console.log(result);
             responseObs = result;
-            refreshBus.post(false);
+            // refreshBus.post(false);
             ctrl.loading = false;
             updateData()
         };
@@ -34,12 +52,14 @@
         const showError = function(err) {
             console.log("error");
             ctrl.loading = false;
-            refreshBus.post(false);
+            // refreshBus.post(false);
         };
 
         const updateData = function () {
             let interval = "monthly";
-            responseObs.flatMap(records => Rx.Observable.from(records))
+            let newResponseObs = Rx.Observable.of(responseObs);
+
+            newResponseObs.flatMap(records => Rx.Observable.from(records))
                 .map(rec => {return {
                     key: rec.date,
                     fishing: rec.fishing_days,
@@ -54,11 +74,6 @@
                     console.log(data);
                 });
         }
-    };
+    }
 
-    angular.module("app")
-        .component("catchDays",{
-            templateUrl: 'components/charts/catch-days/catch-days.template.html',
-            controller: catchDaysController,
-        });
-})();
+}());
