@@ -21,7 +21,9 @@
             let data = [];
             let ytitle = "";
             let xtitle = "";
-            let itemsperrow = 'hello'; // Set to a non number value so that when the graph is displayed it will use DEFAULT_LEGEND_ITEMS_PER_ROW value
+            // let itemsperrow = 'hello'; // Set to a non number value so that when the graph is displayed it will use DEFAULT_LEGEND_ITEMS_PER_ROW value
+            let itemsperrow = DEFAULT_LEGEND_ITEMS_PER_ROW;
+
             //test
             Object.defineProperty(ctrl, 'data', {
                 get: function () {

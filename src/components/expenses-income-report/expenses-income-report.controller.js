@@ -41,7 +41,6 @@
                 requestData();
             }
         });
-        ctrl.loading = false;
 
         function requestData(){
             ctrl.loading = true;
@@ -70,31 +69,31 @@
 
         const handlerResponse = function(result){
 
-            if (result === undefined) {
+            if (result !== undefined) {
+                console.log("handling e/i response");
+                try{
+                    console.log(result[0]);
+                    console.log(result[1]);
+                    console.log(result[2]);
+
+                    expensesResponseDataObs = Rx.Observable
+                        .from(result[0]);
+                    incomeResponseDataObs = Rx.Observable
+                        .from(result[1]);
+                    handleFisherListResponse(result[2]);
+                } catch (ex) {
+                    console.log(ex);
+                    ctrl.loading = false;
+                }
+
+                collectMonths(expensesResponseDataObs, incomeResponseDataObs);
+                // refreshBus.post(false);
+            } else {
                 console.log("Error! No data received. Showing error alert.");
                 ctrl.errorToast("No data received.");
-                // showError("Whoops.");
             }
 
-            console.log("handling e/i response");
-            try{
-                console.log(result[0]);
-                console.log(result[1]);
-                console.log(result[2]);
-
-                expensesResponseDataObs = Rx.Observable
-                    .from(result[0]);
-                incomeResponseDataObs = Rx.Observable
-                    .from(result[1]);
-                handleFisherListResponse(result[2]);
-            } catch (ex) {
-                console.log(ex);
-                ctrl.loading = false;
-            }
-
-            // refreshBus.post(false);
             ctrl.loading = false;
-            collectMonths(expensesResponseDataObs, incomeResponseDataObs);
         };
 
         ctrl.fisherChange = function (selection) {
@@ -210,7 +209,7 @@
 
 
         const showError = function(err) {
-            console.log(`Errpr: ${JSON.stringify(err, null, 4)}`);
+            console.log(`Error: ${JSON.stringify(err, null, 4)}`);
             ctrl.loading = false;
             // refreshBus.post(false);
         };

@@ -148,7 +148,7 @@
             // let expensesIncomehByTimePeriod_monthly;
             // let expensesIncomehByTimePeriod_weekly;
 
-            if (refreshData || handleIntervalObjectSelection(interval)) {
+            if (refreshData || handleIncomeExpense(interval)) {
                 console.log("MAKING REQUEST: " + interval);
                 $http({
                     method: 'GET',
@@ -161,6 +161,7 @@
                 }).then((response) => {
                     // Handle the query interval
                     // console.log("DEBUG: SHOWING RESPONSE " + JSON.stringify(response, null, 4));
+
                     switch (interval.toLowerCase()) {
                         case "weekly" : expensesIncomehByTimePeriod_weekly = (response.data);
                             successCB(expensesIncomehByTimePeriod_weekly);
@@ -171,8 +172,10 @@
                         case "yearly" : expensesIncomehByTimePeriod_yearly = (response.data);
                             successCB(expensesIncomehByTimePeriod_yearly);
                             break;
+                        default:
+                            errorCB({error: 'No matching interval'});
                     }
-                }, (error) => {
+                }, error => {
                     errorCB(error);
                 });
             }
@@ -184,6 +187,7 @@
                         break;
                     case "yearly" : successCB(expensesIncomehByTimePeriod_yearly);
                         break;
+                    default: errorCB({error: 'No matching interval'});
                 }
             }
         }
@@ -325,6 +329,18 @@
             }
         }
 
+        function handleIncomeExpense(interval) {
+            switch (interval.toLowerCase()) {
+                case "weekly" : return expensesIncomehByTimePeriod_weekly === undefined;
+                    break;
+                case "monthly" : return expensesIncomehByTimePeriod_monthly === undefined;
+                    break;
+                case "yearly" : return expensesIncomehByTimePeriod_yearly === undefined;
+                    break;
+                default: return true;
+            }
+        }
+
         function handleIntervalObjectSelection (interval) {
             switch (interval.toLowerCase()) {
                 case "weekly" : return catchByTimePeriod_weekly === undefined;
@@ -333,6 +349,7 @@
                                 break;
                 case "yearly" : return catchByTimePeriod_yearly === undefined;
                                 break;
+                default: return true;
             }
         }
 
@@ -346,6 +363,7 @@
                                 break;
                 case "crates" : return priceChange_crates === undefined;
                                 break;
+                default: return true;
             }
         }
 
