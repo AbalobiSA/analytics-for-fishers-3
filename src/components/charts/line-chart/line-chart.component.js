@@ -4,7 +4,7 @@
     let bcController = function BarChartController($element, StringUtil){
         let ctrl = this;
         let legendSquareSize = 18;
-        let DEFAULT_LEGEND_ITEMS_PER_ROW = 2;
+        let DEFAULT_LEGEND_ITEMS_PER_ROW = Math.floor(ctrl.width / 200.0) > 0 ? Math.floor(ctrl.width / 200.0) : 1;
         ctrl.$onInit = function() {
 
             let data = [];
@@ -59,7 +59,8 @@
         };
 
         function getLegendSquareX(position, arr, itemsPerRow) {
-            return (position > 0)? d3.sum(arr.slice(0, position%itemsPerRow).map(label => label.length))*20   : 0;
+            let space = 200.0; // The amount of space between the legend elements
+            return (position > 0) ? arr.slice(0, position % itemsPerRow).length * space : 0;
         }
 
         function getLegendSquareY(position, offset, itemsPerRow) {

@@ -15,7 +15,7 @@
         Original D3 Configuration
  ============================================================================*/
         let legendSquareSize = 18;
-        let DEFAULT_LEGEND_ITEMS_PER_ROW = Math.floor(width / 200.0);
+        let DEFAULT_LEGEND_ITEMS_PER_ROW = Math.floor(width / 200.0) > 0 ? Math.floor(width / 200.0) : 1;
 
         ctrl.$onInit = function () {
             let data = [];

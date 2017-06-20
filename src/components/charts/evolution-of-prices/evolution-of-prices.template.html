@@ -30,7 +30,7 @@
 
         <div ng-show="!$ctrl.noDataExists() && !$ctrl.loading">
             <line-chart data="$ctrl.data" xtitle="$ctrl.xTitle" ytitle="$ctrl.yTitle"
-                        width=600 height=350></line-chart>
+                        width=$ctrl.cWidth height=350></line-chart>
         </div>
         <!--<loading-overlay loading="$ctrl.loading"></loading-overlay>-->
     </ion-content>

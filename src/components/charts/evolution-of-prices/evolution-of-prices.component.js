@@ -6,10 +6,10 @@
         .module('app')
         .controller('priceEvolutionController', priceEvolutionController);
 
-    priceEvolutionController.$inject = ['$state', '$scope', '$http',
+    priceEvolutionController.$inject = ['$state', '$scope', '$http', '$window',
         '$rootScope','authService', 'stateService', 'dataService', 'StringUtil', 'ResultsUtil'];
 
-    function priceEvolutionController($state, $scope, $http,
+    function priceEvolutionController($state, $scope, $http, $window,
                                          $rootScope, authService, stateService, dataService, StringUtil, ResultsUtil) {
 
         const ctrl = this;
@@ -41,6 +41,7 @@
 
         };
 
+        ctrl.cWidth = Math.floor($window.innerWidth - 120) > 0 ? Math.floor($window.innerWidth - 120) : 10;
         $scope.$on('$ionicView.enter', function() {
             if (!ctrl.loading) {
                 ctrl.loading = true;
