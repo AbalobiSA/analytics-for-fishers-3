@@ -15,13 +15,13 @@
         Original D3 Configuration
  ============================================================================*/
         let legendSquareSize = 18;
-        let DEFAULT_LEGEND_ITEMS_PER_ROW = 2;
+        let DEFAULT_LEGEND_ITEMS_PER_ROW = Math.floor(width / 200.0);
 
         ctrl.$onInit = function () {
             let data = [];
             let ytitle = "";
             let xtitle = "";
-            let itemsperrow = DEFAULT_LEGEND_ITEMS_PER_ROW;
+            let itemsperrow = 'hello'; // Set to a non number value so that when the graph is displayed it will use DEFAULT_LEGEND_ITEMS_PER_ROW value
             //test
             Object.defineProperty(ctrl, 'data', {
                 get: function () {
@@ -68,7 +68,8 @@
         };
 
         function getLegendSquareX(position, arr, itemsPerRow) {
-            return (position > 0) ? d3.sum(arr.slice(0, position % itemsPerRow).map(label => label.length)) * 20 : 0;
+            let space = 200.0 // The amount of space between the legend elements
+            return (position > 0) ? arr.slice(0, position % itemsPerRow).length * space : 0;
         }
 
         function getLegendSquareY(position, offset, itemsPerRow) {

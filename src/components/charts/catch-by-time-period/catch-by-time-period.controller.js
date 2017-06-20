@@ -6,10 +6,10 @@
         .module('app')
         .controller('catchByTimePeriodController', catchByTimePeriodController);
 
-    catchByTimePeriodController.$inject = ['$state', '$scope', '$http',
+    catchByTimePeriodController.$inject = ['$state', '$scope', '$http', '$window',
         '$rootScope','authService', 'stateService', 'dataService', 'StringUtil', 'ResultsUtil'];
 
-    function catchByTimePeriodController($state, $scope, $http,
+    function catchByTimePeriodController($state, $scope, $http, $window,
          $rootScope, authService, stateService, dataService, StringUtil, ResultsUtil) {
 
         const ctrl = this;
@@ -35,6 +35,14 @@
             //     .then(result => ctrl.isManager = result === "fisher_manager");
             // requestData();
         };
+
+        ctrl.cWidth = Math.floor($window.innerWidth - 120);
+        $window.addEventListener('resize', function(event){
+            ctrl.cWidth = Math.floor($window.innerWidth - 120);
+
+            // Enable for realtime updating of graph width (Currently refreshing view but graph not updating)
+            // $state.go($state.current, {}, {reload: true});
+        });
 
         ctrl.printThings = function () {
             console.log(JSON.stringify(responseObs, null, 4));
