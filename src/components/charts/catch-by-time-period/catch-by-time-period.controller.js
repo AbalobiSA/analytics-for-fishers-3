@@ -36,9 +36,9 @@
             // requestData();
         };
 
-        ctrl.cWidth = Math.floor($window.innerWidth - 120);
+        ctrl.cWidth = Math.floor($window.innerWidth - 120) > 0 ? Math.floor($window.innerWidth - 120) : 10;
         $window.addEventListener('resize', function(event){
-            ctrl.cWidth = Math.floor($window.innerWidth - 120);
+            ctrl.cWidth = Math.floor($window.innerWidth - 120) > 0 ? Math.floor($window.innerWidth - 120) : 10;
 
             // Enable for realtime updating of graph width (Currently refreshing view but graph not updating)
             // $state.go($state.current, {}, {reload: true});

@@ -1,6 +1,6 @@
 {
     "name": "Fisher Analytics 3",
-
+    "documentRoot" : "src",
     "app_id": "",
     "watch": {
         "sass": [

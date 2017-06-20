@@ -68,7 +68,7 @@
         };
 
         function getLegendSquareX(position, arr, itemsPerRow) {
-            let space = 200.0 // The amount of space between the legend elements
+            let space = 200.0; // The amount of space between the legend elements
             return (position > 0) ? arr.slice(0, position % itemsPerRow).length * space : 0;
         }
 
