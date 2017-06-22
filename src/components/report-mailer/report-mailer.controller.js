@@ -29,9 +29,18 @@
             ctrl.loading = true;
 
             dataService.getEmailAddress((email, abalobi_id) => {
-                mainEmailAddress = email;
+
+                if (emailIsInvalid(email)) {
+                    mainEmailAddress = "";
+
+                    // TODO: Show a toast notification that no email was found for this user
+
+                } else {
+                    mainEmailAddress = email;
+                }
+
                 userId = abalobi_id;
-                ctrl.email = email;
+                ctrl.email = mainEmailAddress;
                 ctrl.loading = false;
             }, (error) => {
                 console.log("Unable to get email address. " + error);
@@ -57,6 +66,25 @@
         function resetLocalVariables() {
             userId = "";
             mainEmailAddress = "";
+        }
+
+        function emailIsInvalid(emailAddress) {
+            let flag = false;
+
+            let invalidStrings = [
+                "@abalobi.login",
+                "@a.b"
+            ];
+
+            for (let i of invalidStrings) {
+                console.log(`checking ${i}`);
+                if (emailAddress.indexOf(i) !== -1) {
+                    // console.log("Found " + i);
+                    flag = true;
+                }
+            }
+
+            return flag;
         }
     }
 
