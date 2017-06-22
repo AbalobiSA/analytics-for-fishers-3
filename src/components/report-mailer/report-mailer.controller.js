@@ -18,16 +18,23 @@
         let userId;
         let mainEmailAddress;
 
+/*============================================================================
+        View enter
+ ============================================================================*/
         $scope.$on('$ionicView.enter', function() {
+
+            resetLocalVariables();
+
             ctrl.requestStatus = 0;
             ctrl.loading = true;
+
             dataService.getEmailAddress((email, abalobi_id) => {
                 mainEmailAddress = email;
                 userId = abalobi_id;
                 ctrl.email = email;
                 ctrl.loading = false;
             }, (error) => {
-                console.log("Unable to get email address.");
+                console.log("Unable to get email address. " + error);
                 ctrl.loading = false;
             });
         });
@@ -42,9 +49,14 @@
                     ctrl.emailSending = false;
                 })
                 .catch(reason => {
-                    ctrl.requestStatus = -1
+                    ctrl.requestStatus = -1;
                     ctrl.emailSending = false;
                 });
+        };
+
+        function resetLocalVariables() {
+            userId = "";
+            mainEmailAddress = "";
         }
     }
 
