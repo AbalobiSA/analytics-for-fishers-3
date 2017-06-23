@@ -178,6 +178,21 @@ gulp.task('babel', function () {
         .pipe(gulp.dest(dist));
 
 /*============================================================================
+    Vendor Files
+ ============================================================================*/
+
+    gulp.src('src/vendor/*.js')
+        .pipe(plumber())
+        .pipe(babel({
+            presets: ['es2015']
+        }))
+        .pipe(gulp.dest(path.join(dist, "vendor")));
+
+    gulp.src('src/vendor/*.css')
+        .pipe(plumber())
+        .pipe(gulp.dest(path.join(dist, "vendor")));
+
+/*============================================================================
     Libs Folder
  ============================================================================*/
 
