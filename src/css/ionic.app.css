@@ -9876,6 +9876,12 @@ a.button, a.btn-main {
   overflow-y: scroll; }
 
 /*============================================================================
+    Shadows
+ ============================================================================*/
+.paper-shadow-bottom-z-2, .bar-abalobi {
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26); }
+
+/*============================================================================
     Financial Page
  ============================================================================*/
 .finance-content {
@@ -9884,6 +9890,24 @@ a.button, a.btn-main {
 /*============================================================================
     Testing area
  ============================================================================*/
+.bar-abalobi {
+  background-color: #1976D2 !important;
+  border-color: #1976D2 !important;
+  color: white !important; }
+
+.abalobi-menu-cheeseburger {
+  color: white !important; }
+
+.title {
+  color: white !important; }
+  .title .title-center {
+    color: white !important; }
+    .title .title-center .header-item {
+      color: white !important; }
+
+.white {
+  color: white !important; }
+
 .recentTripsTitle {
   margin: 20px;
   font-weight: 900; }
