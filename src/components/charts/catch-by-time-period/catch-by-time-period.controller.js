@@ -109,6 +109,10 @@
             requestData();
         };
 
+
+
+
+
         ctrl.calculationMethodChange = function(selection){
             updateData();
         };

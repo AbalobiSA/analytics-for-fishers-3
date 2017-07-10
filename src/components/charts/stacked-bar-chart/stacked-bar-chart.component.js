@@ -3,10 +3,24 @@
 
     let sbcController = function StackedBarChartController($element, StringUtil) {
         let ctrl = this;
+        ctrl.data = [];
 
         let margin = {top: 30, right: 10, bottom: 30, left: 10};
         let width = parseInt(d3.select('#chart').style('width'), 10);
         width = width - margin.left - margin.right - 100;
+        if (isNaN(width)) {
+            width = 200;
+            width = tryRecalculateWidth();
+        }
+
+        function tryRecalculateWidth() {
+            let currentWidth = parseInt(d3.select('#chart').style('width'), 10);
+            if (!isNaN(currentWidth)){
+                return currentWidth;
+            } else {
+                return tryRecalculateWidth()
+            }
+        }
         // let barHeight = 20;
         let percent = d3.format('%');
 
@@ -19,6 +33,7 @@
 
         ctrl.$onInit = function () {
             let data = [];
+
             let ytitle = "";
             let xtitle = "";
             // let itemsperrow = 'hello'; // Set to a non number value so that when the graph is displayed it will use DEFAULT_LEGEND_ITEMS_PER_ROW value

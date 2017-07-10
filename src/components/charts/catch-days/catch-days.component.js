@@ -37,17 +37,18 @@
 
         function requestData() {
             ctrl.loading = true;
-            sfdata.queryCatchDays(handlerResponse, showError, false);
+            sfdata.queryCatchDays(handleResponse, showError, false);
         }
 
         ctrl.requestFreshData = function() {
             ctrl.loading = true;
-            sfdata.queryCatchDays(handlerResponse, showError, true);
+            sfdata.queryCatchDays(handleResponse, showError, true);
         };
 
-        const handlerResponse = function(result){
+        const handleResponse = function(result){
             console.log("Received response for fishing days! Handling now...");
             console.log("RESULT: " + result.toString());
+            console.log(JSON.stringify(result));
             responseObs = result;
             // refreshBus.post(false);
             ctrl.loading = false;
