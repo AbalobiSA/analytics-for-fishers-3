@@ -49,10 +49,9 @@
         };
 
         $scope.$on('$ionicView.enter', function() {
-            if (!ctrl.loading) {
-                ctrl.loading = true;
-                requestData();
-            }
+            ctrl.loading = true;
+            requestData();
+
 
             // ;
             // dataService.getRecentCatches((catches) => {
@@ -71,6 +70,12 @@
             console.log("Debug: Requesting data from server...");
             sfdata.queryCatchByTimePeriod(ctrl.selectedInterval, handlerResponse, showError, false);
         }
+
+        ctrl.requestFreshData = function () {
+            ctrl.loading = true;
+            console.log("Debug: Requesting FRESH data from server...");
+            sfdata.queryCatchByTimePeriod(ctrl.selectedInterval, handlerResponse, showError, true);
+        };
 
         const handleFisherListResponse = function (fList) {
             fList.toArray()
@@ -180,6 +185,11 @@
             acc.set(entry.species, entry[ctrl.selectedCalculationMethod.toLowerCase()]);
             return acc;
         }
+
+        ctrl.printDebugData = function() {
+            console.log("Response Object: " + responseObs + "\n" +
+                "Data map: " + ctrl.dataMap);
+        };
 
         function createRecord(key, totals){
             let rec = {key: key};

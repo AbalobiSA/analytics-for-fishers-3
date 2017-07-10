@@ -19,7 +19,11 @@
         <br/>
 
         <div ng-show="$ctrl.loading">
-            <h3>Loading...</h3>
+            <div class="cs-loader-container">
+                <div class="cs-loader">
+                </div>
+            </div>
+            <h4 class="text-center">Loading...</h4>
         </div>
 
         <div ng-show="!$ctrl.loading && $ctrl.noDataExists()">

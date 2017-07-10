@@ -1,12 +1,17 @@
-<ion-view ng-controller="expensesIncomeReportController as $ctrl">
+<ion-view view-title="Expenses & Income" ng-controller="expensesIncomeReportController as $ctrl">
     <ion-content class="padding">
 
-        <h1 class="text-center">Income & Expenses</h1>
 
         <!--Manual refresh button-->
         <!--<button class="btn-main" ng-click="$ctrl.requestFreshData()">Force refresh</button>-->
 
-        <div ng-show="$ctrl.loading"><h3>Loading...</h3></div>
+        <div ng-show="$ctrl.loading">
+            <div class="cs-loader-container">
+                <div class="cs-loader">
+                </div>
+            </div>
+            <h4 class="text-center">Loading...</h4>
+        </div>
 
         <div ng-show="!$ctrl.loading && $ctrl.noDataExists()">
             <p>Unable to fetch data! Please ensure you have a connection, then click the button below to try again.</p>

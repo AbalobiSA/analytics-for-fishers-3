@@ -1,4 +1,4 @@
-<ion-view view-title="{{vm.getViewTitle()}}" ng-controller="HomeController as vm">
+<ion-view view-title="My Trips" ng-controller="HomeController as vm">
 
     <ion-nav-buttons side="left" ng-show="isAuthenticated">
         <button menu-toggle="left" class="button button-icon icon ion-navicon abalobi-menu-cheeseburger"></button>
@@ -18,7 +18,11 @@
             <div class="cs-spacer"></div>
 
             <div ng-show="vm.isLoading">
-                <h3>Loading...</h3>
+                <div class="cs-loader-container">
+                    <div class="cs-loader">
+                    </div>
+                </div>
+                <h4 class="text-center">Loading...</h4>
             </div>
             <!--<div class="card" ng-repeat="item in vm.recentCatches()" ng-show="!vm.isLoading">-->
                 <!--&lt;!&ndash;{{item}}&ndash;&gt;-->

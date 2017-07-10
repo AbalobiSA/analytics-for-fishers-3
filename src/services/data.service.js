@@ -271,6 +271,8 @@
                         'access_token' : access_token
                     }
                 }).then((response) => {
+                    console.log("DEBUG: Loggin data");
+                    console.log(JSON.stringify(response.data));
                     catchDaysData = (response.data);
                     // console.log(JSON.stringify(response.data, null, 4));
                     successCB(catchDaysData);

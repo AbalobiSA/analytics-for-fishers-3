@@ -19,6 +19,7 @@
         ctrl.loading = false;
         ctrl.xTitle = "Month";
         ctrl.yTitle = "Days";
+        ctrl.dataMap = undefined;
 
 
         ctrl.$onInit = function() {
@@ -29,10 +30,9 @@
         };
 
         $scope.$on('$ionicView.enter', function() {
-            if (!ctrl.loading) {
-                ctrl.loading = true;
-                requestData();
-            }
+            resetLocalVariables();
+            ctrl.loading = true;
+            requestData();
         });
 
         function requestData() {
@@ -40,13 +40,20 @@
             sfdata.queryCatchDays(handlerResponse, showError, false);
         }
 
+        ctrl.requestFreshData = function() {
+            ctrl.loading = true;
+            sfdata.queryCatchDays(handlerResponse, showError, true);
+        };
+
         const handlerResponse = function(result){
-            console.log("##handling ##CD response");
-            console.log(result);
+            console.log("Received response for fishing days! Handling now...");
+            console.log("RESULT: " + result.toString());
             responseObs = result;
             // refreshBus.post(false);
             ctrl.loading = false;
-            updateData()
+            if (result !== undefined && result !== null) {
+                updateData()
+            }
         };
 
         const showError = function(err) {
@@ -73,6 +80,25 @@
                     console.log("###catch days data");
                     console.log(data);
                 });
+        };
+
+        function resetLocalVariables(){
+            ctrl.dataMap = undefined;
+            // responseObs = undefined;
+        }
+
+        ctrl.noDataExists = function() {
+            // console.log(expensesResponseDataObs);
+            return (isEmpty(ctrl.dataMap));
+        };
+
+        ctrl.printDebugData = function() {
+            console.log("Response Object: " + responseObs + "\n" +
+                "Data map: " + ctrl.dataMap);
+        };
+
+        function isEmpty(input) {
+            return (input === undefined || input === null || input === "");
         }
     }
 

@@ -1,17 +1,34 @@
-<ion-view ng-controller="catchDaysController as $ctrl">
+<ion-view ng-controller="catchDaysController as $ctrl" view-title="Fishing Days">
     <ion-content class="padding">
 
         <div ng-show="$ctrl.loading">
-            <h3>Loading...</h3>
+            <div class="cs-loader-container">
+                <div class="cs-loader">
+                </div>
+            </div>
+            <h4 class="text-center">Loading...</h4>
         </div>
         <div ng-show="!$ctrl.loading">
-            <h2>Fishing &amp; No Fishing Days</h2>
-
             <div id="chart">
                 <stacked-bar-chart data="$ctrl.dataMap" xtitle="$ctrl.xTitle" ytitle="$ctrl.yTitle"
-                                   width=300 height=400></stacked-bar-chart>
+                                   width=300 height=400>
+                </stacked-bar-chart>
             </div>
         </div>
+
+        <div ng-show="!$ctrl.loading && $ctrl.noDataExists()">
+            <p>Unable to fetch data! Please ensure you have a connection, then click the button below to try again.</p>
+            <button class="btn-main" ng-click="$ctrl.requestFreshData()">Retry
+            </button>
+        </div>
+
+        <div class="cs-spacer"></div>
+        <button class="btn-main" ng-click="$ctrl.printDebugData()">
+            Print Debug Data
+        </button>
+        <button class="btn-main" ng-click="$ctrl.requestFreshData()">
+            Force Refresh
+        </button>
 
 
 

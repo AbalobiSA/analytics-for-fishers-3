@@ -1,67 +1,78 @@
+<ion-view view-title="My Catches" ng-controller="catchByTimePeriodController as $ctrl">
+    <ion-content id="topThing" class="padding">
 
 
+        <div class="list" ng-if="$ctrl.isManager == true">
+            <label class="item item-input item-select">
+                <div class="input-label">
+                    Select Fisher:
+                </div>
+                <select ng-model="$ctrl.selectedFisher"
+                        ng-options="fisher.lkup_main_fisher_id__r.Name for fisher in $ctrl.fisherList"
+                        ng-change="$ctrl.fisherChange($ctrl.selectedFisher)"></select>
+            </label>
+        </div>
 
-<!--<div style="height: 50px !important;"></div>-->
-<div id="topThing" class="padding" style="margin-top: 50px !important" ng-controller="catchByTimePeriodController as $ctrl">
+        <div class="list">
+            <label class="item item-input item-select">
+                <div class="input-label">
+                    Select time interval:
+                </div>
+                <select ng-model="$ctrl.selectedInterval" ng-options="interval for interval in $ctrl.intervals"
+                        ng-change="$ctrl.intervalChange($ctrl.selectedInterval)"></select>
+            </label>
+        </div>
 
+        <div class="list">
+            <label class="item item-input item-select">
+                <div class="input-label">
+                    Catch summary:
+                </div>
+                <select ng-model="$ctrl.selectedCalculationMethod" ng-options="method for method in $ctrl.methods"
+                        ng-change="$ctrl.calculationMethodChange($ctrl.selectedCalculationMethod)"></select>
+            </label>
+        </div>
 
-    <div class="list" ng-if="$ctrl.isManager == true">
-        <label class="item item-input item-select">
-            <div class="input-label">
-                Select Fisher:
-            </div>
-            <select ng-model="$ctrl.selectedFisher"
-                    ng-options="fisher.lkup_main_fisher_id__r.Name for fisher in $ctrl.fisherList"
-                    ng-change="$ctrl.fisherChange($ctrl.selectedFisher)"></select>
-        </label>
-    </div>
+        <!--<button class="button button-block button-dark" ng-click="$ctrl.printThings()">Print Things</button>-->
 
-    <div class="list">
-        <label class="item item-input item-select">
-            <div class="input-label">
-                Select time interval:
-            </div>
-            <select ng-model="$ctrl.selectedInterval" ng-options="interval for interval in $ctrl.intervals"
-                    ng-change="$ctrl.intervalChange($ctrl.selectedInterval)"></select>
-        </label>
-    </div>
-
-    <div class="list">
-        <label class="item item-input item-select">
-            <div class="input-label">
-                Catch summary:
-            </div>
-            <select ng-model="$ctrl.selectedCalculationMethod" ng-options="method for method in $ctrl.methods"
-                    ng-change="$ctrl.calculationMethodChange($ctrl.selectedCalculationMethod)"></select>
-        </label>
-    </div>
-
-    <!--<button class="button button-block button-dark" ng-click="$ctrl.printThings()">Print Things</button>-->
-
-    <!--<div>-->
+        <!--<div>-->
         <!--Title x: {{$ctrl.xTitle}} <br>-->
         <!--Title y: {{$ctrl.yTitle}} <br>-->
         <!--<pre>{{$ctrl.dataMap}}</pre>-->
-    <!--</div>-->
+        <!--</div>-->
 
-    <br/>
+        <br/>
 
-    <div ng-show="$ctrl.loading">
-        <h3>Loading...</h3>
-    </div>
-
-    <div ng-show="!$ctrl.loading">
-        <div style="position: absolute; bottom: 0; top: 140px; left: 0; right: 0; overflow: scroll;" id="chart">
-            <stacked-bar-chart data="$ctrl.dataMap" xtitle="$ctrl.xTitle" ytitle="$ctrl.yTitle"
-                               width=$ctrl.cWidth height=400>
-            </stacked-bar-chart>
+        <div ng-show="$ctrl.loading">
+            <div class="cs-loader-container">
+                <div class="cs-loader">
+                </div>
+            </div>
+            <h4 class="text-center">Loading...</h4>
         </div>
-    </div>
+
+        <div ng-show="!$ctrl.loading">
+            <div style="" id="chart">
+                <stacked-bar-chart data="$ctrl.dataMap" xtitle="$ctrl.xTitle" ytitle="$ctrl.yTitle"
+                                   width=$ctrl.cWidth height=400>
+                </stacked-bar-chart>
+            </div>
+        </div>
+
+        <button class="btn-main" ng-click="$ctrl.printDebugData()">
+            Print Debug Data
+        </button>
+
+        <button class="btn-main" ng-click="$ctrl.requestFreshData()">
+            Force Refresh
+        </button>
 
 
-    <loading-overlay loading="$ctrl.loading">
+        <loading-overlay loading="$ctrl.loading">
 
-    </loading-overlay>
+        </loading-overlay>
 
 
-</div>
+    </ion-content>
+
+</ion-view>

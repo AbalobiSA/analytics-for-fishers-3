@@ -38,6 +38,8 @@
  ============================================================================*/
         $scope.$on('$ionicView.enter', function() {
             vm.isLoading = true;
+            resetLocalVariables();
+
             dataService.getRecentCatches((catches) => {
                 aggregateCatchesByDate(catches);
                 vm.isLoading = false;
@@ -62,7 +64,7 @@
             // } else {
             //     return "Fisher Analytics";
             // }
-            return "Fisher Analytics";
+            return "Recent Trips";
         }
 
         function login() {
@@ -87,6 +89,10 @@
 
         function displayRecentCatches() {
             return recentCatches;
+        }
+
+        function resetLocalVariables() {
+            recentCatches = undefined;
         }
 
 /*============================================================================
