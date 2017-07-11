@@ -23,7 +23,7 @@
         ctrl.selectedInterval = ctrl.intervals[1];
 
         ctrl.loading = false;
-        ctrl.isManager = true;
+        ctrl.isManager = false;
         ctrl.fisherList = sfdata.BASE_FISHER_LIST;
         ctrl.selectedFisher = null;
 
@@ -77,8 +77,7 @@
             console.log("Debug: Logging response");
             console.log(result);
 
-            // ctrl.isManager = result.data.is_manager;
-            ctrl.isManager = true;
+            ctrl.isManager = result.data.is_manager;
 
             // Build a fisher list from the records
             let fishers = [];
