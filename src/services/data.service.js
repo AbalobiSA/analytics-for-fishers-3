@@ -66,9 +66,7 @@
          * @param refreshData {boolean} Should we refresh the data?
          */
         function getRecentCatches(refreshData) {
-
             return new Promise((resolve, reject) => {
-
                 let endpoint = "/api/analytics/test";
                 let access_token = localStorage.getItem('access_token');
 

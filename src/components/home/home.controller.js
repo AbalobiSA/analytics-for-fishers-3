@@ -106,6 +106,10 @@
             recentCatches = undefined;
         }
 
+        vm.stringify = function(input) {
+            return JSON.stringify(input, null, 4);
+        };
+
 /*============================================================================
         Data Processing
  ============================================================================*/
