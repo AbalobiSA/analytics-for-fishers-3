@@ -148,58 +148,62 @@
 
         }
 
-        function queryExpensesIncomeByTimePeriod(interval, successCB, errorCB, refreshData) {
-            let access_token = localStorage.getItem('access_token');
-            let endpoint = "/api/analytics/expenses_income";
-            // console.log("Debug: Querying catches over time: " + interval);
-            // console.log("Debug: Access token: " + access_token);
+        function queryExpensesIncomeByTimePeriod(interval, refreshData) {
+            return new Promise((resolve, reject) => {
+                let access_token = localStorage.getItem('access_token');
+                let endpoint = "/api/analytics/expenses_income";
+                // console.log("Debug: Querying catches over time: " + interval);
+                // console.log("Debug: Access token: " + access_token);
 
-            // let expensesIncomehByTimePeriod_yearly;
-            // let expensesIncomehByTimePeriod_monthly;
-            // let expensesIncomehByTimePeriod_weekly;
+                // let expensesIncomehByTimePeriod_yearly;
+                // let expensesIncomehByTimePeriod_monthly;
+                // let expensesIncomehByTimePeriod_weekly;
 
-            if (refreshData || handleIncomeExpense(interval)) {
-                console.log("MAKING REQUEST: " + interval);
-                $http({
-                    method: 'GET',
-                    url: SERVER_IP + endpoint,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'access_token' : access_token,
-                        'interval' : interval
-                    }
-                }).then((response) => {
-                    // Handle the query interval
-                    // console.log("DEBUG: SHOWING RESPONSE " + JSON.stringify(response, null, 4));
+                if (refreshData || handleIncomeExpense(interval)) {
+                    console.log("MAKING REQUEST: " + interval);
+                    $http({
+                        method: 'GET',
+                        url: SERVER_IP + endpoint,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'access_token' : access_token,
+                            'interval' : interval
+                        }
+                    }).then((response) => {
+                        // Handle the query interval
+                        // console.log("DEBUG: SHOWING RESPONSE " + JSON.stringify(response, null, 4));
 
-                    switch (interval.toLowerCase()) {
-                        case "weekly" : expensesIncomehByTimePeriod_weekly = (response.data);
-                            successCB(expensesIncomehByTimePeriod_weekly);
-                            break;
-                        case "monthly" : expensesIncomehByTimePeriod_monthly = (response.data);
-                            successCB(expensesIncomehByTimePeriod_monthly);
-                            break;
-                        case "yearly" : expensesIncomehByTimePeriod_yearly = (response.data);
-                            successCB(expensesIncomehByTimePeriod_yearly);
-                            break;
-                        default:
-                            errorCB({error: 'No matching interval'});
-                    }
-                }, error => {
-                    errorCB(error);
-                });
-            }
-            else {
-                switch (interval.toLowerCase()) {
-                    case "weekly" : successCB(expensesIncomehByTimePeriod_weekly);
-                        break;
-                    case "monthly" : successCB(expensesIncomehByTimePeriod_monthly);
-                        break;
-                    case "yearly" : successCB(expensesIncomehByTimePeriod_yearly);
-                        break;
-                    default: errorCB({error: 'No matching interval'});
+                        switch (interval.toLowerCase()) {
+                            case "weekly" : expensesIncomehByTimePeriod_weekly = (response.data);
+                                resolve(expensesIncomehByTimePeriod_weekly);
+                                break;
+                            case "monthly" : expensesIncomehByTimePeriod_monthly = (response.data);
+                                resolve(expensesIncomehByTimePeriod_monthly);
+                                break;
+                            case "yearly" : expensesIncomehByTimePeriod_yearly = (response.data);
+                                resolve(expensesIncomehByTimePeriod_yearly);
+                                break;
+                            default:
+                                reject({error: 'No matching interval'});
+                        }
+                    }, error => {
+                        reject(error);
+                    });
                 }
-            }
+                else {
+                    switch (interval.toLowerCase()) {
+                        case "weekly" : resolve(expensesIncomehByTimePeriod_weekly);
+                            break;
+                        case "monthly" : resolve(expensesIncomehByTimePeriod_monthly);
+                            break;
+                        case "yearly" : resolve(expensesIncomehByTimePeriod_yearly);
+                            break;
+                        default: reject({error: 'No matching interval'});
+                    }
+                }
+            });
+
+
         }
 
         function queryEvolutionOfPrices(interval, successCB, errorCB, refreshData) {

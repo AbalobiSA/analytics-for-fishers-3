@@ -14,6 +14,7 @@
 
         const ctrl = this;
         const sfdata = dataService;
+        let rawResponseObs;
         let responseObs;
 
         ctrl.intervals = sfdata.TIME_INTERVALS;
@@ -22,18 +23,12 @@
         ctrl.selectedInterval = ctrl.intervals[1];
 
         ctrl.loading = false;
-        ctrl.isManager = false;
+        ctrl.isManager = true;
         ctrl.fisherList = sfdata.BASE_FISHER_LIST;
         ctrl.selectedFisher = null;
 
         ctrl.$onInit = function() {
-            // refreshBus.observable()
-            //     .filter(evt => evt)
-            //     .subscribe(evt => requestData());
-            // refreshBus.post(null);
-            // userservice.userType()
-            //     .then(result => ctrl.isManager = result === "fisher_manager");
-            // requestData();
+            // Legacy code was removed.
         };
 
         ctrl.cWidth = Math.floor($window.innerWidth - 120) > 0 ? Math.floor($window.innerWidth - 120) : 10;
@@ -51,18 +46,6 @@
         $scope.$on('$ionicView.enter', function() {
             ctrl.loading = true;
             requestData();
-
-
-            // ;
-            // dataService.getRecentCatches((catches) => {
-            //     aggregateCatchesByDate(catches);
-            //     ctrl.loading = false;
-            //     // console.log(JSON.stringify(recentCatches));
-            // }, (error) => {
-            //     recentCatches = undefined;
-            //     console.log(error);
-            //     ctrl.loading = false;
-            // })
         });
 
         function requestData(){
@@ -82,24 +65,39 @@
         };
 
         const handleFisherListResponse = function (fList) {
-            fList.toArray()
-                .filter(fList => ctrl.selectedFisher === null)
+            fList.filter(fList => ctrl.selectedFisher === null)
                 .subscribe(fList => {
-                    ctrl.fisherList = sfdata.BASE_FISHER_LIST.concat(fList);
-                    ctrl.selectedFisher = ctrl.fisherList[0];
-                    ctrl.fisherChange(ctrl.selectedFisher);
+                    ctrl.fisherList = fList;
+                    // ctrl.selectedFisher = ctrl.fisherList[0];
+                    // ctrl.fisherChange(ctrl.selectedFisher);
                 });
         };
 
         const handleResponse = function(result){
             console.log("Debug: Logging response");
             console.log(result);
-            responseObs = Rx.Observable
-                .from(result.data.records);
+
+            // ctrl.isManager = result.data.is_manager;
+            ctrl.isManager = true;
+
+            // Build a fisher list from the records
+            let fishers = [];
+            for (let record of result.data.records) {
+                if (record.fisher_name && (fishers.indexOf(record.fisher_name) === -1)) {
+                    fishers.push(record.fisher_name);
+                }
+            }
+            fishers.push("All");
+            fishers = fishers.sort();
+            ctrl.fisherList = fishers;
+            ctrl.selectedFisher = ctrl.fisherList[0];
 
             // if(ctrl.isManager){
-            //     handleFisherListResponse(result[1]);
+            //     handleFisherListResponse(fishers);
             // }
+            rawResponseObs = result.data.records;
+            responseObs = Rx.Observable
+                .from(result.data.records);
 
             // refreshBus.post(false);
             ctrl.loading = false;
@@ -107,16 +105,26 @@
         };
 
         ctrl.fisherChange = function (selection) {
-            requestData();
+
+            let currentResponseObs;
+
+            if (ctrl.selectedFisher === "All") {
+                currentResponseObs = rawResponseObs;
+            } else {
+                currentResponseObs = angular.copy(rawResponseObs.filter(item => {
+                    return item.fisher_name === ctrl.selectedFisher;
+                }));
+            }
+
+            responseObs = Rx.Observable
+                .from(currentResponseObs);
+
+            updateData();
         };
 
         ctrl.intervalChange = function(selection) {
             requestData();
         };
-
-
-
-
 
         ctrl.calculationMethodChange = function(selection){
             updateData();

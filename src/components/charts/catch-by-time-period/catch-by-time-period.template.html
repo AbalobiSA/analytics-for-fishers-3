@@ -8,7 +8,7 @@
                     Select Fisher:
                 </div>
                 <select ng-model="$ctrl.selectedFisher"
-                        ng-options="fisher.lkup_main_fisher_id__r.Name for fisher in $ctrl.fisherList"
+                        ng-options="fisher for fisher in $ctrl.fisherList"
                         ng-change="$ctrl.fisherChange($ctrl.selectedFisher)"></select>
             </label>
         </div>
