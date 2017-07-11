@@ -68,13 +68,17 @@
         function requestData(){
             ctrl.loading = true;
             console.log("Debug: Requesting data from server...");
-            sfdata.queryCatchByTimePeriod(ctrl.selectedInterval, handlerResponse, showError, false);
+            sfdata.queryCatchByTimePeriod(ctrl.selectedInterval, false)
+                .then(handleResponse)
+                .catch(showError);
         }
 
         ctrl.requestFreshData = function () {
             ctrl.loading = true;
             console.log("Debug: Requesting FRESH data from server...");
-            sfdata.queryCatchByTimePeriod(ctrl.selectedInterval, handlerResponse, showError, true);
+            sfdata.queryCatchByTimePeriod(ctrl.selectedInterval, true)
+                .then(handleResponse)
+                .catch(showError);
         };
 
         const handleFisherListResponse = function (fList) {
@@ -87,10 +91,11 @@
                 });
         };
 
-        const handlerResponse = function(result){
+        const handleResponse = function(result){
             console.log("Debug: Logging response");
             console.log(result);
-            responseObs = result;
+            responseObs = Rx.Observable
+                .from(result.data.records);
 
             // if(ctrl.isManager){
             //     handleFisherListResponse(result[1]);
@@ -133,6 +138,7 @@
                     ctrl.xTitle = getXTitle(ctrl.selectedInterval);
                     ctrl.yTitle = getYTitle(ctrl.selectedCalculationMethod);
                     // $state.reload(); //Fixes reloading issues
+                    $scope.$apply();
                 });
         }
 

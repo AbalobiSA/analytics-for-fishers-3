@@ -30,8 +30,8 @@
         vm.consoletext = getConsoleText;
         vm.getViewTitle = getViewTitle;
         vm.recentCatches = displayRecentCatches;
-
         vm.isLoading = false;
+        vm.isManager = false;
 
 /*============================================================================
         View Enter
@@ -40,17 +40,9 @@
             vm.isLoading = true;
             resetLocalVariables();
 
-            dataService.getRecentCatches().then(catches => {
-                aggregateCatchesByDate(catches);
-                vm.isLoading = false;
-                $scope.$apply();
-                // console.log(JSON.stringify(recentCatches));
-            }).catch(error => {
-                recentCatches = undefined;
-                console.log(error);
-                vm.isLoading = false;
-                $scope.$apply();
-            })
+            dataService.getRecentCatches(false)
+                .then(handleDataSuccess)
+                .catch(handleDataError)
         });
 /*============================================================================
         Functions
@@ -60,18 +52,29 @@
             vm.isLoading = true;
             recentCatches = undefined;
 
-            dataService.getRecentCatches(true).then(catches => {
-                aggregateCatchesByDate(catches);
-                vm.isLoading = false;
-            })
+            dataService.getRecentCatches(true)
+                .then(handleDataSuccess)
+                .catch(handleDataError)
         };
 
+        function handleDataSuccess(response) {
+            aggregateCatchesByDate(response.data.records);
+            vm.isManager = response.data.is_manager;
+            console.log("Data returned with success.");
+            vm.isLoading = false;
+            $scope.$apply();
+        }
+
+        function handleDataError(error) {
+            recentCatches = undefined;
+            console.log(error);
+            vm.isLoading = false;
+            console.log("No data - failure.");
+            // $state.go($state.current, {}, {reload: true});
+            $scope.$apply();
+        }
+
         function getViewTitle() {
-            // if (isAuthenticated()) {
-            //     return vm.getProfile().email;
-            // } else {
-            //     return "Fisher Analytics";
-            // }
             return "Recent Trips";
         }
 
@@ -119,7 +122,7 @@
         }
 
         function aggregateInfo(tripObs) {
-            var records = new Object();
+            let records = new Object();
             records.speciesInfo = [];
 
             return tripObs
@@ -131,7 +134,7 @@
 
         function collectTotal(acc, entry){
             updateLandingSiteIfNecessary(acc, entry);
-            var record = {key:entry.species, value:getEntryValue(entry)}
+            let record = {key:entry.species, value:getEntryValue(entry)}
             if(entry.fisher_name){
                 record.fisher = StringUtil.capitalise(entry.fisher_name);
             }
@@ -140,29 +143,29 @@
         }
 
         function updateLandingSiteIfNecessary(acc, entry){
-            if((typeof entry.site === 'undefined' || entry.site == null) &&
-                (typeof entry.site_back_up === 'undefined' || entry.site_back_up == null)){
+            if((typeof entry.site === 'undefined' || entry.site === null) &&
+                (typeof entry.site_back_up === 'undefined' || entry.site_back_up === null)){
                 acc.site = StringUtil.capitalise(entry.community);
-            } else if (typeof entry.site !== 'undefined' && entry.site != null) {
+            } else if (typeof entry.site !== 'undefined' && entry.site !== null) {
                 acc.site = entry.site.substring(entry.site.indexOf('-')+1);
-            } else if (typeof entry.site_back_up !== 'undefined' || entry.site_back_up != null) {
+            } else if (typeof entry.site_back_up !== 'undefined' || entry.site_back_up !== null) {
                 acc.site = StringUtil.capitalise(entry.site_back_up.substring(0, entry.site_back_up.indexOf('_')));
             }
         }
 
         function createRecord(key, totals){
-            var rec = {key: key};
+            let rec = {key: key};
             rec['speciesInfo'] = totals.speciesInfo;
             rec['site'] = totals.site;
             return rec;
         }
 
         function getEntryValue(entry){
-            if(entry.weight != null){
+            if(entry.weight !== null){
                 return entry.weight+" kg";
-            } else if (entry.items != null) {
+            } else if (entry.items !== null) {
                 return entry.items+" units";
-            } else if (entry.crates != null) {
+            } else if (entry.crates !== null) {
                 return entry.crates+" crates";
             } else{
                 return "N/A";

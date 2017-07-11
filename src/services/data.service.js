@@ -87,19 +87,11 @@
                     if (refreshData || recentCatches === undefined) {
 
                         $http.get(SERVER_IP + endpoint, options).then(response => {
-                            recentCatches = response.data.records;
+                            recentCatches = response;
                             resolve(recentCatches);
                         }).catch(error => {
                             reject(error);
                         });
-
-                        // $http(options).then((response) => {
-                        //
-                        // }, (error) => {
-                        //
-                        // });
-
-
                     }
                     else {
                         resolve(recentCatches);
@@ -108,52 +100,54 @@
             });
         }
 
-        function queryCatchByTimePeriod(interval, successCB, errorCB, refreshData) {
-            let access_token = localStorage.getItem('access_token');
-            let endpoint = "/api/analytics/catches_over_time";
-            // console.log("Debug: Querying catches over time: " + interval);
-            // console.log("Debug: Access token: " + access_token);
+        function queryCatchByTimePeriod(interval, refreshData) {
 
-            if (refreshData || handleIntervalObjectSelection(interval)) {
-                console.log("MAKING REQUEEST: " + interval);
-                $http({
-                    method: 'GET',
-                    url: SERVER_IP + endpoint,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'access_token' : access_token,
-                        'interval' : interval
-                    }
-                }).then((response) => {
-                    // Handle the query interval
-                    switch (interval.toLowerCase()) {
-                        case "weekly" : catchByTimePeriod_weekly = Rx.Observable
-                                        .from(response.data.records);
-                                        successCB(catchByTimePeriod_weekly);
-                                        break;
-                        case "monthly" : catchByTimePeriod_monthly = Rx.Observable
-                            .from(response.data.records);
-                                        successCB(catchByTimePeriod_monthly);
-                                        break;
-                        case "yearly" : catchByTimePeriod_yearly = Rx.Observable
-                            .from(response.data.records);
-                                        successCB(catchByTimePeriod_yearly);
-                                        break;
-                    }
-                }, (error) => {
-                    errorCB(error);
-                });
-            }
-            else {
-                switch (interval.toLowerCase()) {
-                    case "weekly" : successCB(catchByTimePeriod_weekly);
-                        break;
-                    case "monthly" : successCB(catchByTimePeriod_monthly);
-                        break;
-                    case "yearly" : successCB(catchByTimePeriod_yearly);
-                        break;
+            return new Promise ((resolve, reject) => {
+                let access_token = localStorage.getItem('access_token');
+                let endpoint = "/api/analytics/catches_over_time";
+                // console.log("Debug: Querying catches over time: " + interval);
+                // console.log("Debug: Access token: " + access_token);
+
+                if (refreshData || handleIntervalObjectSelection(interval)) {
+                    console.log("MAKING REQUEEST: " + interval);
+                    $http({
+                        method: 'GET',
+                        url: SERVER_IP + endpoint,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'access_token' : access_token,
+                            'interval' : interval
+                        }
+                    }).then((response) => {
+                        // Handle the query interval
+                        switch (interval.toLowerCase()) {
+                            case "weekly" : catchByTimePeriod_weekly = response;
+                                resolve(catchByTimePeriod_weekly);
+                                break;
+                            case "monthly" : catchByTimePeriod_monthly = response;
+                                resolve(catchByTimePeriod_monthly);
+                                break;
+                            case "yearly" : catchByTimePeriod_yearly = response;
+                                resolve(catchByTimePeriod_yearly);
+                                break;
+                        }
+                    }, (error) => {
+                        reject(error);
+                    });
                 }
-            }
+                else {
+                    switch (interval.toLowerCase()) {
+                        case "weekly" : resolve(catchByTimePeriod_weekly);
+                            break;
+                        case "monthly" : resolve(catchByTimePeriod_monthly);
+                            break;
+                        case "yearly" : resolve(catchByTimePeriod_yearly);
+                            break;
+                    }
+                }
+            });
+
+
         }
 
         function queryExpensesIncomeByTimePeriod(interval, successCB, errorCB, refreshData) {
