@@ -9,7 +9,7 @@ angular.module('app')
         console.log("logging out");
         authService.logout();
     };
-    //
+
     // $scope.refresh = function () {
     //     console.log("refreshing");
     //     // refreshBus.post(true);

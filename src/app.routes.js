@@ -1,7 +1,15 @@
 /**
  * Created by Carl on 2017-06-06.
  */
-angular.module('app').config(function ($stateProvider, $urlRouterProvider, angularAuth0Provider) {
+angular.module('app').config(function ($stateProvider, $urlRouterProvider, angularAuth0Provider, $httpProvider) {
+
+    $httpProvider.defaults.headers.common = {};
+    $httpProvider.defaults.headers.post = {};
+    $httpProvider.defaults.headers.put = {};
+    $httpProvider.defaults.headers.patch = {};
+    $httpProvider.defaults.headers.get = {};
+    $httpProvider.defaults.headers.get["Content-Type"] = "text/json";
+
     $stateProvider
     // setup an abstract state for the tabs directive
 

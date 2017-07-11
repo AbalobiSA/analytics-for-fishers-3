@@ -17,6 +17,10 @@
             <p>You are logged in as: <br>{{vm.getProfile().email}}</p>
             <div class="cs-spacer"></div>
 
+            <button class="button btn-main" ng-click="vm.refreshData()">
+                Refresh Data
+            </button>
+
             <div ng-show="vm.isLoading">
                 <div class="cs-loader-container">
                     <div class="cs-loader">

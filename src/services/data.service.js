@@ -22,6 +22,8 @@
         // let SERVER_IP = "http://localhost:8080";
         let SERVER_IP = "http://197.85.186.65:8080";
 
+
+
         let recentCatches;
 
         let catchByTimePeriod_yearly;
@@ -61,33 +63,49 @@
 
         /**
          * Get the catches from the last 10 trips.
-         * @param successCB
-         * @param errorCB
          * @param refreshData {boolean} Should we refresh the data?
          */
-        function getRecentCatches(successCB, errorCB, refreshData) {
-            let endpoint = "/api/analytics/test";
-            let access_token = localStorage.getItem('access_token');
-            console.log("Debug: TOKEN: " + access_token);
+        function getRecentCatches(refreshData) {
 
-            if (refreshData || recentCatches === undefined) {
-                $http({
-                    method: 'GET',
-                    url: SERVER_IP + endpoint,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'access_token' : access_token
+            return new Promise((resolve, reject) => {
+
+                let endpoint = "/api/analytics/test";
+                let access_token = localStorage.getItem('access_token');
+
+                if (!access_token) {
+                    console.log("No access token!");
+                    reject("No access token found.");
+                } else {
+                    let options = {
+                        headers: {
+                            'Content-Type': 'text/json',
+                            'access_token' : access_token
+                        }
+                    };
+                    console.log("Debug: OPTIONS: " + JSON.stringify(options, null, 4));
+
+                    if (refreshData || recentCatches === undefined) {
+
+                        $http.get(SERVER_IP + endpoint, options).then(response => {
+                            recentCatches = response.data.records;
+                            resolve(recentCatches);
+                        }).catch(error => {
+                            reject(error);
+                        });
+
+                        // $http(options).then((response) => {
+                        //
+                        // }, (error) => {
+                        //
+                        // });
+
+
                     }
-                }).then((response) => {
-                    recentCatches = response.data.records;
-                    successCB(recentCatches);
-                }, (error) => {
-                    errorCB(error);
-                });
-            }
-            else {
-                successCB(recentCatches);
-            }
+                    else {
+                        resolve(recentCatches);
+                    }
+                }
+            });
         }
 
         function queryCatchByTimePeriod(interval, successCB, errorCB, refreshData) {

@@ -40,23 +40,31 @@
             vm.isLoading = true;
             resetLocalVariables();
 
-            dataService.getRecentCatches((catches) => {
+            dataService.getRecentCatches().then(catches => {
                 aggregateCatchesByDate(catches);
                 vm.isLoading = false;
+                $scope.$apply();
                 // console.log(JSON.stringify(recentCatches));
-            }, (error) => {
+            }).catch(error => {
                 recentCatches = undefined;
                 console.log(error);
                 vm.isLoading = false;
+                $scope.$apply();
             })
         });
 /*============================================================================
         Functions
  ============================================================================*/
 
-        function getIdentityFromServer() {
+        vm.refreshData = function() {
+            vm.isLoading = true;
+            recentCatches = undefined;
 
-        }
+            dataService.getRecentCatches(true).then(catches => {
+                aggregateCatchesByDate(catches);
+                vm.isLoading = false;
+            })
+        };
 
         function getViewTitle() {
             // if (isAuthenticated()) {
