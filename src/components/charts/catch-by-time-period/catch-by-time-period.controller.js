@@ -44,6 +44,7 @@
         };
 
         $scope.$on('$ionicView.enter', function() {
+            resetLocalVariables();
             ctrl.loading = true;
             requestData();
         });
@@ -51,6 +52,7 @@
         function requestData(){
             ctrl.loading = true;
             console.log("Debug: Requesting data from server...");
+            console.log("Selected interval: " + ctrl.selectedInterval);
             sfdata.queryCatchByTimePeriod(ctrl.selectedInterval, false)
                 .then(handleResponse)
                 .catch(showError);
@@ -59,6 +61,7 @@
         ctrl.requestFreshData = function () {
             ctrl.loading = true;
             console.log("Debug: Requesting FRESH data from server...");
+
             sfdata.queryCatchByTimePeriod(ctrl.selectedInterval, true)
                 .then(handleResponse)
                 .catch(showError);
@@ -74,7 +77,7 @@
         };
 
         const handleResponse = function(result){
-            console.log("Debug: Logging response");
+            console.log("Debug: Logging actual data returned: \n");
             console.log(result);
 
             ctrl.isManager = result.data.is_manager;
@@ -208,6 +211,12 @@
                 "Data map: " + ctrl.dataMap);
         };
 
+        function resetLocalVariables() {
+            rawResponseObs = undefined;
+            responseObs = undefined;
+            ctrl.isManager = undefined;
+        }
+
         function createRecord(key, totals){
             let rec = {key: key};
             totals.forEach((v, k) => rec[k] = v);
@@ -216,6 +225,7 @@
 
         let showError = function(err) {
             ctrl.loading = false;
+            $scope.$apply();
             // refreshBus.post(false);
         }
 

@@ -2,11 +2,8 @@
     <ion-content class="padding">
 
         <div class="cs-spacer"></div>
-        <button class="btn-main" ng-click="$ctrl.printDebugData()">
-            Print Debug Data
-        </button>
         <button class="btn-main" ng-click="$ctrl.requestFreshData()">
-            Force Refresh
+            Refresh Data
         </button>
 
         <div ng-show="$ctrl.loading">
@@ -16,7 +13,7 @@
             </div>
             <h4 class="text-center">Loading...</h4>
         </div>
-        <div ng-show="!$ctrl.loading">
+        <div ng-show="!$ctrl.loading && !$ctrl.noDataExists()">
             <div id="chart">
                 <stacked-bar-chart data="$ctrl.dataMap" xtitle="$ctrl.xTitle" ytitle="$ctrl.yTitle"
                                    width=300 height=400>
@@ -25,9 +22,11 @@
         </div>
 
         <div ng-show="!$ctrl.loading && $ctrl.noDataExists()">
-            <p>Unable to fetch data! Please ensure you have a connection, then click the button below to try again.</p>
-            <button class="btn-main" ng-click="$ctrl.requestFreshData()">Retry
-            </button>
+            <div class="card" >
+                <div class="item item-text-wrap">
+                    Unable to connect to the server. Please check your internet connection settings or data cap.
+                </div>
+            </div>
         </div>
 
         <div class="cs-spacer"></div>

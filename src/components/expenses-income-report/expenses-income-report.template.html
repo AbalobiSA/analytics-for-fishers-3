@@ -1,9 +1,9 @@
 <ion-view view-title="Expenses & Income" ng-controller="expensesIncomeReportController as $ctrl">
     <ion-content class="padding">
-
-
         <!--Manual refresh button-->
         <!--<button class="btn-main" ng-click="$ctrl.requestFreshData()">Force refresh</button>-->
+        <button class="btn-main" ng-click="$ctrl.requestFreshData()">Refresh Data
+        </button>
 
         <div ng-show="$ctrl.loading">
             <div class="cs-loader-container">
@@ -14,9 +14,11 @@
         </div>
 
         <div ng-show="!$ctrl.loading && $ctrl.noDataExists()">
-            <p>Unable to fetch data! Please ensure you have a connection, then click the button below to try again.</p>
-            <button class="btn-main" ng-click="$ctrl.requestFreshData()">Retry
-            </button>
+                <div class="card" >
+                    <div class="item item-text-wrap">
+                        Unable to connect to the server. Please check your internet connection settings or data cap.
+                    </div>
+                </div>
         </div>
 
         <!--test-->
@@ -46,7 +48,6 @@
             </div>
 
             <div class="finance-content">
-
                 <!--Show income & expenses-->
                 <div class="card" ng-if="$ctrl.expenses || $ctrl.income">
                     <div class="item infoEntryHeader">
@@ -100,10 +101,7 @@
                             </li>
                         </ul>
                     </div>
-
-
                 </div>
-
             </div>
 
             <!--<div>-->

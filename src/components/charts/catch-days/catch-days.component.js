@@ -65,7 +65,7 @@
         const showError = function(err) {
             console.log("error");
             ctrl.loading = false;
-            // refreshBus.post(false);
+            $scope.$apply();
         };
 
         const updateData = function () {
@@ -92,7 +92,7 @@
 
         function resetLocalVariables(){
             ctrl.dataMap = undefined;
-            // responseObs = undefined;
+            responseObs = undefined;
         }
 
         ctrl.noDataExists = function() {

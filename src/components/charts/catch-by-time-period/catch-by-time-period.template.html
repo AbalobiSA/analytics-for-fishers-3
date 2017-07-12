@@ -1,6 +1,13 @@
 <ion-view view-title="My Catches" ng-controller="catchByTimePeriodController as $ctrl">
     <ion-content id="topThing" class="padding">
 
+        <!--<button class="btn-main" ng-click="$ctrl.printDebugData()">-->
+            <!--Print Debug Data-->
+        <!--</button>-->
+
+        <button class="btn-main" ng-click="$ctrl.requestFreshData()">
+            Refresh Data
+        </button>
 
         <div class="list" ng-if="$ctrl.isManager == true">
             <label class="item item-input item-select">
@@ -51,7 +58,7 @@
             <h4 class="text-center">Loading...</h4>
         </div>
 
-        <div ng-show="!$ctrl.loading">
+        <div ng-show="!$ctrl.loading && $ctrl.dataMap">
             <div style="" id="chart">
                 <stacked-bar-chart data="$ctrl.dataMap" xtitle="$ctrl.xTitle" ytitle="$ctrl.yTitle"
                                    width=$ctrl.cWidth height=400>
@@ -59,14 +66,11 @@
             </div>
         </div>
 
-        <button class="btn-main" ng-click="$ctrl.printDebugData()">
-            Print Debug Data
-        </button>
-
-        <button class="btn-main" ng-click="$ctrl.requestFreshData()">
-            Force Refresh
-        </button>
-
+        <div class="card" ng-show="!$ctrl.loading && $ctrl.dataMap === undefined">
+            <div class="item item-text-wrap">
+                Unable to connect to the server. Please check your internet connection settings or data cap.
+            </div>
+        </div>
 
         <loading-overlay loading="$ctrl.loading">
 

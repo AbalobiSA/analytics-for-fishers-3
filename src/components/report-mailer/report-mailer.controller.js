@@ -28,23 +28,19 @@
             ctrl.requestStatus = 0;
             ctrl.loading = true;
 
-            dataService.getEmailAddress((email, abalobi_id) => {
-
+            dataService.getEmailAddress(false).then(email => {
                 if (emailIsInvalid(email)) {
                     mainEmailAddress = "";
-
-                    // TODO: Show a toast notification that no email was found for this user
-
                 } else {
                     mainEmailAddress = email;
                 }
-
-                userId = abalobi_id;
                 ctrl.email = mainEmailAddress;
                 ctrl.loading = false;
-            }, (error) => {
+                $scope.$apply()
+            }).catch(error => {
                 console.log("Unable to get email address. " + error);
                 ctrl.loading = false;
+                $scope.$apply()
             });
         });
 

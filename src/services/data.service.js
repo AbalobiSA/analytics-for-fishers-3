@@ -22,8 +22,6 @@
         // let SERVER_IP = "http://localhost:8080";
         let SERVER_IP = "http://197.85.186.65:8080";
 
-
-
         let recentCatches;
 
         let catchByTimePeriod_yearly;
@@ -75,23 +73,23 @@
                     reject("No access token found.");
                 } else {
                     let options = {
-                        headers: {
-                            'Content-Type': 'text/json',
-                            'access_token' : access_token
-                        }
+                        url: SERVER_IP + endpoint,
+                        params: {
+                            access_token : access_token
+                        },
+                        method: 'GET'
                     };
                     console.log("Debug: OPTIONS: " + JSON.stringify(options, null, 4));
-
                     if (refreshData || recentCatches === undefined) {
-
-                        $http.get(SERVER_IP + endpoint, options).then(response => {
-                            recentCatches = response;
-                            resolve(recentCatches);
-                        }).catch(error => {
-                            reject(error);
-                        });
+                        recentCatches = undefined;
+                        $http(options)
+                            .then(response => {
+                                recentCatches = response;
+                                resolve(recentCatches);
+                            }).catch(error => reject(error));
                     }
                     else {
+                        console.log("Sending back cached data.");
                         resolve(recentCatches);
                     }
                 }
@@ -107,14 +105,13 @@
                 // console.log("Debug: Access token: " + access_token);
 
                 if (refreshData || handleIntervalObjectSelection(interval)) {
-                    console.log("MAKING REQUEEST: " + interval);
+                    console.log("MAKING REQUEST: " + interval);
                     $http({
                         method: 'GET',
                         url: SERVER_IP + endpoint,
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'access_token' : access_token,
-                            'interval' : interval
+                        params: {
+                            access_token: access_token,
+                            interval: interval
                         }
                     }).then((response) => {
                         // Handle the query interval
@@ -135,17 +132,18 @@
                 }
                 else {
                     switch (interval.toLowerCase()) {
-                        case "weekly" : resolve(catchByTimePeriod_weekly);
+                        case "weekly" :
+                            resolve(catchByTimePeriod_weekly);
                             break;
-                        case "monthly" : resolve(catchByTimePeriod_monthly);
+                        case "monthly" :
+                            resolve(catchByTimePeriod_monthly);
                             break;
-                        case "yearly" : resolve(catchByTimePeriod_yearly);
+                        case "yearly" :
+                            resolve(catchByTimePeriod_yearly);
                             break;
                     }
                 }
             });
-
-
         }
 
         function queryExpensesIncomeByTimePeriod(interval, refreshData) {
@@ -158,8 +156,7 @@
                     $http({
                         method: 'GET',
                         url: SERVER_IP + endpoint,
-                        headers: {
-                            'Content-Type': 'application/json',
+                        params: {
                             'access_token' : access_token,
                             'interval' : interval
                         }
@@ -215,7 +212,7 @@
                 $http({
                     method: 'GET',
                     url: SERVER_IP + '/api/analytics/price_evolution',
-                    headers: {
+                    params: {
                         'Content-Type': 'application/json',
                         'access_token' : access_token,
                         'interval' : interval
@@ -276,8 +273,7 @@
                     $http({
                         method: 'GET',
                         url: SERVER_IP + endpoint,
-                        headers: {
-                            'Content-Type': 'application/json',
+                        params: {
                             'access_token' : access_token
                         }
                     }).then((response) => {
@@ -294,36 +290,36 @@
                     resolve(catchDaysData);
                 }
             });
-
         }
 
-        function getEmailAddress(success, errorCB, refreshData) {
-            let access_token = localStorage.getItem('access_token');
-            let endpoint = "/api/analytics/user_email";
-            // console.log("Debug: Querying catches over time: " + interval);
-            // console.log("Debug: Access token: " + access_token);
+        function getEmailAddress(refreshData) {
+            return new Promise ((resolve, reject) => {
+                let access_token = localStorage.getItem('access_token');
+                let endpoint = "/api/analytics/user_email";
+                // console.log("Debug: Querying catches over time: " + interval);
+                // console.log("Debug: Access token: " + access_token);
 
-            if (refreshData || mainUserEmailAddress === undefined || mainUserAbalobiId === undefined) {
-                console.log("MAKING REQUEST: User Email");
-                $http({
-                    method: 'GET',
-                    url: SERVER_IP + endpoint,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'access_token' : access_token
-                    }
-                }).then((response) => {
-                    console.log(JSON.stringify(response, null, 4));
-                    mainUserEmailAddress = (response.data[0].Email);
-                    mainUserAbalobiId = response.data[0].Id;
-                    success(mainUserEmailAddress, mainUserAbalobiId);
-                }, (error) => {
-                    errorCB(error);
-                });
-            }
-            else {
-                success(mainUserEmailAddress, mainUserAbalobiId);
-            }
+                if (refreshData || mainUserEmailAddress === undefined || mainUserAbalobiId === undefined) {
+                    console.log("MAKING REQUEST: User Email");
+                    $http({
+                        method: 'GET',
+                        url: SERVER_IP + endpoint,
+                        params: {
+                            'access_token' : access_token
+                        }
+                    }).then((response) => {
+                        console.log(JSON.stringify(response, null, 4));
+                        mainUserEmailAddress = (response.data[0].Email);
+                        mainUserAbalobiId = response.data[0].Id;
+                        resolve(mainUserEmailAddress, mainUserAbalobiId);
+                    }, (error) => {
+                        reject(error);
+                    });
+                }
+                else {
+                    resolve(mainUserEmailAddress, mainUserAbalobiId);
+                }
+            });
         }
 
 /*============================================================================

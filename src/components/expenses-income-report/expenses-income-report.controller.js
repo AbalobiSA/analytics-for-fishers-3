@@ -36,6 +36,7 @@
         ctrl.selectedFisher = null;
 
         $scope.$on('$ionicView.enter', function() {
+            resetLocalVariables();
             if (!ctrl.loading) {
                 ctrl.loading = true;
                 requestData();
@@ -91,12 +92,13 @@
                     }
 
                     // Add the All option to the list
-                    fishers.push("All");
+                    // fishers.push("All");
                     fishers = fishers.sort();
                     ctrl.fisherList = fishers;
 
                     // Default selection to All
                     ctrl.selectedFisher = ctrl.fisherList[0];
+
 
 
                     // Map the data from the results
@@ -112,6 +114,8 @@
 
                 // Filter the available months in the list
                 collectMonths(expensesResponseDataObs, incomeResponseDataObs);
+
+                ctrl.fisherChange(ctrl.selectedFisher);
             } else {
                 console.log("Error! No data received. Showing error alert.");
                 ctrl.errorToast("No data received.");
@@ -326,6 +330,14 @@
         ctrl.getIncomedata = function () {
             return incomeResponseDataObs;
         };
+
+        function resetLocalVariables() {
+            expensesResponseDataObs = undefined;
+            incomeResponseDataObs = undefined;
+            rawResponseObs = undefined;
+            ctrl.isManager = false;
+            ctrl.selectedFisher = null;
+        }
 
     }
 
