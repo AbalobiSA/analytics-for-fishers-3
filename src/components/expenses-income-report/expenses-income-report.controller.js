@@ -14,22 +14,22 @@
 
         const ctrl = this;
         const sfdata = dataService;
-        let responseObs;
+        let responseObs, rawResponseObs;
 
         ctrl.loading = false;
         ctrl.intervals = sfdata.TIME_INTERVALS.slice(1, 2);
         ctrl.selectedInterval = ctrl.intervals[0];
         ctrl.months = [];
 
-        ctrl.selectedMonth;
-        ctrl.expenses;
-        ctrl.income;
-
         ctrl.isNumber = (number) => typeof number === "number";
 
         let selectedMonthSet = false;
         let expensesResponseDataObs;
         let incomeResponseDataObs;
+
+        // ctrl.expensesInfo = expensesResponseDataObs;
+        // ctrl.incomeInfo = incomeResponseDataObs;
+        ctrl.rawData = rawResponseObs;
 
         ctrl.isManager = false;
         ctrl.fisherList = sfdata.BASE_FISHER_LIST;
@@ -44,21 +44,23 @@
 
         function requestData(){
             ctrl.loading = true;
-            sfdata.queryExpensesIncomeByTimePeriod(ctrl.selectedInterval, handlerResponse, showError, false);
-                // .then(handlerResponse, showError);
+            sfdata.queryExpensesIncomeByTimePeriod(ctrl.selectedInterval, false)
+                .then(handleResponse)
+                .catch(showError);
         }
 
         ctrl.requestFreshData = function () {
             ctrl.loading = true;
-            sfdata.queryExpensesIncomeByTimePeriod(ctrl.selectedInterval, handlerResponse, showError, true);
+            sfdata.queryExpensesIncomeByTimePeriod(ctrl.selectedInterval, true)
+                .then(handleResponse)
+                .catch(showError);
         };
 
         ctrl.requestData = requestData;
 
         const handleFisherListResponse = function (fList) {
             if(ctrl.isManager){
-                fList.toArray()
-                    .filter(fList => ctrl.selectedFisher === null)
+                fList.filter(fList => ctrl.selectedFisher === null)
                     .subscribe(fList => {
                         ctrl.fisherList = sfdata.BASE_FISHER_LIST.concat(fList);
                         ctrl.selectedFisher = ctrl.fisherList[0];
@@ -67,38 +69,112 @@
             }
         };
 
-        const handlerResponse = function(result){
+        const handleResponse = function(response){
+            let currentResults = response.data.results;
+            rawResponseObs = response.data.results;
+            ctrl.isManager = response.data.is_manager;
 
-            if (result !== undefined) {
+            if (currentResults !== undefined) {
                 console.log("handling e/i response");
                 try{
-                    console.log(result[0]);
-                    console.log(result[1]);
-                    console.log(result[2]);
+                    // Debug output
+                    console.log(currentResults[0]);
+                    console.log(currentResults[1]);
+                    console.log(currentResults[2]);
 
+                    // Populate the fisher list
+                    let fishers = [];
+                    for (let record of currentResults[2]){
+                        if (record.lkup_main_fisher_id__r.Name && (fishers.indexOf(record.lkup_main_fisher_id__r.Name) === -1)) {
+                            fishers.push(record.lkup_main_fisher_id__r.Name);
+                        }
+                    }
+
+                    // Add the All option to the list
+                    fishers.push("All");
+                    fishers = fishers.sort();
+                    ctrl.fisherList = fishers;
+
+                    // Default selection to All
+                    ctrl.selectedFisher = ctrl.fisherList[0];
+
+
+                    // Map the data from the results
                     expensesResponseDataObs = Rx.Observable
-                        .from(result[0]);
+                        .from(currentResults[0]);
                     incomeResponseDataObs = Rx.Observable
-                        .from(result[1]);
-                    handleFisherListResponse(result[2]);
+                        .from(currentResults[1]);
+
                 } catch (ex) {
                     console.log(ex);
                     ctrl.loading = false;
                 }
 
+                // Filter the available months in the list
                 collectMonths(expensesResponseDataObs, incomeResponseDataObs);
-                // refreshBus.post(false);
             } else {
                 console.log("Error! No data received. Showing error alert.");
                 ctrl.errorToast("No data received.");
             }
 
             ctrl.loading = false;
+            applyScope();
         };
 
         ctrl.fisherChange = function (selection) {
             ctrl.selectedFisher = selection;
-            requestData();
+
+            let currentResponseObs = [];
+
+            if (ctrl.selectedFisher === "All") {
+                currentResponseObs = rawResponseObs;
+            } else {
+                currentResponseObs[0] = angular.copy(rawResponseObs[0]
+                    .filter(item => item.fisher_name === ctrl.selectedFisher));
+
+                currentResponseObs[1] = angular.copy(rawResponseObs[1]);
+
+                // Filter out the summaries
+                let oldIncome = currentResponseObs[1];
+                let newIncome = [];
+
+                for (let i = 0; i < oldIncome.length; i++) {
+                    // Start building new summaries
+                    let newSummaries = [];
+
+                    for (let j = 0; j < oldIncome[i].summaries.length; j++) {
+                        if (oldIncome[i].summaries[j].fisher_name === ctrl.selectedFisher) {
+                            newSummaries.push(oldIncome[i].summaries[j]);
+                        }
+                    }
+
+                    // Only push into the new income object if
+                    // there is a summary available for that fisher
+                    if (newSummaries.length !== 0) {
+                        newIncome.push({
+                            "key" : oldIncome[i].key,
+                            "summaries" : newSummaries,
+                            "total" : newSummaries
+                                .map(item => item.total)
+                                .reduce((sum, summary) => sum + summary)
+                        })
+                    }
+                }
+
+                currentResponseObs[1] = newIncome;
+            }
+
+            // Map the data from the results
+            expensesResponseDataObs = Rx.Observable
+                .from(currentResponseObs[0]);
+            incomeResponseDataObs = Rx.Observable
+                .from(currentResponseObs[1]);
+
+            // Set the months in the list
+            collectMonths(expensesResponseDataObs, incomeResponseDataObs);
+
+            // Update the available data
+            updateData();
         };
 
         ctrl.intervalChange = function(selection) {
@@ -131,6 +207,9 @@
                     ctrl.selectedMonth = ctrl.months[index];
                     ctrl.monthChange(ctrl.selectedMonth);
                 });
+
+                // applyScope();
+
         }
 
         function updateData(){
@@ -153,6 +232,8 @@
                     ctrl.income = data[1];
                     // $state.reload();
                 });
+
+            applyScope();
         }
 
         const collectExpensesTotals = function(acc, entry){
@@ -207,16 +288,44 @@
             return (isEmpty(expensesResponseDataObs) || isEmpty(incomeResponseDataObs));
         };
 
+        ctrl.calcluateExpenseKey = function(input) {
+            let month = input.month;
+            let year = input.year;
+
+            return `${year}-${month}`
+        };
+
 
         const showError = function(err) {
             console.log(`Error: ${JSON.stringify(err, null, 4)}`);
             ctrl.loading = false;
+            applyScope();
             // refreshBus.post(false);
         };
 
-        ctrl.errorToast = function (error) {
-            alert("Error!" , error);
+        function applyScope() {
+            try {
+                $scope.$apply();
+            } catch (ex) {
+                console.log("Scope apply already in progress!");
+            }
         }
+
+        ctrl.printify = function(input) {
+            return JSON.stringify(input, null, 4)
+        };
+
+        ctrl.errorToast = function (error) {
+            // alert("Error!" , error);
+        };
+
+        ctrl.getExpenseData = function () {
+            return expensesResponseDataObs;
+        };
+
+        ctrl.getIncomedata = function () {
+            return incomeResponseDataObs;
+        };
 
     }
 

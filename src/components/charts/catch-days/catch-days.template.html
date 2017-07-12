@@ -1,6 +1,14 @@
 <ion-view ng-controller="catchDaysController as $ctrl" view-title="Fishing Days">
     <ion-content class="padding">
 
+        <div class="cs-spacer"></div>
+        <button class="btn-main" ng-click="$ctrl.printDebugData()">
+            Print Debug Data
+        </button>
+        <button class="btn-main" ng-click="$ctrl.requestFreshData()">
+            Force Refresh
+        </button>
+
         <div ng-show="$ctrl.loading">
             <div class="cs-loader-container">
                 <div class="cs-loader">
@@ -23,12 +31,7 @@
         </div>
 
         <div class="cs-spacer"></div>
-        <button class="btn-main" ng-click="$ctrl.printDebugData()">
-            Print Debug Data
-        </button>
-        <button class="btn-main" ng-click="$ctrl.requestFreshData()">
-            Force Refresh
-        </button>
+
 
 
 

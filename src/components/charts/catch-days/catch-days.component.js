@@ -37,19 +37,24 @@
 
         function requestData() {
             ctrl.loading = true;
-            sfdata.queryCatchDays(handleResponse, showError, false);
+            sfdata.queryCatchDays(false)
+                .then(handleResponse)
+                .catch(showError);
         }
 
         ctrl.requestFreshData = function() {
             ctrl.loading = true;
-            sfdata.queryCatchDays(handleResponse, showError, true);
+            sfdata.queryCatchDays(true)
+                .then(handleResponse)
+                .catch(showError);
         };
 
         const handleResponse = function(result){
             console.log("Received response for fishing days! Handling now...");
             console.log("RESULT: " + result.toString());
             console.log(JSON.stringify(result));
-            responseObs = result;
+            ctrl.isManager = result.isManager;
+            responseObs = result.results;
             // refreshBus.post(false);
             ctrl.loading = false;
             if (result !== undefined && result !== null) {
@@ -81,6 +86,8 @@
                     console.log("###catch days data");
                     console.log(data);
                 });
+
+            $scope.$apply();
         };
 
         function resetLocalVariables(){

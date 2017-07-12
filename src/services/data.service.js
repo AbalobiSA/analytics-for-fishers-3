@@ -152,12 +152,6 @@
             return new Promise((resolve, reject) => {
                 let access_token = localStorage.getItem('access_token');
                 let endpoint = "/api/analytics/expenses_income";
-                // console.log("Debug: Querying catches over time: " + interval);
-                // console.log("Debug: Access token: " + access_token);
-
-                // let expensesIncomehByTimePeriod_yearly;
-                // let expensesIncomehByTimePeriod_monthly;
-                // let expensesIncomehByTimePeriod_weekly;
 
                 if (refreshData || handleIncomeExpense(interval)) {
                     console.log("MAKING REQUEST: " + interval);
@@ -174,13 +168,13 @@
                         // console.log("DEBUG: SHOWING RESPONSE " + JSON.stringify(response, null, 4));
 
                         switch (interval.toLowerCase()) {
-                            case "weekly" : expensesIncomehByTimePeriod_weekly = (response.data);
+                            case "weekly" : expensesIncomehByTimePeriod_weekly = (response);
                                 resolve(expensesIncomehByTimePeriod_weekly);
                                 break;
-                            case "monthly" : expensesIncomehByTimePeriod_monthly = (response.data);
+                            case "monthly" : expensesIncomehByTimePeriod_monthly = (response);
                                 resolve(expensesIncomehByTimePeriod_monthly);
                                 break;
-                            case "yearly" : expensesIncomehByTimePeriod_yearly = (response.data);
+                            case "yearly" : expensesIncomehByTimePeriod_yearly = (response);
                                 resolve(expensesIncomehByTimePeriod_yearly);
                                 break;
                             default:
@@ -269,34 +263,38 @@
             }
         }
 
-        function queryCatchDays(successCB, errorCB, refreshData) {
-            let access_token = localStorage.getItem('access_token');
-            let endpoint = "/api/analytics/catch_days";
-            // console.log("Debug: Querying catches over time: " + interval);
-            // console.log("Debug: Access token: " + access_token);
+        function queryCatchDays(refreshData) {
+            return new Promise((resolve, reject) => {
+                let access_token = localStorage.getItem('access_token');
+                let endpoint = "/api/analytics/catch_days";
+                // console.log("Debug: Querying catches over time: " + interval);
+                // console.log("Debug: Access token: " + access_token);
 
-            if (refreshData || catchDaysData === undefined) {
-                console.log("MAKING REQUEST: Catch days data");
-                $http({
-                    method: 'GET',
-                    url: SERVER_IP + endpoint,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'access_token' : access_token
-                    }
-                }).then((response) => {
-                    console.log("DEBUG: Loggin data");
-                    console.log(JSON.stringify(response.data));
-                    catchDaysData = (response.data);
-                    // console.log(JSON.stringify(response.data, null, 4));
-                    successCB(catchDaysData);
-                }, (error) => {
-                    errorCB(error);
-                });
-            }
-            else {
-                successCB(catchDaysData);
-            }
+                if (refreshData || catchDaysData === undefined) {
+                    catchDaysData = undefined;
+                    console.log("MAKING REQUEST: Catch days data");
+                    $http({
+                        method: 'GET',
+                        url: SERVER_IP + endpoint,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'access_token' : access_token
+                        }
+                    }).then((response) => {
+                        console.log("DEBUG: Loggin data");
+                        console.log(JSON.stringify(response.data));
+                        catchDaysData = (response.data);
+                        // console.log(JSON.stringify(response.data, null, 4));
+                        resolve(catchDaysData);
+                    }, (error) => {
+                        reject(error);
+                    });
+                }
+                else {
+                    resolve(catchDaysData);
+                }
+            });
+
         }
 
         function getEmailAddress(success, errorCB, refreshData) {
