@@ -47,7 +47,7 @@
                 </label>
             </div>
 
-            <div class="finance-content">
+            <div class="finance-content" ng-if="$ctrl.showChart === false">
                 <!--Show income & expenses-->
                 <div class="card" ng-if="$ctrl.expenses || $ctrl.income">
                     <div class="item infoEntryHeader">
@@ -104,6 +104,10 @@
                 </div>
             </div>
 
+            <div id="canvas-holder" style="width:100%" ng-hide="$ctrl.showChart === false">
+                <canvas id="chart-area"></canvas>
+            </div>
+
             <!--<div>-->
                 <!--<h2>Debug Information</h2>-->
                 <!--<h3>Expenses Info</h3>-->
@@ -118,10 +122,10 @@
     </ion-content>
 
     <div class="tabs">
-        <a class="tab-item" ng-click="$ctrl.toggleChartView()">
+        <a class="tab-item" ng-click="$ctrl.toggleChartView(false)">
             <b>List</b>
         </a>
-        <a class="tab-item" ng-click="$ctrl.toggleChartView()">
+        <a class="tab-item" ng-click="$ctrl.toggleChartView(true)">
             <b>Chart</b>
         </a>
     </div>
