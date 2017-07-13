@@ -21,6 +21,8 @@
             stateService.setUsername(username);
             stateService.setPassword(password);
 
+            localStorage.setItem('lastUsername', username);
+
             angularAuth0.login({
                 connection: 'Username-Password-Authentication',
                 responseType: 'token',
