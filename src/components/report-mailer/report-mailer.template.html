@@ -3,34 +3,45 @@
 
         <div class="cs-spacer"></div>
 
-        <div class="list">
-            <label class="item item-input item-select">
-                <div class="input-label">
-                    Generate report for?
+        <!--<div ng-show="">-->
+            <!--<h5>Fetching your email address...</h5>-->
+        <!--</div>-->
+
+        <div ng-show="$ctrl.loading">
+            <div class="cs-loader-container">
+                <div class="cs-loader">
                 </div>
-                <select>
-                    <option>Blue</option>
-                    <option selected>Green</option>
-                    <option>Red</option>
-                </select>
-            </label>
+            </div>
+            <h4 class="text-center">Loading...</h4>
         </div>
 
-        <div id="mailer-address-input">
-            <label class="item item-input">
-                <span class="input-label">Address to email data to?:</span>
-                <input type="email" data-ng-model="$ctrl.email">
-            </label>
-            <div ng-show="$ctrl.loading">
-                <h5>Fetching your email address...</h5>
+        <div ng-show="!$ctrl.loading">
+            <div class="list" ng-show="$ctrl.showManagerList">
+                <label class="item item-input item-select">
+                    <div class="input-label">
+                        Generate report for?
+                    </div>
+                    <select ng-model="$ctrl.selectedReportUser" ng-options="item.Name for item in $ctrl.managedUsers">
+                    </select>
+                </label>
             </div>
 
-            <div class="cs-spacer"></div>
-            <button class="button button-dark button-block" ng-click="$ctrl.send()">Send</button>
-            <p ng-show="$ctrl.emailSending">Generating report...</p>
-            <p ng-if="$ctrl.requestStatus > 0">Your report will be sent to the email provided shortly</p>
-            <p ng-if="$ctrl.requestStatus < 0">There was an error generating and sending your report</p>
+            <div id="mailer-address-input">
+                <label class="item item-input">
+                    <span class="input-label">Address to email data to?:</span>
+                    <input type="email" data-ng-model="$ctrl.email">
+                </label>
+
+
+                <div class="cs-spacer"></div>
+                <button class="button button-dark button-block" ng-click="$ctrl.send()">Send</button>
+                <p ng-show="$ctrl.emailSending">Generating report...</p>
+                <p ng-if="$ctrl.requestStatus > 0">Your report will be sent to the email provided shortly</p>
+                <p ng-if="$ctrl.requestStatus < 0">There was an error generating and sending your report</p>
+            </div>
         </div>
+
+
 
 
     </ion-content>

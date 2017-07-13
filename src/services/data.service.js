@@ -41,6 +41,7 @@
 
         let mainUserEmailAddress;
         let mainUserAbalobiId;
+        let managedUsers;
 
         const TIME_INTERVALS = ["Yearly", "Monthly", "Weekly"];
         const QUANTITY_AGGREGATION_TYPES = ["Items", "Weight", "Crates"];
@@ -311,7 +312,7 @@
                         console.log(JSON.stringify(response, null, 4));
                         mainUserEmailAddress = (response.data[0].Email);
                         mainUserAbalobiId = response.data[0].Id;
-                        resolve(mainUserEmailAddress, mainUserAbalobiId);
+                        resolve([mainUserEmailAddress, mainUserAbalobiId]);
                     }, (error) => {
                         reject(error);
                     });
@@ -320,6 +321,24 @@
                     resolve(mainUserEmailAddress, mainUserAbalobiId);
                 }
             });
+        }
+
+        function getManagerUsers() {
+
+            console.log("Making request: Managed users");
+
+            let access_token = localStorage.getItem('access_token');
+            let endpoint = "/api/analytics/manager_users";
+
+            let options = {
+                method: 'GET',
+                url: SERVER_IP + endpoint,
+                params: {
+                    'access_token' : access_token
+                }
+            };
+
+            return $http(options);
         }
 
 /*============================================================================
@@ -418,6 +437,7 @@
             queryEvolutionOfPrices: queryEvolutionOfPrices,
             queryCatchDays: queryCatchDays,
             getEmailAddress: getEmailAddress,
+            getManagerUsers: getManagerUsers,
 
             TIME_INTERVALS: TIME_INTERVALS,
             QUANTITY_AGGREGATION_TYPES: QUANTITY_AGGREGATION_TYPES,
