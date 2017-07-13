@@ -10,7 +10,7 @@
     function LoginController(authService, stateService) {
         let vm = this;
 
-        vm.username = "";
+        vm.username = localStorage.getItem('lastUsername') || "";
         vm.password = "";
         vm.rememberMe = false;
 
