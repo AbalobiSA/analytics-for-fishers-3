@@ -15,6 +15,7 @@
         const ctrl = this;
         const sfdata = dataService;
         let responseObs, rawResponseObs;
+        let showChart = false;
 
         ctrl.loading = false;
         ctrl.intervals = sfdata.TIME_INTERVALS.slice(1, 2);
@@ -42,6 +43,10 @@
                 requestData();
             }
         });
+
+        ctrl.toggleChartView = function () {
+            this.showChart = !showChart;
+        };
 
         function requestData(){
             ctrl.loading = true;

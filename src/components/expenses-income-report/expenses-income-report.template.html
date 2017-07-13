@@ -1,5 +1,5 @@
 <ion-view view-title="Expenses & Income" ng-controller="expensesIncomeReportController as $ctrl">
-    <ion-content class="padding">
+    <ion-content class="padding has-tabs">
         <!--Manual refresh button-->
         <!--<button class="btn-main" ng-click="$ctrl.requestFreshData()">Force refresh</button>-->
         <button class="btn-main" ng-click="$ctrl.requestFreshData()">Refresh Data
@@ -115,8 +115,14 @@
 
 
         </div>
-
-
     </ion-content>
 
+    <div class="tabs">
+        <a class="tab-item" ng-click="$ctrl.toggleChartView()">
+            <b>List</b>
+        </a>
+        <a class="tab-item" ng-click="$ctrl.toggleChartView()">
+            <b>Chart</b>
+        </a>
+    </div>
 </ion-view>
