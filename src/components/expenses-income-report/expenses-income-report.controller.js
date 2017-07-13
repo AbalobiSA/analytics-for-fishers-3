@@ -15,6 +15,7 @@
         const ctrl = this;
         const sfdata = dataService;
         let responseObs, rawResponseObs;
+        ctrl.showChart = false;
 
         ctrl.loading = false;
         ctrl.intervals = sfdata.TIME_INTERVALS.slice(1, 2);
@@ -35,6 +36,30 @@
         ctrl.fisherList = sfdata.BASE_FISHER_LIST;
         ctrl.selectedFisher = null;
 
+        // Pie chart config
+        ctrl.chartConfig = {
+            type: 'pie',
+            data: {
+                datasets: [{
+                    backgroundColor: [
+                        '#ff6384',
+                        '#36a2eb',
+                        '#cc65fe',
+                        '#ffce56',
+                        '#dcd0d8'
+                    ],
+                    label: 'Incomes and Expenses'
+                }]
+            },
+            options: {
+                legend: {
+                    // Disables the removal of data when legend items are clicked
+                    onClick: function(event, legendItem) {}
+                },
+                responsive: true
+            }
+        };
+
         $scope.$on('$ionicView.enter', function() {
             resetLocalVariables();
             if (!ctrl.loading) {
@@ -42,6 +67,10 @@
                 requestData();
             }
         });
+
+        ctrl.toggleChartView = function (val) {
+            this.showChart = val;
+        };
 
         function requestData(){
             ctrl.loading = true;
@@ -58,6 +87,28 @@
         };
 
         ctrl.requestData = requestData;
+
+        const buildChartConfig = function (expense, income) {
+            let labels = [];
+            let datasets = [];
+
+            // Expenses
+            let costs = Object.keys(expense).filter(prop => prop.startsWith("cost_"));
+            for (let i = 0; i < costs.length; i = i + 1) {
+                if (expense[costs[i]] > 0) {
+                    // Prettify label text
+                    let parts = costs[i].split('_');
+                    parts = parts.slice(1);
+                    parts = parts.map(part => [String(part).substring(0, 1).toUpperCase(), String(part).substring(1)].join(''));
+
+                    labels.push(parts.join(' '));
+                    datasets.push(expense[costs[i]]);
+                }
+            }
+
+            ctrl.chartConfig.data.labels = labels;
+            ctrl.chartConfig.data.datasets[0].data = datasets;
+        };
 
         const handleFisherListResponse = function (fList) {
             if(ctrl.isManager){
@@ -99,14 +150,11 @@
                     // Default selection to All
                     ctrl.selectedFisher = ctrl.fisherList[0];
 
-
-
                     // Map the data from the results
                     expensesResponseDataObs = Rx.Observable
                         .from(currentResults[0]);
                     incomeResponseDataObs = Rx.Observable
                         .from(currentResults[1]);
-
                 } catch (ex) {
                     console.log(ex);
                     ctrl.loading = false;
@@ -236,6 +284,15 @@
                     ctrl.income = data[1];
                     // $state.reload();
                 });
+
+            try {
+                // Create the graph
+                buildChartConfig(ctrl.expenses, ctrl.income);
+                let ctx = document.getElementById("chart-area").getContext("2d");
+                window.myPie = new Chart(ctx, ctrl.chartConfig);
+            } catch (e) {
+                console.log(e);
+            }
 
             applyScope();
         }
