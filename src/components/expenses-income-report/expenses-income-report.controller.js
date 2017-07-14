@@ -46,6 +46,7 @@
                         '#36a2eb',
                         '#cc65fe',
                         '#ffce56',
+                        '#ff8f00',
                         '#dcd0d8'
                     ],
                     label: 'Incomes and Expenses'
