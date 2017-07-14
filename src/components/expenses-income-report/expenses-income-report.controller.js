@@ -60,6 +60,9 @@
             }
         };
 
+        let ctx = document.getElementById("chart-area").getContext("2d");
+        window.myPie = new Chart(ctx, ctrl.chartConfig);
+
         $scope.$on('$ionicView.enter', function() {
             resetLocalVariables();
             if (!ctrl.loading) {
@@ -288,8 +291,7 @@
             try {
                 // Create the graph
                 buildChartConfig(ctrl.expenses, ctrl.income);
-                let ctx = document.getElementById("chart-area").getContext("2d");
-                window.myPie = new Chart(ctx, ctrl.chartConfig);
+                window.myPie.update();
             } catch (e) {
                 console.log(e);
             }
