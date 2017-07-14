@@ -46,6 +46,7 @@
                         '#36a2eb',
                         '#cc65fe',
                         '#ffce56',
+                        '#ff8f00',
                         '#dcd0d8'
                     ],
                     label: 'Incomes and Expenses'
@@ -59,6 +60,9 @@
                 responsive: true
             }
         };
+
+        let ctx = document.getElementById("chart-area").getContext("2d");
+        window.myPie = new Chart(ctx, ctrl.chartConfig);
 
         $scope.$on('$ionicView.enter', function() {
             resetLocalVariables();
@@ -288,8 +292,7 @@
             try {
                 // Create the graph
                 buildChartConfig(ctrl.expenses, ctrl.income);
-                let ctx = document.getElementById("chart-area").getContext("2d");
-                window.myPie = new Chart(ctx, ctrl.chartConfig);
+                window.myPie.update();
             } catch (e) {
                 console.log(e);
             }
