@@ -16,6 +16,7 @@
         ctrl.loading = false;
         ctrl.emailSending = false;
         ctrl.showManagerList = false;
+        ctrl.validEmail = false;
         let userId;
         let mainEmailAddress;
 
@@ -89,8 +90,10 @@
             console.log("RETURNED ID: " + Id);
             if (emailIsInvalid(email)) {
                 mainEmailAddress = "";
+                ctrl.validEmail = false;
             } else {
                 mainEmailAddress = email;
+                ctrl.validEmail = true;
             }
             ctrl.mainUserId = Id;
             ctrl.email = mainEmailAddress;

@@ -9,6 +9,9 @@
             Refresh Data
         </button>
 
+        <!--<pre>Raw data: {{$ctrl.rawData()}}</pre>-->
+        <!--<pre>Raw Data 2: {{$ctrl.rawDataMap()}}</pre>-->
+
         <div class="list" ng-if="$ctrl.isManager == true">
             <label class="item item-input item-select">
                 <div class="input-label">
@@ -64,6 +67,12 @@
                                    width=$ctrl.cWidth height=400>
                 </stacked-bar-chart>
             </div>
+
+            <div class="cs-spacer">
+
+            </div>
+
+
         </div>
 
         <div class="card" ng-show="!$ctrl.loading && $ctrl.dataMap === undefined">
@@ -75,6 +84,8 @@
         <loading-overlay loading="$ctrl.loading">
 
         </loading-overlay>
+
+
 
 
     </ion-content>

@@ -3,10 +3,6 @@
 
         <div class="cs-spacer"></div>
 
-        <!--<div ng-show="">-->
-            <!--<h5>Fetching your email address...</h5>-->
-        <!--</div>-->
-
         <div ng-show="$ctrl.loading">
             <div class="cs-loader-container">
                 <div class="cs-loader">
@@ -32,6 +28,12 @@
                     <input type="email" data-ng-model="$ctrl.email">
                 </label>
 
+                <div class="card" ng-if="">
+                    <div class="item item-text-wrap">
+                        Please note: your abalobi username is not a valid email address -
+                        please use a real email address.
+                    </div>
+                </div>
 
                 <div class="cs-spacer"></div>
                 <button class="button button-dark button-block" ng-click="$ctrl.send()">Send</button>
@@ -40,10 +42,6 @@
                 <p ng-if="$ctrl.requestStatus < 0">There was an error generating and sending your report</p>
             </div>
         </div>
-
-
-
-
     </ion-content>
 </ion-view>
 
