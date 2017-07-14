@@ -199,23 +199,14 @@
                 .map(summedRecords => {
                     return createRecord(monthObs.key, summedRecords);
                 });
-
-
-            // .reduce ( (acc, entry) => { }, records )
         }
 
         function collectTotal(acc, entry){
-            console.log(entry);
-            console.log(acc);
-            // acc.set(entry.species, entry[ctrl.selectedCalculationMethod.toLowerCase()]);
-            console.log(acc.get(entry.species));
             if (typeof acc.get(entry.species) === "number") {
-                console.log("WOJSFOIDJSFSIDJFOIS");
                 acc.set(entry.species, acc.get(entry.species) + entry[ctrl.selectedCalculationMethod.toLowerCase()] );
             } else {
                 acc.set(entry.species, entry[ctrl.selectedCalculationMethod.toLowerCase()]);
             }
-            // acc.
 
             return acc;
         }
