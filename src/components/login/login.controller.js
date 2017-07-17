@@ -33,6 +33,14 @@
             return !!(isNull(vm.username) || isNull(vm.password));
         }
 
+        vm.getAuthId = function() {
+            return AUTH0_CLIENT_ID;
+        };
+
+        vm.getAuthDomain = function() {
+            return AUTH0_DOMAIN;
+        };
+
         function isNull(input) {
             // console.log("Checking: " + input);
             // console.log("Value: " input);

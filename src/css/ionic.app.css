@@ -9862,18 +9862,23 @@ a.button, a.btn-main {
 .cs-spacer {
   height: 20px; }
 
+.cs-allow-scroll {
+  overflow-y: scroll; }
+
 .cs-scroll-container {
   position: relative;
   height: 1000px;
   width: 100%; }
 
 .cs-scroller {
+  overflow-x: scroll;
   position: absolute;
   height: 100%;
   width: 100%; }
 
-.cs-allow-scroll {
-  overflow-y: scroll; }
+.wide-as-needed {
+  overflow: scroll;
+  white-space: nowrap; }
 
 /*============================================================================
     Shadows

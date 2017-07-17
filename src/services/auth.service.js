@@ -24,7 +24,7 @@
             localStorage.setItem('lastUsername', username);
 
             angularAuth0.login({
-                connection: 'Username-Password-Authentication',
+                connection: 'AbalobiUsers',
                 responseType: 'token',
                 popup: true,
                 email: username,
@@ -34,7 +34,7 @@
 
         function signup(username, password) {
             angularAuth0.signup({
-                connection: 'Username-Password-Authentication',
+                connection: 'AbalobiUsers',
                 responseType: 'token',
                 popup: true,
                 email: username,
