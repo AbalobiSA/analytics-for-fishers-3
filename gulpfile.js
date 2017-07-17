@@ -11,6 +11,7 @@ let plumber = require('gulp-plumber');
 let browserify = require('browserify');
 let path = require('path');
 let source = require('vinyl-source-stream');
+let glob = require('glob');
 
 let paths = {
     sass: ['./src/scss/**/*.scss'],
@@ -18,7 +19,6 @@ let paths = {
     ngsrc: [
         './src/app.js',
         './src/app.routes.js',
-        './src/app.run.js',
         './src/services/*.js',
         './src/components/**/*.js',
         './src/components/**/**/*.js'
@@ -43,8 +43,8 @@ gulp.task('default', ['browserify', 'babel', 'sass']);
 // });
 
 gulp.task('watch', function () {
-    gulp.watch(paths.sass, ['devsass']);
-    gulp.watch("src/app.js", ['browserify']);
+    gulp.watch(paths.sass, ['sass']);
+    gulp.watch(paths.src, ['browserify']);
 });
 
 /*============================================================================
@@ -112,9 +112,17 @@ gulp.task('browserify', /*['lint', 'unit'],*/ function () {
     const dist = "src";
     const componentsDist = path.join(dist, "browserify");
 
-    return browserify('src/' + 'app.js')
+    let rootFiles = glob.sync('./src/*.js');
+    let services = glob.sync('./src/services/*.js');
+    let components_lvl_1 = glob.sync('./src/components/*.js');
+    let components_lvl_2 = glob.sync('./src/components/**/*.js');
+
+    let allFiles = rootFiles.concat(services, components_lvl_1, components_lvl_2);
+
+
+    return browserify(allFiles)
         .bundle()
-        .pipe(source('app.js'))
+        .pipe(source('bundle.js'))
         .pipe(plumber())
         .pipe(
             gulp.dest(componentsDist)
