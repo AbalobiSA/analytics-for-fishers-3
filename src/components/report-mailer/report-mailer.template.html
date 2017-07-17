@@ -12,19 +12,21 @@
         </div>
 
         <div ng-show="!$ctrl.loading">
+            <div class="cs-label">Select fisher:</div>
             <div class="list" ng-show="$ctrl.showManagerList">
                 <label class="item item-input item-select">
                     <div class="input-label">
-                        Generate report for?
+                        Fisher
                     </div>
                     <select ng-model="$ctrl.selectedReportUser" ng-options="item.Name for item in $ctrl.managedUsers">
                     </select>
                 </label>
             </div>
 
+            <div class="cs-label">Address to email data to?:</div>
             <div id="mailer-address-input">
                 <label class="item item-input">
-                    <span class="input-label">Address to email data to?:</span>
+
                     <input type="email" data-ng-model="$ctrl.email">
                 </label>
 
