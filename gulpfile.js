@@ -8,10 +8,23 @@ let rename = require('gulp-rename');
 let sh = require('shelljs');
 let babel = require('gulp-babel');
 let plumber = require('gulp-plumber');
+let browserify = require('browserify');
+let path = require('path');
+let source = require('vinyl-source-stream');
 
 let paths = {
     sass: ['./src/scss/**/*.scss'],
-    src: ['./src/**']
+    src: ['./src/**'],
+    ngsrc: [
+        './src/app.js',
+        './src/app.routes.js',
+        './src/app.run.js',
+        './src/services/*.js',
+        './src/components/**/*.js',
+        './src/components/**/**/*.js'
+    ],
+    ngdist: './src/browserify',
+    ngMain: './src'
 };
 
 /*============================================================================
@@ -19,19 +32,19 @@ let paths = {
  ============================================================================*/
 gulp.task("serve:before", ['default']);
 
-gulp.task('default', ['babel', 'sass']);
+gulp.task('default', ['browserify', 'babel', 'sass']);
 
 /*============================================================================
     Watch Tasks
  ============================================================================*/
-gulp.task('watch', function () {
-    gulp.watch(paths.sass, ['sass']);
-    gulp.watch(paths.src, ['babel']);
-});
+// gulp.task('watch', function () {
+//     gulp.watch(paths.sass, ['sass']);
+//     gulp.watch(paths.src, ['babel']);
+// });
 
-gulp.task('devwatch', function () {
+gulp.task('watch', function () {
     gulp.watch(paths.sass, ['devsass']);
-    // gulp.watch(paths.src, ['babel']);
+    gulp.watch("src/app.js", ['browserify']);
 });
 
 /*============================================================================
@@ -91,16 +104,33 @@ gulp.task('git-check', function (done) {
     done();
 });
 
+/*============================================================================
+    Browserify
+ ============================================================================*/
+gulp.task('browserify', /*['lint', 'unit'],*/ function () {
+
+    const dist = "src";
+    const componentsDist = path.join(dist, "browserify");
+
+    return browserify('src/' + 'app.js')
+        .bundle()
+        .pipe(source('app.js'))
+        .pipe(plumber())
+        .pipe(
+            gulp.dest(componentsDist)
+        );
+});
+
 
 /*============================================================================
     Babel
  ============================================================================*/
 
 gulp.task('babel', function () {
-    let path = require('path');
     const dist = "www";
     const componentsDist = path.join(dist, "components");
     const jsDist = path.join(dist, "js");
+    const bsfyDist = path.join(dist, "browserify");
     const partialsDist = path.join(dist, "partials");
 
 /*============================================================================
@@ -135,6 +165,13 @@ gulp.task('babel', function () {
             presets: ['es2015']
         }))
         .pipe(gulp.dest(jsDist));
+
+    gulp.src('src/browserify/*.js')
+        .pipe(plumber())
+        .pipe(babel({
+            presets: ['es2015']
+        }))
+        .pipe(gulp.dest(bsfyDist));
 
 
 /*============================================================================

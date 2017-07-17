@@ -70,6 +70,7 @@
                 onAuthenticated(null, result);
             } else if (result && result.error) {
                 onAuthenticated(result.error);
+                console.log(JSON.stringify(result));
             }
         }
 
