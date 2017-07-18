@@ -7,10 +7,12 @@
         .controller('expensesIncomeReportController', expensesIncomeReportController);
 
     expensesIncomeReportController.$inject = ['$state', '$scope', '$http',
-        '$rootScope','authService', 'stateService', 'dataService', 'StringUtil', 'ResultsUtil'];
+        '$rootScope','authService', 'stateService', 'dataService',
+        'StringUtil', 'ResultsUtil', '$ionicPlatform'];
 
     function expensesIncomeReportController($state, $scope, $http,
-                                         $rootScope, authService, stateService, dataService, StringUtil, ResultsUtil) {
+         $rootScope, authService, stateService, dataService,
+            StringUtil, ResultsUtil, $ionicPlatform) {
 
         const ctrl = this;
         const sfdata = dataService;
