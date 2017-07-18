@@ -63,9 +63,6 @@
             }
         };
 
-        let ctx = document.getElementById("chart-area").getContext("2d");
-        window.myPie = new Chart(ctx, ctrl.chartConfig);
-
 /*============================================================================
         Ionic Methods
  ============================================================================*/
@@ -87,9 +84,9 @@
 
             if (val === true) {
                 let ctx = document.getElementById("chart-area").getContext("2d");
-                window.myPie = new Chart(ctx, ctrl.chartConfig);
+                ctrl.myPie = new Chart(ctx, ctrl.chartConfig);
             } else {
-                window.myPie.destroy();
+                ctrl.myPie.destroy();
             }
         };
 
@@ -181,10 +178,8 @@
 
                     console.log("Mapping the data now...");
                     // Map the data from the results
-                    expensesResponseDataObs = Rx.Observable
-                        .from(currentResults[0]);
-                    incomeResponseDataObs = Rx.Observable
-                        .from(currentResults[1]);
+                    expensesResponseDataObs = Rx.Observable.from(currentResults[0]);
+                    incomeResponseDataObs = Rx.Observable.from(currentResults[1]);
                 } catch (ex) {
                     console.log(ex);
                     console.log(ex.toString());
@@ -248,10 +243,8 @@
             }
 
             // Map the data from the results
-            expensesResponseDataObs = Rx.Observable
-                .from(currentResponseObs[0]);
-            incomeResponseDataObs = Rx.Observable
-                .from(currentResponseObs[1]);
+            expensesResponseDataObs = Rx.Observable.from(currentResponseObs[0]);
+            incomeResponseDataObs = Rx.Observable.from(currentResponseObs[1]);
 
             // Set the months in the list
             collectMonths(expensesResponseDataObs, incomeResponseDataObs);
@@ -269,36 +262,30 @@
         };
 
         function collectMonths(expensesObs, incomeObs) {
-            console.log("Populating lists with available months");
             let expMonths = expensesObs.map(record => sfdata.groupByInterval(ctrl.selectedInterval, record));
             let incMonths = incomeObs.map(record => record.key);
-            console.log(expMonths);
-            console.log(incMonths);
 
-            // try{
-                let newMonths1 = expMonths.concat(incMonths)
-                    .toArray()
-                    .map(months => new Set(months).values())
-                    .map(monthSetIterable => Array.from(monthSetIterable));
+            let newMonths1 = expMonths.concat(incMonths)
+                .toArray()
+                .map(months => new Set(months).values())
+                .map(monthSetIterable => Array.from(monthSetIterable));
 
-                console.log("Doing FlatMap...");
-                newMonths1.flatMap( arr => Rx.Observable.from(arr))
-                    .map( x => convertToDate(x))
-                    .toArray()
-                    .map(months => months.sort(ResultsUtil.dateComparator))
-                    .map(months => months.reverse())
-                    .map(months => months.map(convertToDateString))
-                    .subscribe(months => {
-                        console.log(`Logging months: \n${months}`);
-                        ctrl.months = months;
-                        let index = ctrl.months.indexOf(ctrl.selectedMonth);
-                        if(index < 0) { index = 0; }
-                        ctrl.selectedMonth = ctrl.months[index];
-                        ctrl.monthChange(ctrl.selectedMonth);
-                    });
-            // } catch (ex) {
-            //     console.log("DAMN YOU RXJS!!!!!!\n" + ex.toString());
-            // }
+            newMonths1.flatMap( arr => Rx.Observable.from(arr))
+                .map( x => convertToDate(x))
+                .toArray()
+                .map(months => months.sort(ResultsUtil.dateComparator))
+                .map(months => months.reverse())
+                .map(months => months.map(convertToDateString))
+                .subscribe(months => {
+                    ctrl.months = months;
+                    let index = ctrl.months.indexOf(ctrl.selectedMonth);
+                    if (index < 0) {
+                        index = 0;
+                    }
+
+                    ctrl.selectedMonth = ctrl.months[index];
+                    ctrl.monthChange(ctrl.selectedMonth);
+                });
         }
 
         function updateData(){
@@ -326,7 +313,7 @@
                 // Update the graph
                 buildChartConfig(ctrl.expenses, ctrl.income);
                 if (ctrl.showChart === true) {
-                    window.myPie.update();
+                    ctrl.myPie.update();
                 }
             } catch (e) {
                 console.log(e);
