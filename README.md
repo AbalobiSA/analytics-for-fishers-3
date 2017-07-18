@@ -26,14 +26,28 @@ Clone this repo.
     
 Create the dist files for the first time:
 
-    $ gulp babel
-    $ gulp sass
+    $ gulp
     
 You should now be ready to go! To serve, use
 
-    $ gulp watch
+    $ gulp devwatch
     
 Open a second terminal, and use 
 
     $ npm start
     
+## Deploying on a mobile device
+
+You will have to edit your `ionic.config.json`.
+
+Change the `documentRoot: ` entry to `123documentRoot` so that it 
+becomes invalid. This will ensure ionic will create a build of the app
+from your www folder.
+
+Then, do the following:
+
+    $ gulp
+    $ ionic cordova prepare
+    
+Now, open Android Studio, import the `platforms/android` folder as a 
+gradle project, build & run on your device.
