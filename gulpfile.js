@@ -25,7 +25,7 @@ let paths = {
 gulp.task("serve:before", ['default']);
 gulp.task('default', function(done) {
     runSequence('browserify', 'sass', 'babel', function() {
-        console.log('Run something else');
+        // console.log('Run something else');
         done();
     });
 });

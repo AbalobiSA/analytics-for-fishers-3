@@ -10,90 +10,11 @@
         '$rootScope','authService', 'stateService', 'dataService',
         'StringUtil', 'ResultsUtil', '$ionicPlatform'];
 
-    // if (!Array.from) {
-    //     console.log('DANGER!! Array.from does not exist!!');
-    //
-    //     Array.from = (function () {
-    //         var toStr = Object.prototype.toString;
-    //         var isCallable = function (fn) {
-    //             return typeof fn === 'function' || toStr.call(fn) === '[object Function]';
-    //         };
-    //         var toInteger = function (value) {
-    //             var number = Number(value);
-    //             if (isNaN(number)) { return 0; }
-    //             if (number === 0 || !isFinite(number)) { return number; }
-    //             return (number > 0 ? 1 : -1) * Math.floor(Math.abs(number));
-    //         };
-    //         var maxSafeInteger = Math.pow(2, 53) - 1;
-    //         var toLength = function (value) {
-    //             var len = toInteger(value);
-    //             return Math.min(Math.max(len, 0), maxSafeInteger);
-    //         };
-    //
-    //         // The length property of the from method is 1.
-    //         return function from(arrayLike/*, mapFn, thisArg */) {
-    //             // 1. Let C be the this value.
-    //             var C = this;
-    //
-    //             // 2. Let items be ToObject(arrayLike).
-    //             var items = Object(arrayLike);
-    //
-    //             // 3. ReturnIfAbrupt(items).
-    //             if (arrayLike == null) {
-    //                 throw new TypeError("Array.from requires an array-like object - not null or undefined");
-    //             }
-    //
-    //             // 4. If mapfn is undefined, then let mapping be false.
-    //             var mapFn = arguments.length > 1 ? arguments[1] : void undefined;
-    //             var T;
-    //             if (typeof mapFn !== 'undefined') {
-    //                 // 5. else
-    //                 // 5. a If IsCallable(mapfn) is false, throw a TypeError exception.
-    //                 if (!isCallable(mapFn)) {
-    //                     throw new TypeError('Array.from: when provided, the second argument must be a function');
-    //                 }
-    //
-    //                 // 5. b. If thisArg was supplied, let T be thisArg; else let T be undefined.
-    //                 if (arguments.length > 2) {
-    //                     T = arguments[2];
-    //                 }
-    //             }
-    //
-    //             // 10. Let lenValue be Get(items, "length").
-    //             // 11. Let len be ToLength(lenValue).
-    //             var len = toLength(items.length);
-    //
-    //             // 13. If IsConstructor(C) is true, then
-    //             // 13. a. Let A be the result of calling the [[Construct]] internal method of C with an argument list containing the single item len.
-    //             // 14. a. Else, Let A be ArrayCreate(len).
-    //             var A = isCallable(C) ? Object(new C(len)) : new Array(len);
-    //
-    //             // 16. Let k be 0.
-    //             var k = 0;
-    //             // 17. Repeat, while k < len… (also steps a - h)
-    //             var kValue;
-    //             while (k < len) {
-    //                 kValue = items[k];
-    //                 if (mapFn) {
-    //                     A[k] = typeof T === 'undefined' ? mapFn(kValue, k) : mapFn.call(T, kValue, k);
-    //                 } else {
-    //                     A[k] = kValue;
-    //                 }
-    //                 k += 1;
-    //             }
-    //             // 18. Let putStatus be Put(A, "length", len, true).
-    //             A.length = len;
-    //             // 20. Return A.
-    //             return A;
-    //         };
-    //     }());
-    // }
-
     function expensesIncomeReportController($state, $scope, $http,
          $rootScope, authService, stateService, dataService,
             StringUtil, ResultsUtil, $ionicPlatform) {
 
-        const ctrl = this;
+        let ctrl = this;
         const sfdata = dataService;
         let responseObs, rawResponseObs;
         ctrl.showChart = false;
@@ -145,6 +66,10 @@
         let ctx = document.getElementById("chart-area").getContext("2d");
         window.myPie = new Chart(ctx, ctrl.chartConfig);
 
+/*============================================================================
+        Ionic Methods
+ ============================================================================*/
+
         $scope.$on('$ionicView.enter', function() {
             resetLocalVariables();
             if (!ctrl.loading) {
@@ -152,6 +77,10 @@
                 requestData();
             }
         });
+
+/*============================================================================
+         Data Methods
+ ============================================================================*/
 
         ctrl.toggleChartView = function (val) {
             this.showChart = val;
@@ -216,7 +145,7 @@
             ctrl.isManager = response.data.is_manager;
 
             if (currentResults !== undefined) {
-                console.log("handling e/i response");
+                console.log("DEBUG: Handling expenses/income response");
                 try{
                     // Debug output
                     console.log(currentResults[0]);
@@ -224,6 +153,7 @@
                     console.log(currentResults[2]);
 
                     // Populate the fisher list
+                    console.log("Populating the list of fishers");
                     let fishers = [];
                     for (let record of currentResults[2]){
                         if (record.lkup_main_fisher_id__r.Name && (fishers.indexOf(record.lkup_main_fisher_id__r.Name) === -1)) {
@@ -232,13 +162,17 @@
                     }
 
                     // Add the All option to the list
-                    // fishers.push("All");
+                    // fishers.push("All");\
+                    console.log("Sorting the list of fishers...");
                     fishers = fishers.sort();
+                    console.log("Setting the fisher list controller item...");
                     ctrl.fisherList = fishers;
 
                     // Default selection to All
+                    console.log("Selecting the first fisher...");
                     ctrl.selectedFisher = ctrl.fisherList[0];
 
+                    console.log("Mapping the data now...");
                     // Map the data from the results
                     expensesResponseDataObs = Rx.Observable
                         .from(currentResults[0]);
@@ -246,6 +180,7 @@
                         .from(currentResults[1]);
                 } catch (ex) {
                     console.log(ex);
+                    console.log(ex.toString());
                     ctrl.loading = false;
                 }
 
@@ -437,7 +372,9 @@
             return (input === undefined || input === null || input === "");
         }
 
-
+/*============================================================================
+     Utility Methods
+ ============================================================================*/
         ctrl.noDataExists = function() {
             // console.log(expensesResponseDataObs);
             return (isEmpty(expensesResponseDataObs) || isEmpty(incomeResponseDataObs));
@@ -449,7 +386,6 @@
 
             return `${year}-${month}`
         };
-
 
         const showError = function(err) {
             console.log(`Error: ${JSON.stringify(err, null, 4)}`);
