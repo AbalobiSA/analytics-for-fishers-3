@@ -148,6 +148,7 @@
         }
 
         function queryExpensesIncomeByTimePeriod(interval, refreshData) {
+            console.log("DEBUG: Selected interval is " + interval);
             return new Promise((resolve, reject) => {
                 let access_token = localStorage.getItem('access_token');
                 let endpoint = "/api/analytics/expenses_income";

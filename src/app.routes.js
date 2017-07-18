@@ -89,7 +89,7 @@ angular.module('app').config(function ($stateProvider, $urlRouterProvider, angul
                     templateUrl: "components/charts/catch-days/catch-days.template.html"
                 }
             }
-        })
+        });
 
 
     $urlRouterProvider.otherwise('/app/home');
