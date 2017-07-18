@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="com.abalobi.fisheranalytics" version="2.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Abalobi Analytics</name>
+    <name>Abalobi Analytics for Fishers</name>
     <description>
         Abalobi analytics app for fishers.
         Provides a break down of various metrics for users regiters on Abalobi fisher.
