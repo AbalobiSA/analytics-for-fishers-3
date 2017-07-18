@@ -41,6 +41,10 @@
             return AUTH0_DOMAIN;
         };
 
+        vm.loginAsNico = function () {
+            authService.login("nicodwal@gmail.com", "tIGER1970");
+        };
+
         function isNull(input) {
             // console.log("Checking: " + input);
             // console.log("Value: " input);

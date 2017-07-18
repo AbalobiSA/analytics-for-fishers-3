@@ -19,8 +19,8 @@ You will need to install these before you continue:
 
 Clone this repo.
 
-    $ git clone REPO_URL
-    $ cd REPO_URL
+    $ git clone https://github.com/AbalobiSA/analytics-for-fishers-3.git
+    $ cd analytics-for-fishers-3
     $ bower install
     $ yarn
     

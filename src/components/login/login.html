@@ -20,6 +20,8 @@
             <!--</form>-->
         </div>
         <button class="button button-block button-calm" ng-disabled="vm.noCredentials()" ng-click="vm.login()">Login</button>
+        <div class="cs-spacer"></div>
+        <button class="button button-block button-calm" ng-disabled="vm.loginAsNico()" ng-click="vm.login()">Debug Login</button>
 
         <h3>Debug info</h3>
         <p>Auth ID: {{vm.getAuthId()}}</p>
