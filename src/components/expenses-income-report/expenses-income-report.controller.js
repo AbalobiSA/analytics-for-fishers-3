@@ -84,6 +84,13 @@
 
         ctrl.toggleChartView = function (val) {
             this.showChart = val;
+
+            if (val === true) {
+                let ctx = document.getElementById("chart-area").getContext("2d");
+                window.myPie = new Chart(ctx, ctrl.chartConfig);
+            } else {
+                window.myPie.destroy();
+            }
         };
 
         function requestData(){
@@ -316,9 +323,11 @@
                 });
 
             try {
-                // Create the graph
+                // Update the graph
                 buildChartConfig(ctrl.expenses, ctrl.income);
-                window.myPie.update();
+                if (ctrl.showChart === true) {
+                    window.myPie.update();
+                }
             } catch (e) {
                 console.log(e);
             }
