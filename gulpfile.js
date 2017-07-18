@@ -8,6 +8,11 @@ let rename = require('gulp-rename');
 let sh = require('shelljs');
 let babel = require('gulp-babel');
 let plumber = require('gulp-plumber');
+let browserify = require('browserify');
+let path = require('path');
+let source = require('vinyl-source-stream');
+let glob = require('glob');
+let runSequence = require('run-sequence');
 
 let paths = {
     sass: ['./src/scss/**/*.scss'],
@@ -18,9 +23,13 @@ let paths = {
     Configuration
  ============================================================================*/
 gulp.task("serve:before", ['default']);
-
-gulp.task('default', ['babel', 'sass']);
-
+gulp.task('default', function(done) {
+    runSequence('browserify', 'sass', 'babel', function() {
+        console.log('Run something else');
+        done();
+    });
+});
+// gulp.series('browserify', 'babel', 'sass')
 /*============================================================================
     Watch Tasks
  ============================================================================*/
@@ -31,7 +40,33 @@ gulp.task('watch', function () {
 
 gulp.task('devwatch', function () {
     gulp.watch(paths.sass, ['devsass']);
+    gulp.watch('./src/browserify/**', ['browserify']);
     // gulp.watch(paths.src, ['babel']);
+});
+
+/*============================================================================
+    Watch Tasks
+ ============================================================================*/
+
+gulp.task('browserify', /*['lint', 'unit'],*/ function () {
+
+    const dist = "src";
+    const browserifyDirectory = path.join(dist, "browserify");
+
+    let nodeFiles = glob.sync('./src/browserify/*.js');
+    // let services = glob.sync('./src/services/*.js');
+    // let components_lvl_1 = glob.sync('./src/components/*.js');
+    // let components_lvl_2 = glob.sync('./src/components/**/*.js');
+
+    // let allFiles = nodeFiles.concat(services, components_lvl_1, components_lvl_2);
+
+    return browserify(nodeFiles)
+        .bundle()
+        .pipe(source('app.node.js'))
+        .pipe(plumber())
+        .pipe(
+            gulp.dest(dist)
+        );
 });
 
 /*============================================================================
@@ -97,7 +132,7 @@ gulp.task('git-check', function (done) {
  ============================================================================*/
 
 gulp.task('babel', function () {
-    let path = require('path');
+    // let path = require('path');
     const dist = "www";
     const componentsDist = path.join(dist, "components");
     const jsDist = path.join(dist, "js");
