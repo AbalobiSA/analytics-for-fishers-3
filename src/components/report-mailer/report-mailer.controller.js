@@ -34,7 +34,7 @@
             ctrl.loading = true;
 
             Promise.all([
-                dataService.getEmailAddress(false)
+                dataService.getEmailAddress(true)
                     .then(processEmailSuccess)
                     .catch(processEmailError),
 
