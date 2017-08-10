@@ -38,6 +38,9 @@
         ctrl.fisherList = sfdata.BASE_FISHER_LIST;
         ctrl.selectedFisher = null;
 
+        ctrl.income = undefined;
+        ctrl.expenses = undefined;
+
         // Pie chart config
         ctrl.chartConfig = {
             type: 'pie',
@@ -288,7 +291,7 @@
                 });
         }
 
-        function updateData(){
+        function updateData() {
             let formattedExpense = expensesResponseDataObs
                 .filter(record => sfdata.groupByInterval(ctrl.selectedInterval, record) === ctrl.selectedMonth.replace("-0", "-"))
                 .doOnNext(record => {
@@ -299,7 +302,8 @@
                 .defaultIfEmpty({total:"N/A"});
 
             let formattedIncome = incomeResponseDataObs
-                .filter(record => record.key === ctrl.selectedMonth.replace("-0", "-"));
+                .filter(record => record.key === ctrl.selectedMonth.replace("-0", "-"))
+                .defaultIfEmpty({total:"N/A"});
 
             Rx.Observable.concat(formattedExpense, formattedIncome)
                 .toArray()
@@ -421,6 +425,10 @@
             rawResponseObs = undefined;
             ctrl.isManager = false;
             ctrl.selectedFisher = null;
+        }
+
+        ctrl.hasData = function(income, expense, input, input2) {
+            return (input !== undefined || (input2.month !== undefined && input2.year !== undefined)) !== undefined && (income.total !== 'N/A' || expense.total !== 'N/A');
         }
 
     }

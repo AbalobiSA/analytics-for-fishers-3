@@ -49,7 +49,7 @@
 
             <div class="finance-content" ng-if="$ctrl.showChart === false">
                 <!--Show income & expenses-->
-                <div class="card" ng-if="$ctrl.expenses || $ctrl.income">
+                <div class="card" ng-if="$ctrl.hasData($ctrl.income, $ctrl.expenses, $ctrl.income.key ,$ctrl.expenses) === true">
                     <div class="item infoEntryHeader">
                         Date: <span class="noBold">{{$ctrl.income.key || $ctrl.calcluateExpenseKey($ctrl.expenses)}}</span><br/>
                         Total Expense: <span class="noBold">
@@ -102,9 +102,15 @@
                         </ul>
                     </div>
                 </div>
+                <div ng-if="$ctrl.hasData($ctrl.income, $ctrl.expenses, $ctrl.income.key ,$ctrl.expenses) === false">
+                    <h2>No incomes and expenses</h2>
+                </div>
             </div>
 
             <div id="canvas-holder" style="width:100%" ng-hide="$ctrl.showChart === false">
+                <!--<div ng-hide="$ctrl.hasData($ctrl.income, $ctrl.expenses, $ctrl.income.key) === true">-->
+                    <!--<h2>No incomes and expenses</h2>-->
+                <!--</div>-->
                 <canvas id="chart-area"></canvas>
             </div>
 
