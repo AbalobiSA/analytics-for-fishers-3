@@ -20,6 +20,7 @@
         "gulp-plumber": "^1.1.0",
         "gulp-rename": "^1.2.0",
         "gulp-sass": "^2.0.4",
+        "ionic": "^3.6.0",
         "ionic-plugin-keyboard": "~2.2.1",
         "path": "^0.12.7",
         "run-sequence": "^2.0.0",
@@ -30,9 +31,9 @@
         "start": "ionic serve --address=localhost"
     },
     "devDependencies": {
-        "@ionic/cli-plugin-cordova": "1.4.1",
-        "@ionic/cli-plugin-gulp": "1.0.2",
-        "@ionic/cli-plugin-ionic1": "2.0.1",
+        "@ionic/cli-plugin-cordova": "^1.5.0",
+        "@ionic/cli-plugin-gulp": "^1.1.0",
+        "@ionic/cli-plugin-ionic1": "^2.1.0",
         "bower": "^1.3.3",
         "gulp-util": "^3.0.7",
         "shelljs": "^0.7.5"

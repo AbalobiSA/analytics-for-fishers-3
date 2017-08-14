@@ -46,7 +46,7 @@
                 ctrl.loading = false;
                 $scope.$apply();
             }).catch(error => {
-                console.log("Promise all error: " + error);
+                console.log("Promise all error: ", error);
                 ctrl.loading = false;
                 $scope.$apply();
             })
@@ -87,7 +87,11 @@
         function processEmailSuccess(result) {
             let email = result[0];
             let Id = result[1];
-            console.log("RETURNED ID: " + Id);
+
+            console.log("RETURNED ID...: " + Id);
+            console.log("Logging response");
+            console.log("RETURNED FULL RESPONSE:", JSON.stringify(result, null, 4));
+
             if (emailIsInvalid(email)) {
                 mainEmailAddress = "";
                 ctrl.validEmail = false;
@@ -104,6 +108,7 @@
         }
 
         function managedUsersSuccess(response) {
+            console.log("Returned managed users: ", JSON.stringify(response.data.results, null, 4));
             ctrl.managedUsers = response.data.results;
             ctrl.showManagerList = true;
         }
