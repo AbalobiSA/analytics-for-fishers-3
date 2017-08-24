@@ -19,8 +19,8 @@
         Variable declarations
  ============================================================================*/
 
-        let SERVER_IP = "http://localhost:8080";
-        // let SERVER_IP = "http://197.85.186.65:8080";
+        // let SERVER_IP = "http://localhost:8080";
+        let SERVER_IP = "http://197.85.186.65:8080";
 
         let recentCatches;
 
