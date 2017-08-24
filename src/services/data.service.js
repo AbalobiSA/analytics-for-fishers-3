@@ -19,8 +19,8 @@
         Variable declarations
  ============================================================================*/
 
-        // let SERVER_IP = "http://localhost:8080";
-        let SERVER_IP = "http://197.85.186.65:8080";
+        let SERVER_IP = "http://localhost:8080";
+        // let SERVER_IP = "http://197.85.186.65:8080";
 
         let recentCatches;
 
@@ -311,8 +311,8 @@
                         }
                     }).then((response) => {
                         console.log(JSON.stringify(response, null, 4));
-                        mainUserEmailAddress = (response.data[0].Email);
-                        mainUserAbalobiId = response.data[0].Id;
+                        mainUserEmailAddress = (response.data[0].Email__c);
+                        mainUserAbalobiId = response.data[0].abalobi_id__c;
                         resolve([mainUserEmailAddress, mainUserAbalobiId]);
                     }, (error) => {
                         reject(error);

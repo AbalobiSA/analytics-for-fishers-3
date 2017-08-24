@@ -40,13 +40,13 @@
 
                 dataService.getManagerUsers()
                     .then(managedUsersSuccess)
-                    .catch(error => console.log(error))
+                    .catch(error => console.log("Get manager users error: ", error))
             ]).then(results => {
-                // console.log("All calls have been made.");
+                console.log("All calls have been made with success.");
                 ctrl.loading = false;
                 $scope.$apply();
             }).catch(error => {
-                console.log("Promise all error: ", error);
+                console.log("Error running the promise all which fetches all data: ", error);
                 ctrl.loading = false;
                 $scope.$apply();
             })
@@ -57,12 +57,13 @@
             let Id;
 
             if (ctrl.showManagerList === true) {
-                Id = ctrl.selectedReportUser.Id
+                Id = ctrl.selectedReportUser.abalobi_id__c
             } else {
                 Id = ctrl.mainUserId
             }
 
-            let endpoint = 'http://197.85.186.65:8080/pdf-report?ownerId='+ Id +"&destEmail="+ctrl.email;
+            // let endpoint = 'http://197.85.186.65:8080/pdf-report?ownerId='+ Id +"&destEmail="+ctrl.email;
+            let endpoint = 'http://localhost:8080/pdf-report?ownerId='+ Id +"&destEmail="+ctrl.email;
             console.log("sending -> "+endpoint);
             ctrl.emailSending = true;
 
@@ -86,9 +87,9 @@
          */
         function processEmailSuccess(result) {
             let email = result[0];
-            let Id = result[1];
+            let abalobi_id = result[1];
 
-            console.log("RETURNED ID...: " + Id);
+            console.log("RETURNED ID...: " + abalobi_id);
             console.log("Logging response");
             console.log("RETURNED FULL RESPONSE:", JSON.stringify(result, null, 4));
 
@@ -99,7 +100,7 @@
                 mainEmailAddress = email;
                 ctrl.validEmail = true;
             }
-            ctrl.mainUserId = Id;
+            ctrl.mainUserId = abalobi_id;
             ctrl.email = mainEmailAddress;
         }
 
