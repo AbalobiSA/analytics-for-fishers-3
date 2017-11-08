@@ -59,7 +59,7 @@ angular.module('app').config(function ($stateProvider, $urlRouterProvider, angul
             url: "/expenses-income-report",
             views: {
                 'menuContent': {
-                    templateUrl: "components/expenses-income-report/expenses-income-report.template.html"
+                    templateUrl: "components/reports/reports.template.html"
                 }
             }
         })
@@ -73,11 +73,12 @@ angular.module('app').config(function ($stateProvider, $urlRouterProvider, angul
             }
         })
 
-        .state('menu.evolutionofprices', {
-            url: "/evolution-of-prices",
+        .state('menu.reports', {
+            url: "/reports",
             views: {
                 'menuContent': {
-                    templateUrl: "components/charts/evolution-of-prices/evolution-of-prices.template.html"
+                    templateUrl: "components/reports/reports.template.html",
+                    // controller: 'reportsController'
                 }
             }
         })
@@ -92,7 +93,7 @@ angular.module('app').config(function ($stateProvider, $urlRouterProvider, angul
         });
 
 
-    $urlRouterProvider.otherwise('/app/home');
+    $urlRouterProvider.otherwise('/app/reports');
 
     // Initialization for the angular-auth0 library
     angularAuth0Provider.init({

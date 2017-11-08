@@ -377,7 +377,8 @@
  ============================================================================*/
         ctrl.noDataExists = function() {
             // console.log(expensesResponseDataObs);
-            return (isEmpty(expensesResponseDataObs) || isEmpty(incomeResponseDataObs));
+            return false;
+            // return (isEmpty(expensesResponseDataObs) || isEmpty(incomeResponseDataObs));
         };
 
         ctrl.calcluateExpenseKey = function(input) {

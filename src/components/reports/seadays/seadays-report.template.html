@@ -1,0 +1,118 @@
+<style>
+    .seadays-table {
+        background-color: #e5ffe5;
+        min-height: 200px;
+        padding: 8px;
+    }
+
+    .seadays-table-entry {
+        padding: 8px;
+        margin-bottom: 8px;
+        border: 1px solid #3F9D2F;
+        border-radius: 4px;
+        min-height: 70px;
+    }
+
+    .seadays-table-entry-footer {
+        clear: both
+    }
+
+    .seadays-table-legend-color{
+        /*width: 2%;*/
+        margin-left: 8px;
+        float: right;
+    }
+
+    .seadays-table-entry-img{
+        clear: both;
+        float: left;
+        max-height: 40px;
+        margin-bottom: 8px;
+    }
+
+    .seadays-table-name {
+        font-weight: bold;
+        float: left;
+        clear: both;
+    }
+
+    .seadays-table-reason {
+        float: left;
+        clear: both;
+    }
+
+    .calendar-header {
+        background-color: #F44336;
+        color: #ffffff;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .calendar-entry {
+        padding: 0;
+        font-weight: bold;
+        border: solid 1px #aaaaaa;
+        border-collapse: collapse;
+    }
+
+    .calendar-entry .date {
+        background-color: #e4e4e4;
+        padding: 0 4px;
+    }
+
+    .calendar-icon {
+        width: 100%;
+    }
+</style>
+<div class="cs-spacer"></div>
+
+<div ng-show="$ctrl.loadings">
+    <div class="cs-loader-container">
+        <div class="cs-loader">
+        </div>
+    </div>
+    <h4 class="text-center">Loading...</h4>
+</div>
+
+<div>
+    <div class="seadays-table">
+        <h1>See Dae</h1>
+        <p><strong>Nie see dae:</strong> {{$ctrl.currentMonthNoSeadays}}</p>
+        <p><strong>See dae:</strong> {{$ctrl.currentMonthSeadays}}</p>
+        <p><strong>See dae met vangste:</strong> {{$ctrl.currentMonthCatchdays}}</p>
+        <p><strong>See dae sonder vangste:</strong> {{$ctrl.currentMonthNoCatchdays}}</p>
+        <h4>Redes - See dae sonder vangste</h4>
+        <div class="seadays-table-entry" ng-repeat="c in $ctrl.currentMonthNoCatchResons">
+            <p class="seadays-table-name">{{c.day}}</p>
+            <br>
+            <p class="seadays-table-reason">{{c.reason}}</p>
+        </div>
+    </div>
+
+    <div id="canvas-holder" style="width:100%">
+        <canvas id="seadays-chart-area"></canvas>
+    </div>
+
+    <div class="calendar">
+        <div class="row">
+            <div class="col calendar-header">S</div>
+            <div class="col calendar-header">M</div>
+            <div class="col calendar-header">D</div>
+            <div class="col calendar-header">W</div>
+            <div class="col calendar-header">D</div>
+            <div class="col calendar-header">V</div>
+            <div class="col calendar-header">S</div>
+        </div>
+
+        <div ng-repeat="week in $ctrl.weeks" class="row">
+            <div ng-repeat="day in week" class="col calendar-entry">
+                <div class="date">{{(day.day > 0) ? day.day : ''}}</div>
+                <img ng-if="day.day > 0" class="calendar-icon" src="{{$ctrl.getCalendarIcon(day)}}"
+                     tooltips tooltip-template="{{$ctrl.getTooltipTemplate(day)}}"
+                     tooltip-side="{{$ctrl.getTooltipPosition($index, day)}}" tooltip-show-trigger="click"
+                >
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,152 @@
+(function () {
+
+    'use strict';
+
+    angular
+        .module('app')
+        .component('costReportTab', {
+            templateUrl: 'components/reports/costs/cost-report.template.html',
+            controller: costReportController,
+            bindings: {
+                monthObs: '<'
+            }
+        });
+
+    costReportController.$inject = ['$state', '$http',
+        '$rootScope', 'authService', 'stateService', 'dataService', 'StringUtil', 'ResultsUtil'];
+
+
+    function costReportController($state, $http,
+                                  $rootScope, authService, stateService, dataService, StringUtil, ResultsUtil) {
+
+        let ctrl = this;
+        ctrl.loadings = false;
+
+        // Pie chart config
+        ctrl.chartConfig = {
+            type: 'pie',
+            data: {
+                datasets: [{
+                    backgroundColor: [],
+                    label: 'Expenses',
+                    data: [],
+                }]
+            },
+            options: {
+                legend: {
+                    // Disables the removal of data when legend items are clicked
+                    onClick: function (event, legendItem) {
+                    }
+                },
+                responsive: true
+            }
+        };
+
+        let ctx = document.getElementById("cost-chart-area").getContext("2d");
+        ctrl.myPie = new Chart(ctx, ctrl.chartConfig);
+
+        // ctrl.currentMonth = {
+        //     month: 0,
+        //     costs: []
+        // };
+
+        ctrl.colorMap = costColorMap;
+        // let ctrl = this;
+        // ctrl.loading = false;
+        // ctrl.emailSending = false;
+        // ctrl.showManagerList = false;
+        // ctrl.validEmail = false;
+        // let userId;
+        // let mainEmailAddress;
+
+        // let managedUsers;
+        // let selectedReportUser;
+        // ctrl.mainUserId
+
+        /*============================================================================
+                View enter
+         ============================================================================*/
+        ctrl.$onInit = function () {
+            console.log('testing#########################');
+            ctrl.loading = false;
+            ctrl.monthObs.subscribe(m => ctrl.onMonthChange(m));
+        };
+
+        ctrl.onMonthChange = function (month) {
+            ctrl.month = month;
+            console.log("we have a cost change", month);
+            ctrl.currentMonthTotal = month.costs.reduce((acc, entry) => acc+entry.value, 0);
+            buildChartConfig(month);
+            ctrl.myPie.update();
+        };
+
+        // $scope.$on('$ionicView.loaded', function() {
+        //     resetLocalVariables();
+        //
+        // ctrl.requestStatus = 0;
+        // ctrl.loading = true;
+        //
+        // Promise.all([
+        //     dataService.getEmailAddress(true)
+        //         .then(processEmailSuccess)
+        //         .catch(processEmailError),
+        //
+        //     dataService.getManagerUsers()
+        //         .then(managedUsersSuccess)
+        //         .catch(error => console.log(error))
+        // ]).then(results => {
+        //     // console.log("All calls have been made.");
+        //     ctrl.loading = false;
+        //     $scope.$apply();
+        // }).catch(error => {
+        //     console.log("Promise all error: ", error);
+        //     ctrl.loading = false;
+        //     $scope.$apply();
+        // })
+
+        // });
+
+        function resetLocalVariables() {
+            // userId = "";
+            // mainEmailAddress = "";
+        }
+
+        const buildChartConfig = function (currentMonth) {
+            console.log('building chart config', currentMonth);
+            let labels = [];
+            let datasets = [];
+            let colours = [];
+
+            // Expenses
+            for (let i = 0; i < currentMonth.costs.length; i = i + 1) {
+
+                console.log('cost engage')
+                if (currentMonth.costs[i].value > 0) {
+                    // Prettify label text
+                    let label = currentMonth.costs[i].name;
+                    let finalLabel = label.substring(0, 1).toUpperCase() + label.substring(1);
+
+                    labels.push(finalLabel);
+                    datasets.push(currentMonth.costs[i].value);
+                    colours.push(costColorMap[label])
+                }
+            }
+
+            ctrl.chartConfig.data.labels = labels;
+            ctrl.chartConfig.data.datasets[0].data = datasets;
+            console.log('colours', colours);
+            ctrl.chartConfig.data.datasets[0].backgroundColor = colours;
+        };
+    }
+
+    const costColorMap = {
+        'aas': '#FF7B3A',
+        'voedsel': '#FFC072',
+        'brandstof': '#2E578C',
+        'hawe_fooi': '#7D807F',
+        'olie': '#BC2D30',
+        'transport': '#C9FF93',
+        'ander': '#9D45B8',
+    };
+
+}());

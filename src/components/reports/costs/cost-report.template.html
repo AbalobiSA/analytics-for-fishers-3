@@ -1,0 +1,69 @@
+<style>
+    .cost-table {
+        background-color: #ffd0cf;
+        min-height: 250px;
+        padding: 8px;
+    }
+
+    .cost-table-entry {
+        /*padding: 8px;*/
+        margin-bottom: 8px;
+    }
+
+    .cost-table-legend-color{
+        display: inline-block;
+        padding: 0;
+        margin: 0;
+        /*width: 2%;*/
+        margin-left: 8px;
+        float: left;
+    }
+
+    .cost-table-name {
+        display: inline-block;
+        padding: 0;
+        margin: 0;
+        width: 40vw;
+        font-weight: bold;
+        float: left;
+    }
+
+    .cost-table-value {
+        display: inline-block;
+        padding: 0;
+        margin: 0;
+        width: 35vw;
+        float: left;
+        text-align: right;
+    }
+</style>
+<div class="cs-spacer"></div>
+
+<div ng-show="$ctrl.loadings">
+    <div class="cs-loader-container">
+        <div class="cs-loader">
+        </div>
+    </div>
+    <h4 class="text-center">Loading...</h4>
+</div>
+
+<div>
+    <div class="cost-table">
+        <h1>Uitgawes</h1>
+        <h4>Totale uitgawes: {{$ctrl.currentMonthTotal | currency:"R "}}</h4>
+        <div class="cost-table-entry" ng-repeat="c in $ctrl.month.costs">
+            <div class="cost-table-name">{{c.name | capitalizeKeys}}</div>
+            <div class="cost-table-value">{{c.value | currency:"R "}}</div>
+            <div class="cost-table-legend-color">
+                <svg height="15" width="15">
+                    <circle cx="7" cy="7" r="6" stroke="black" stroke-width="1" fill="{{$ctrl.colorMap[c.name]}}"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <div id="canvas-holder" style="width:100%">
+        <canvas id="cost-chart-area"></canvas>
+    </div>
+</div>
+

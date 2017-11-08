@@ -10072,3 +10072,11 @@ a.button, a.btn-main {
   right: 0px;
   left: 10px;
   top: 10px; }
+
+/* Empty. Add your own CSS if you like */
+.reports-container {
+  width: 100%;
+  padding: 8px; }
+
+.year-selector {
+  margin-top: 56px; }
