@@ -1,7 +1,7 @@
 <style>
     .cost-table {
         background-color: #ffd0cf;
-        min-height: 250px;
+        min-height: 260px;
         padding: 8px;
     }
 
@@ -50,7 +50,7 @@
 <div>
     <div class="cost-table">
         <h1>Uitgawes</h1>
-        <h4>Totale uitgawes: {{$ctrl.currentMonthTotal | currency:"R "}}</h4>
+        <h4>Totale uitgawes: <br/>{{$ctrl.currentMonthTotal | currency:"R "}}</h4>
         <div class="cost-table-entry" ng-repeat="c in $ctrl.month.costs">
             <div class="cost-table-name">{{c.name | capitalizeKeys}}</div>
             <div class="cost-table-value">{{c.value | currency:"R "}}</div>
@@ -61,7 +61,8 @@
             </div>
         </div>
     </div>
-
+    <br/>
+    <div class="vis-tip">Vir meer inligting klik op elke skyfie</div>
     <div id="canvas-holder" style="width:100%">
         <canvas id="cost-chart-area"></canvas>
     </div>

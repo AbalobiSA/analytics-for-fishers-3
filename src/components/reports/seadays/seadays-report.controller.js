@@ -33,12 +33,18 @@
             },
             options: {
                 legend: {
+                    fontSize: 16,
                     // Disables the removal of data when legend items are clicked
                     onClick: function (event, legendItem) {
                     }
                 },
                 responsive: true,
                 tooltips: {
+                    bodyFontSize: 14,
+                    xPadding: 8,
+                    yPadding: 8,
+                    displayColors: false,
+                    caretPadding: 8,
                     callbacks:{
                         // title: function(data, chart) {
                         //     console.log('render title', data);
@@ -192,7 +198,7 @@
             console.log('building income chart config', currentMonth);
             let labels = ["See dae met vangste", "See dae sonder vangste", "Nie see dae"];
             let datasets = [];
-            let colours = ['#9CE159', '#9D45B8', '#E7A13D'];
+            let colours = pattern.generate(['#9CE159', '#9D45B8', '#E7A13D']);
 
             let catchdays = ctrl.currentMonth.days.filter(d => d.out === true && d.catch === true).length;
             let noCatchdays = ctrl.currentMonth.days.filter(d => d.out === true && d.catch === false).length;

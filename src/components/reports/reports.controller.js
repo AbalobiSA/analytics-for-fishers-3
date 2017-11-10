@@ -475,28 +475,127 @@
 
             months: [
                 {
-                    month: 1504224000000, //sept
+                    month: 1509494400000, //November
                     costs: [
-                        {name: 'aas', value: 600},
-                        {name: 'voedsel', value: 100},
-                        {name: 'brandstof', value: 2850},
-                        {name: 'hawe_fooi', value: 150},
-                        {name: 'olie', value: 400},
-                        {name: 'transport', value: 300},
-                        {name: 'ander', value: 400},
+                        {name: 'aas', value: 300},
+                        {name: 'voedsel', value: 200},
+                        {name: 'brandstof', value: 3000},
+                        {name: 'hawe_fooi', value: 250},
+                        {name: 'olie', value: 0},
+                        {name: 'transport', value: 1000},
+                        {name: 'ander', value: 50},
                     ],
-                    profit: 6398,
+                    profit: 134,
                     species: [
-                        {name: 'snoek', quantity: 55, denomination:'totale', value: 2731},
+                        {name: 'snoek', quantity: 120, denomination:'totale', value: 4934},
                     ],
                     days: [
                         {day: 1, out: true, catch:true, species:['snoek']},
                         {day: 2, out: false, catch:false, species:[], reason: 'Slegte Weer'},
                         {day: 3, out: true, catch:true, species:['snoek']},
-                        {day: 4, out: true, catch:true, species:['snoek']},
+                        {day: 4, out: false, catch:false, species:[], reason: 'Baie winderig'},
+                        {day: 5, out: false, catch:false, species:[], reason: 'Baie winderig'},
+                        {day: 6, out: false, catch:false, species:[], reason: 'Baie winderig'},
+                        {day: 7, out: true, catch:false, species:[], reason: 'Slegte Weer'},
+                        {day: 8, out: true, catch:true, species:['snoek']},
+                        {day: 9, out: true, catch:true, species:['snoek']},
+                    ]
+                },
+                {
+                    month: 1506816000000, //october
+                    costs: [
+                        {name: 'aas', value: 1640},
+                        {name: 'voedsel', value: 100},
+                        {name: 'brandstof', value: 9850},
+                        {name: 'hawe_fooi', value: 1400},
+                        {name: 'olie', value: 1000},
+                        {name: 'transport', value: 2000},
+                        {name: 'ander', value: 213},
+                    ],
+                    profit: 2576,
+                    species: [
+                        {name: 'snoek', quantity: 717, denomination:'totale', value: 21221},
+                    ],
+                    days: [
+                        {day: 1, out: true, catch:true, species:['snoek']},
+                        {day: 2, out: false, catch:false, species:[], reason: 'Boot buitewerking'},
+                        {day: 3, out: true, catch:false, species:[], reason: 'Geen byt gekry nie'},
+                        {day: 4, out: true, catch:false, species:[], reason: 'Geen byt gekry nie'},
+                        {day: 5, out: true, catch:true, species:['snoek']},
+                        {day: 6, out: true, catch:true, species:['snoek']},
+                        {day: 7, out: true, catch:true, species:['snoek']},
+                        {day: 8, out: true, catch:true, species:['snoek']},
+                        {day: 9, out: true, catch:true, species:['snoek']},
+                        {day: 10, out: false, catch:false, species:[], reason: 'Slegte Weer'},
+                        {day: 11, out: true, catch:true, species:['snoek']},
+                        {day: 12, out: true, catch:true, species:['snoek']},
+                        {day: 13, out: true, catch:true, species:['snoek']},
+                        {day: 14, out: true, catch:false, species:[], reason: 'Suiwerskoon water en koud'},
+                        {day: 15, out: true, catch:true, species:['snoek']},
+                        {day: 16, out: true, catch:true, species:['snoek']},
+                        {day: 17, out: true, catch:true, species:['snoek']},
+                        {day: 18, out: false, catch:false, species:[], reason: 'Slegte Weer'},
+                        {day: 19, out: false, catch:false, species:[]},
+                        {day: 20, out: true, catch:true, species:['snoek']},
+                        {day: 21, out: true, catch:true, species:['snoek']},
+                        {day: 22, out: true, catch:false, species:[], reason: 'Vis nou nie byt nie'},
+                        {day: 23, out: false, catch:false, species:[], reason: 'Slegte Weer'},
+                        {day: 24, out: true, catch:false, species:[], reason: 'Suiwerskoon water en koud'},
+                        {day: 25, out: true, catch:true, species:['snoek']},
+                        {day: 26, out: true, catch:true, species:['snoek']},
+                        {day: 27, out: true, catch:true, species:['snoek']},
+                        {day: 28, out: true, catch:false, species:[], reason: 'Vis nou nie byt nie'},
+                        {day: 29, out: true, catch:false, species:[], reason: 'Vis nou nie byt nie'},
+                        {day: 30, out: true, catch:true, species:['snoek']},
+                        {day: 31, out: false, catch:false, species:[]},
+                    ]
+                },
+                {
+                    month: 1504224000000, //sept
+                    costs: [
+                        {name: 'aas', value: 800},
+                        {name: 'voedsel', value: 900},
+                        {name: 'brandstof', value: 8500},
+                        {name: 'hawe_fooi', value: 1050},
+                        {name: 'olie', value: 600},
+                        {name: 'transport', value: 4200},
+                        {name: 'ander', value: 400},
+                    ],
+                    profit: 6398,
+                    species: [
+                        {name: 'snoek', quantity: 212, denomination:'totale', value: 11731},
+                    ],
+                    days: [
+                        {day: 1, out: true, catch:true, species:['snoek']},
+                        {day: 2, out: false, catch:false, species:[], reason: 'Slegte Weer'},
+                        {day: 3, out: true, catch:true, species:['snoek']},
+                        {day: 4, out: false, catch:false, species:[], reason: 'Slegte Weer'},
                         {day: 5, out: true, catch:false, species:[], reason: 'Slegte Weer'},
                         {day: 6, out: true, catch:false, species:[], reason: 'Slegte Weer'},
                         {day: 7, out: true, catch:false, species:[], reason: 'Slegte Weer'},
+                        {day: 8, out: true, catch:true, species:['snoek']},
+                        {day: 9, out: true, catch:true, species:['snoek']},
+                        {day: 10, out: false, catch:false, species:[], reason: 'Slegte Weer'},
+                        {day: 11, out: true, catch:false, species:[], reason: 'Vis nou nie byt nie'},
+                        {day: 12, out: true, catch:false, species:[], reason: 'Vis nou nie byt nie'},
+                        {day: 13, out: true, catch:true, species:['snoek']},
+                        {day: 14, out: true, catch:false, species:[], reason: 'Suiwerskoon water en koud'},
+                        {day: 15, out: true, catch:true, species:['snoek']},
+                        {day: 16, out: false, catch:false, species:[], reason: 'Slegte Weer'},
+                        {day: 17, out: true, catch:true, species:['snoek']},
+                        {day: 18, out: false, catch:false, species:[], reason: 'Slegte Weer'},
+                        {day: 19, out: false, catch:false, species:[]},
+                        {day: 20, out: true, catch:true, species:['snoek']},
+                        {day: 21, out: true, catch:true, species:['snoek']},
+                        {day: 22, out: true, catch:false, species:[], reason: 'Vis nou nie byt nie'},
+                        {day: 23, out: false, catch:false, species:[], reason: 'Slegte Weer'},
+                        {day: 24, out: true, catch:false, species:[], reason: 'Suiwerskoon water en koud'},
+                        {day: 25, out: true, catch:true, species:['snoek']},
+                        {day: 26, out: false, catch:false, species:[], reason: 'Slegte Weer'},
+                        {day: 27, out: false, catch:false, species:[], reason: 'Slegte Weer'},
+                        {day: 28, out: true, catch:false, species:[], reason: 'Vis nou nie byt nie'},
+                        {day: 29, out: true, catch:false, species:[], reason: 'Vis nou nie byt nie'},
+                        {day: 30, out: true, catch:true, species:['snoek']},
                     ]
                 },
                 {
@@ -899,7 +998,7 @@
         };
 
         ctrl.years = [2017];
-        ctrl.selectedYear = ['September', 'Augustus', 'Julie', 'Junie', 'Mei', 'April', 'Maart', 'Februarie', 'Januarie'];
+        ctrl.selectedYear = ['November', 'Oktober', 'September', 'Augustus', 'Julie', 'Junie', 'Mei', 'April', 'Maart', 'Februarie', 'Januarie'];
         ctrl.sm = ctrl.selectedYear[0];
         ctrl.selectedMonth = data.months[0];
         setTitle();

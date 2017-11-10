@@ -10080,3 +10080,7 @@ a.button, a.btn-main {
 
 .year-selector {
   margin-top: 56px; }
+
+.vis-tip {
+  font-size: 10px;
+  margin: 2px 4px; }

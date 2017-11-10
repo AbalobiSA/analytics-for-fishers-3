@@ -1,22 +1,80 @@
-<ion-view title="Verslag" ng-controller="reportsController as $ctrl" >
+<style>
+    /* .tab-item .icon {
+        height: 44px;
+    } */
+
+    .tabs-icon-top > .tabs .tab-item, .tabs-icon-top.tabs .tab-item, .tabs-icon-bottom > .tabs .tab-item, .tabs-icon-bottom.tabs .tab-item {
+        color: rgba(255, 191, 25, 0.65);
+    }
+    
+    /* tab icon default state*/
+    .tabs-icon-top > .tabs .tab-item > i div, .tabs-icon-top.tabs .tab-item > i div, .tabs-icon-bottom > .tabs .tab-item > i div, .tabs-icon-bottom.tabs .tab-item > i div {
+        background-color: rgba(255, 191, 25, 0.65);;
+    }
+
+    .tabs-striped.tabs-color-light .tab-item.tab-item-active, .tabs-striped.tabs-color-light .tab-item.active, .tabs-striped.tabs-color-light .tab-item.activated {
+        font-weight: bold;
+        border: 0 solid rgba(255, 191, 25, 1);
+        color: rgba(255, 191, 25, 1);
+    }
+
+    /* tab icon active state*/
+    .tabs-striped.tabs-color-light .tab-item.tab-item-active > i div, .tabs-striped.tabs-color-light .tab-item.active > i div, .tabs-striped.tabs-color-light .tab-item.activated > i div {
+        background-color: rgba(255, 191, 25, 1);
+    }
+
+    .tab-heading {
+        font-size: 14px;
+    }
+
+    .tabs-content {
+        top: 56px;
+    }
+
+    .tab-img { 
+        width: 32px;
+        height: 32px;
+        mask-size: 28px;
+        mask-repeat: no-repeat;
+        -webkit-mask-size: 28px;
+        -webkit-mask-repeat: no-repeat;
+    }
+
+    .tab-img-seadays {
+        mask-image: url('components/reports/boat.png');
+        -webkit-mask-image: url('components/reports/boat.png');
+    }
+
+    .tab-img-income {
+        mask-image: url('components/reports/fish.png');
+        -webkit-mask-image: url('components/reports/fish.png');
+    }
+
+    .tab-img-costs {
+        mask-image: url('components/reports/cash.png');
+        -webkit-mask-image: url('components/reports/cash.png');
+    }
+    /* .img {  } */
+</style>
+<ion-view title="Verslag" ng-controller="reportsController as $ctrl">
     <div class="tabs-striped tabs-top tabs-icon-top tabs-background-positive tabs-color-light">
         <div class="tabs">
             <a class="tab-item" ng-class="{active: $ctrl.isTabSelected(0)}" ng-click="$ctrl.tabSelected(0)">
-                <i class="icon"><img class="icon" src="components/reports/ferry.png"></i>
-                See Dae
+                <i><div class="icon tab-img tab-img-seadays"></div></i>
+                <span class="tab-heading">See Dae</span>
             </a>
             <a class="tab-item" ng-class="{active: $ctrl.isTabSelected(1)}" ng-click="$ctrl.tabSelected(1)">
-                <i class="icon"><img class="icon" src="components/reports/fish.png"></i>
-                Inkomste
+                <i><div class="icon tab-img tab-img-income"></div></i>
+                <span class="tab-heading">Inkomste</span>
             </a>
             <a class="tab-item" ng-class="{active: $ctrl.isTabSelected(2)}" ng-click="$ctrl.tabSelected(2)">
-                <i class="icon"><img class="icon" src="components/reports/cash.png"></i>
-                Uitgawes
+                <i><div class="icon tab-img tab-img-costs"></div></i>
+                <span class="tab-heading">Uitgawes</span>
             </a>
         </div>
     </div>
 
-    <ion-content overflow-scroll="true">
+    <ion-content overflow-scroll="true" class="tabs-content">
         <div class="year-selector">
             <label class = "item item-input item-select item-light">
                 <div class = "input-label">

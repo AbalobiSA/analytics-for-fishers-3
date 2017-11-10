@@ -34,11 +34,19 @@
             },
             options: {
                 legend: {
+                    fontSize: 16,
                     // Disables the removal of data when legend items are clicked
                     onClick: function (event, legendItem) {
                     }
                 },
-                responsive: true
+                responsive: true,
+                tooltips: {
+                    bodyFontSize: 14,
+                    xPadding: 8,
+                    yPadding: 8,
+                    displayColors: false,
+                    caretPadding: 8,
+                }
             }
         };
 
@@ -51,6 +59,7 @@
         // };
 
         ctrl.colorMap = costColorMap;
+        ctrl.patternMap = costPatternMap;
         // let ctrl = this;
         // ctrl.loading = false;
         // ctrl.emailSending = false;
@@ -67,14 +76,12 @@
                 View enter
          ============================================================================*/
         ctrl.$onInit = function () {
-            console.log('testing#########################');
             ctrl.loading = false;
             ctrl.monthObs.subscribe(m => ctrl.onMonthChange(m));
         };
 
         ctrl.onMonthChange = function (month) {
             ctrl.month = month;
-            console.log("we have a cost change", month);
             ctrl.currentMonthTotal = month.costs.reduce((acc, entry) => acc+entry.value, 0);
             buildChartConfig(month);
             ctrl.myPie.update();
@@ -128,7 +135,7 @@
 
                     labels.push(finalLabel);
                     datasets.push(currentMonth.costs[i].value);
-                    colours.push(costColorMap[label])
+                    colours.push(costPatternMap[label])
                 }
             }
 
@@ -139,14 +146,46 @@
         };
     }
 
+    const colors = [
+        '#FF7B3A',
+        '#FFC072',
+        '#2E578C',
+        '#7D807F',
+        '#BC2D30',
+        '#C9FF93',
+        '#9D45B8'
+    ];
+
+    // const colors = [
+    //     '#000000',
+    //     '#000001',
+    //     '#000002',
+    //     '#000003',
+    //     '#000004',
+    //     '#000005',
+    //     '#000006'
+    // ];
+
+    const patterns = pattern.generate(colors);
+
     const costColorMap = {
-        'aas': '#FF7B3A',
-        'voedsel': '#FFC072',
-        'brandstof': '#2E578C',
-        'hawe_fooi': '#7D807F',
-        'olie': '#BC2D30',
-        'transport': '#C9FF93',
-        'ander': '#9D45B8',
+        'aas': colors[0],
+        'voedsel': colors[1],
+        'brandstof': colors[2],
+        'hawe_fooi': colors[3],
+        'olie': colors[4],
+        'transport': colors[5],
+        'ander': colors[6],
+    };
+
+    const costPatternMap = {
+        'aas': patterns[0],
+        'voedsel': patterns[1],
+        'brandstof': patterns[2],
+        'hawe_fooi': patterns[3],
+        'olie': patterns[4],
+        'transport': patterns[5],
+        'ander': patterns[6],
     };
 
 }());

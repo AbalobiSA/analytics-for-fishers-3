@@ -31,7 +31,7 @@
     }
 
     .income-table-name {
-        width: 40%;
+        /* width: 40%; */
         font-weight: bold;
         float: left;
     }
@@ -42,9 +42,17 @@
     }
 
     .income-table-value {
-        width: 30%;
+        /* width: 30%; */
         float: right;
         text-align: right;
+    }
+
+    .income-profits {
+        display: inline;
+    }
+
+    .income-negative-profits {
+        margin: 0 8px;
     }
 </style>
 <div class="cs-spacer"></div>
@@ -60,8 +68,8 @@
 <div>
     <div class="income-table">
         <h1>Inkomste</h1>
-        <h4>Totale Inkomste: {{$ctrl.currentMonthTotal | currency:"R "}}</h4>
-        <h3>Wins: {{$ctrl.currentMonthProfits | currency:"R "}}</h3>
+        <h4>Totale Inkomste: <br/> {{$ctrl.currentMonthTotal | currency:"R "}}</h4>
+        <span><h3 class="income-profits">{{($ctrl.currentMonthProfits > 0) ? 'Wins' : 'Verlies'}}: <br/>{{$ctrl.currentMonthProfits | currency:"R "}}</h3></span><span ng-if="$ctrl.currentMonthProfits < 0" class="income-negative-profits"><img width="20px" src="components/reports/income/img/thumbs-down.png"/></span>
         <div class="income-table-entry" ng-repeat="c in $ctrl.currentMonth.species">
             <p class="income-table-name">{{c.name | capitalizeKeys}}</p>
             <span class="income-table-legend-color">
@@ -77,8 +85,16 @@
         </div>
     </div>
 
-    <div id="canvas-holder" style="width:100%">
-        <canvas id="income-chart-area"></canvas>
+    <h5>Inkomste uit elke spesie</h5>
+    <div class="vis-tip">Vir meer inligting klik op elke skyfie</div>
+    <div id="canvas-holder-income" style="width:100%">
+        <canvas id="income-chart-area-income"></canvas>
+    </div>
+
+    <h5>Hoeveelheid gevang</h5>
+    <div class="vis-tip">Vir meer inligting klik op elke skyfie</div>
+    <div id="canvas-holder-quantity" style="width:100%">
+        <canvas id="income-chart-area-quantity"></canvas>
     </div>
 </div>
 
