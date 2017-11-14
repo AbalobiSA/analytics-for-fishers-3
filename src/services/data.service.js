@@ -37,6 +37,8 @@
         let priceChange_weight;
         let priceChange_crates;
 
+        let reportsData;
+
         let catchDaysData;
 
         let mainUserEmailAddress;
@@ -294,6 +296,39 @@
             });
         }
 
+        function queryReports(refreshData) {
+            return new Promise((resolve, reject) => {
+                let endpoint = "/api/analytics/reports";
+                let access_token = localStorage.getItem('access_token');
+
+                if (!access_token) {
+                    console.log("No access token!");
+                    reject("No access token found.");
+                } else {
+                    let options = {
+                        url: SERVER_IP + endpoint,
+                        params: {
+                            access_token : access_token
+                        },
+                        method: 'GET'
+                    };
+                    console.log("Debug: OPTIONS: " + JSON.stringify(options, null, 4));
+                    if (refreshData || recentCatches === undefined) {
+                        recentCatches = undefined;
+                        $http(options)
+                            .then(response => {
+                                reportsData = response;
+                                resolve(reportsData);
+                            }).catch(error => {reject(error)});
+                    }
+                    else {
+                        console.log("Sending back cached data.");
+                        resolve(reportsData);
+                    }
+                }
+            });
+        }
+
         function getEmailAddress(refreshData) {
             return new Promise ((resolve, reject) => {
                 let access_token = localStorage.getItem('access_token');
@@ -437,6 +472,7 @@
             queryExpensesIncomeByTimePeriod: queryExpensesIncomeByTimePeriod,
             queryEvolutionOfPrices: queryEvolutionOfPrices,
             queryCatchDays: queryCatchDays,
+            queryReports: queryReports,
             getEmailAddress: getEmailAddress,
             getManagerUsers: getManagerUsers,
 

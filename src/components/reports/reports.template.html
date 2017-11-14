@@ -1,0 +1,131 @@
+<style>
+    /* .tab-item .icon {
+        height: 44px;
+    } */
+
+    .tabs-icon-top > .tabs .tab-item, .tabs-icon-top.tabs .tab-item, .tabs-icon-bottom > .tabs .tab-item, .tabs-icon-bottom.tabs .tab-item {
+        color: rgba(255, 191, 25, 0.65);
+    }
+    
+    /* tab icon default state*/
+    .tabs-icon-top > .tabs .tab-item > i div, .tabs-icon-top.tabs .tab-item > i div, .tabs-icon-bottom > .tabs .tab-item > i div, .tabs-icon-bottom.tabs .tab-item > i div {
+        background-color: rgba(255, 191, 25, 0.65);;
+    }
+
+    .tabs-striped.tabs-color-light .tab-item.tab-item-active, .tabs-striped.tabs-color-light .tab-item.active, .tabs-striped.tabs-color-light .tab-item.activated {
+        font-weight: bold;
+        border: 0 solid rgba(255, 191, 25, 1);
+        color: rgba(255, 191, 25, 1);
+    }
+
+    /* tab icon active state*/
+    .tabs-striped.tabs-color-light .tab-item.tab-item-active > i div, .tabs-striped.tabs-color-light .tab-item.active > i div, .tabs-striped.tabs-color-light .tab-item.activated > i div {
+        background-color: rgba(255, 191, 25, 1);
+    }
+
+    .tab-heading {
+        font-size: 14px;
+    }
+
+    .tabs-content {
+        top: 48px;
+        padding-top: 56px;
+    }
+
+    .tab-img { 
+        width: 32px;
+        height: 32px;
+        mask-size: 28px;
+        mask-repeat: no-repeat;
+        -webkit-mask-size: 28px;
+        -webkit-mask-repeat: no-repeat;
+    }
+
+    .tab-img-seadays {
+        mask-image: url('components/reports/boat.png');
+        -webkit-mask-image: url('components/reports/boat.png');
+    }
+
+    .tab-img-income {
+        mask-image: url('components/reports/fish.png');
+        -webkit-mask-image: url('components/reports/fish.png');
+    }
+
+    .tab-img-costs {
+        mask-image: url('components/reports/cash.png');
+        -webkit-mask-image: url('components/reports/cash.png');
+    }
+    /* .img {  } */
+</style>
+<ion-view title="Verslag" ng-controller="reportsController as $ctrl">
+    <div class="tabs-striped tabs-top tabs-icon-top tabs-background-positive tabs-color-light">
+        <div class="tabs">
+            <a class="tab-item" ng-class="{active: $ctrl.isTabSelected(0)}" ng-click="$ctrl.tabSelected(0)">
+                <i><div class="icon tab-img tab-img-seadays"></div></i>
+                <span class="tab-heading">See Dae</span>
+            </a>
+            <a class="tab-item" ng-class="{active: $ctrl.isTabSelected(1)}" ng-click="$ctrl.tabSelected(1)">
+                <i><div class="icon tab-img tab-img-income"></div></i>
+                <span class="tab-heading">Inkomste</span>
+            </a>
+            <a class="tab-item" ng-class="{active: $ctrl.isTabSelected(2)}" ng-click="$ctrl.tabSelected(2)">
+                <i><div class="icon tab-img tab-img-costs"></div></i>
+                <span class="tab-heading">Uitgawes</span>
+            </a>
+        </div>
+    </div>
+
+    <ion-content overflow-scroll="true" class="tabs-content">
+
+        <!-- LOADING SECTION --> 
+        <button class="btn-main" ng-click="$ctrl.requestFreshData()">Refresh Data</button>
+    
+        <div ng-show="$ctrl.loading">
+            <div class="cs-loader-container">
+                <div class="cs-loader">
+                </div>
+            </div>
+            <h4 class="text-center">Loading...</h4>
+        </div>
+
+        <div ng-show="!$ctrl.loading && $ctrl.noDataExists()">
+                <div class="card" >
+                    <div class="item item-text-wrap">
+                        Unable to connect to the server. Please check your internet connection settings or data cap.
+                    </div>
+                </div>
+        </div>
+        <!-- END LOADING SECTION --> 
+
+        <div class="year-selector">
+            <label class = "item item-input item-select item-light">
+                <div class = "input-label">
+                    Kies jaar:
+                </div>
+
+                <select ng-model="$ctrl.sy" ng-options="year for year in $ctrl.years" ng-change="$ctrl.yearChange($ctrl.sy)">
+                    <!-- <option ng-repeat="year in $ctrl.years">{{year}}</option> -->
+                </select>
+
+            </label>
+            <br/>
+
+            <label class = "item item-input item-select item-light">
+                <div class = "input-label">
+                    Kies maand:
+                </div>
+
+                <select ng-model="$ctrl.sm" ng-options="idx as month for (idx, month) in $ctrl.months" ng-change="$ctrl.monthChange($ctrl.sm, $ctrl.sy)">
+
+                </select>
+
+            </label>
+        </div>
+
+        <div class="reports-container">
+            <seadays-report ng-show="$ctrl.isTabSelected(0)" month-obs="$ctrl.monthObs" month-map="$ctrl.monthMap"></seadays-report>
+            <!-- <income-report ng-show="$ctrl.isTabSelected(1)" month-obs="$ctrl.monthObs"></income-report>
+            <cost-report-tab ng-show="$ctrl.isTabSelected(2)" month-obs="$ctrl.monthObs"></cost-report-tab> -->
+        </div>
+    </ion-content>
+</ion-view>

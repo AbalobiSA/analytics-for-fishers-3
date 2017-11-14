@@ -1,22 +1,25 @@
 {
-    "name": "Fisher Analytics 3",
-    "123documentRoot" : "src",
-    "app_id": "",
-    "watch": {
-        "sass": [
-            "src/scss/*.scss"
-        ]
-    },
-    "gulpStartupTasks": [
-        "sass",
-        "babel",
-        "watch"
-    ],
-    "type": "ionic1",
-    "watchPatterns": [
-        "src/scss/**/*",
-        "!www/lib/**/*",
-        "www/**",
-        "src/**"
+  "name": "Fisher Analytics 3",
+  "documentRoot": "src",
+  "app_id": "",
+  "watch": {
+    "sass": [
+      "src/scss/*.scss"
     ]
+  },
+  "gulpStartupTasks": [
+    "sass",
+    "babel",
+    "watch"
+  ],
+  "type": "ionic1",
+  "watchPatterns": [
+    "src/scss/**/*",
+    "!www/lib/**/*",
+    "www/**",
+    "src/**"
+  ],
+  "integrations": {
+    "cordova": {}
+  }
 }

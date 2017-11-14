@@ -37,18 +37,26 @@
         View Enter
  ============================================================================*/
         $scope.$on('$ionicView.enter', function() {
-            vm.isLoading = true;
-            resetLocalVariables();
+            console.log('home view enter');
 
-            dataService.getRecentCatches(false)
-                .then(handleDataSuccess)
-                .catch(handleDataError)
+            var token = localStorage.getItem('id_token');
+            console.log("token -> ", token);
+            if (token) {
+                $state.go('menu.reports');
+            }
+            // vm.isLoading = true;
+            // resetLocalVariables();
+
+            // dataService.getRecentCatches(false)
+            //     .then(handleDataSuccess)
+            //     .catch(handleDataError)
         });
 /*============================================================================
         Functions
  ============================================================================*/
 
         vm.refreshData = function() {
+            console.log("refreshing data");
             vm.isLoading = true;
             recentCatches = undefined;
 
@@ -60,7 +68,7 @@
         function handleDataSuccess(response) {
             aggregateCatchesByDate(response.data.records);
             vm.isManager = response.data.is_manager;
-            console.log("Data returned with success.");
+            console.log("Data returned with success. ->");
             vm.isLoading = false;
             $scope.$apply();
         }

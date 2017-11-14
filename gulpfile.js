@@ -157,6 +157,10 @@ gulp.task('babel', function () {
         .pipe(plumber())
         .pipe(gulp.dest(componentsDist));
 
+    gulp.src('src/components/**/*.png')
+        .pipe(plumber())
+        .pipe(gulp.dest(componentsDist));
+
     gulp.src('src/components/**/*.css')
         .pipe(plumber())
         .pipe(gulp.dest(componentsDist));
@@ -232,6 +236,13 @@ gulp.task('babel', function () {
  ============================================================================*/
 
     gulp.src('src/lib/**/dist/*.js')
+        // .pipe(babel({
+        //     presets: ['es2015']
+        // }))
+        .pipe(plumber())
+        .pipe(gulp.dest(path.join(dist, "lib")));
+
+    gulp.src('src/lib/**/dist/*.css')
         // .pipe(babel({
         //     presets: ['es2015']
         // }))
