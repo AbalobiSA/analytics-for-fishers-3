@@ -52,7 +52,7 @@
         <h1>Uitgawes</h1>
         <h4>Totale uitgawes: <br/>{{$ctrl.currentMonthTotal | currency:"R "}}</h4>
         <div class="cost-table-entry" ng-repeat="c in $ctrl.month.costs">
-            <div class="cost-table-name">{{c.name | capitalizeKeys}}</div>
+            <div class="cost-table-name">{{c.name | costKeysTranslator | capitalizeKeys}}</div>
             <div class="cost-table-value">{{c.value | currency:"R "}}</div>
             <div class="cost-table-legend-color">
                 <svg height="15" width="15">

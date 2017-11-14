@@ -80,10 +80,13 @@
             ctrl.monthObs.subscribe(m => ctrl.onMonthChange(m));
         };
 
-        ctrl.onMonthChange = function (month) {
-            ctrl.month = month;
-            ctrl.currentMonthTotal = month.costs.reduce((acc, entry) => acc+entry.value, 0);
-            buildChartConfig(month);
+        ctrl.onMonthChange = function (m) {
+            if (typeof m === 'undefined' || m === null){
+                return
+            }
+            ctrl.month = m;
+            ctrl.currentMonthTotal = ctrl.month.totalCosts;
+            buildChartConfig(ctrl.month);
             ctrl.myPie.update();
         };
 
@@ -141,7 +144,6 @@
 
             ctrl.chartConfig.data.labels = labels;
             ctrl.chartConfig.data.datasets[0].data = datasets;
-            console.log('colours', colours);
             ctrl.chartConfig.data.datasets[0].backgroundColor = colours;
         };
     }
@@ -156,36 +158,26 @@
         '#9D45B8'
     ];
 
-    // const colors = [
-    //     '#000000',
-    //     '#000001',
-    //     '#000002',
-    //     '#000003',
-    //     '#000004',
-    //     '#000005',
-    //     '#000006'
-    // ];
-
     const patterns = pattern.generate(colors);
 
     const costColorMap = {
-        'aas': colors[0],
-        'voedsel': colors[1],
-        'brandstof': colors[2],
-        'hawe_fooi': colors[3],
-        'olie': colors[4],
+        'bait': colors[0],
+        'food': colors[1],
+        'fuel': colors[2],
+        'harbour_fee': colors[3],
+        'oil': colors[4],
         'transport': colors[5],
-        'ander': colors[6],
+        'other': colors[6],
     };
 
     const costPatternMap = {
-        'aas': patterns[0],
-        'voedsel': patterns[1],
-        'brandstof': patterns[2],
-        'hawe_fooi': patterns[3],
-        'olie': patterns[4],
+        'bait': patterns[0],
+        'food': patterns[1],
+        'fuel': patterns[2],
+        'harbour_fee': patterns[3],
+        'oil': patterns[4],
         'transport': patterns[5],
-        'ander': patterns[6],
+        'other': patterns[6],
     };
 
 }());
