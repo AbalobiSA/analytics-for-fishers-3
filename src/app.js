@@ -13,6 +13,22 @@
         }
     });
 
+    app.filter('costKeysTranslator', function() {
+        const costTypeMap = {
+            'bait': 'ass',
+            'fuel': 'brandstof',
+            'food': 'voedsel',
+            'harbour_fee': 'hawe_fooi',
+            'oil' : 'olie',
+            'other': 'ander',
+            'transport': 'transport',
+        }
+
+        return function(input, a) {
+            return costTypeMap[input] || input;
+        }
+    })
+
 
 })();
 
