@@ -10079,5 +10079,7 @@ a.button, a.btn-main {
   padding: 8px; }
 
 .vis-tip {
-  font-size: 10px;
-  margin: 2px 4px; }
+  color: #276419;
+  font-size: 14px;
+  margin: 8px 4px;
+  text-decoration: underline; }
