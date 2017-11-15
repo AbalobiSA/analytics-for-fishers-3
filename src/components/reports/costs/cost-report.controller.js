@@ -38,6 +38,20 @@
                     fontSize: 16,
                     // Disables the removal of data when legend items are clicked
                     onClick: function (event, legendItem) {
+                        // todo NB: not sure if this method is fullproof
+                        let dsmb = ctrl.myPie.data.datasets[0]._meta;
+                        let dsm;
+                        for (let m in dsmb){
+                            dsm = dsmb[m];
+                            break;
+                        }
+                        let activeSegment = dsm.data[legendItem.index];
+                        ctrl.myPie.tooltip.initialize();
+                        ctrl.myPie.tooltip._active = [activeSegment];
+                        ctrl.myPie.tooltip.update();
+                        dsm.controller.setHoverStyle(activeSegment);
+                        ctrl.myPie.render(ctrl.myPie.options.hover.animationDuration, true);
+                        dsm.controller.removeHoverStyle(activeSegment);
                     }
                 },
                 responsive: true,

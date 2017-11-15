@@ -38,6 +38,20 @@
                 legend: {
                     // Disables the removal of data when legend items are clicked
                     onClick: function (event, legendItem) {
+                        // todo NB: not sure if this method is fullproof
+                        let dsmb = ctrl.myPieIncome.data.datasets[0]._meta;
+                        let dsm;
+                        for (let m in dsmb){
+                            dsm = dsmb[m];
+                            break;
+                        }
+                        let activeSegment = dsm.data[legendItem.index];
+                        ctrl.myPieIncome.tooltip.initialize();
+                        ctrl.myPieIncome.tooltip._active = [activeSegment];
+                        ctrl.myPieIncome.tooltip.update();
+                        dsm.controller.setHoverStyle(activeSegment);
+                        ctrl.myPieIncome.render(ctrl.myPieIncome.options.hover.animationDuration, true);
+                        dsm.controller.removeHoverStyle(activeSegment);
                     }
                 },
                 responsive: true,
