@@ -56,7 +56,7 @@
             <div class="cost-table-value">{{c.value | currency:"R "}}</div>
             <div class="cost-table-legend-color">
                 <svg height="15" width="15">
-                    <circle cx="7" cy="7" r="6" stroke="black" stroke-width="1" fill="{{$ctrl.colorMap[c.name]}}"/>
+                    <circle cx="7" cy="7" r="6" stroke="black" stroke-width="1" fill="{{$ctrl.colors[$index % $ctrl.colors.length]}}"/>
                 </svg>
             </div>
         </div>

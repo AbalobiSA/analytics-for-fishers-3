@@ -8,6 +8,7 @@
             templateUrl: 'components/reports/costs/cost-report.template.html',
             controller: costReportController,
             bindings: {
+                colors: '<',
                 monthObs: '<'
             }
         });
@@ -58,8 +59,6 @@
         //     costs: []
         // };
 
-        ctrl.colorMap = costColorMap;
-        ctrl.patternMap = costPatternMap;
         // let ctrl = this;
         // ctrl.loading = false;
         // ctrl.emailSending = false;
@@ -138,7 +137,7 @@
 
                     labels.push(finalLabel);
                     datasets.push(currentMonth.costs[i].value);
-                    colours.push(costPatternMap[label])
+                    colours.push(ctrl.colors[i % ctrl.colors.length]);
                 }
             }
 
@@ -147,37 +146,5 @@
             ctrl.chartConfig.data.datasets[0].backgroundColor = colours;
         };
     }
-
-    const colors = [
-        '#FF7B3A',
-        '#FFC072',
-        '#2E578C',
-        '#7D807F',
-        '#BC2D30',
-        '#C9FF93',
-        '#9D45B8'
-    ];
-
-    const patterns = pattern.generate(colors);
-
-    const costColorMap = {
-        'bait': colors[0],
-        'food': colors[1],
-        'fuel': colors[2],
-        'harbour_fee': colors[3],
-        'oil': colors[4],
-        'transport': colors[5],
-        'other': colors[6],
-    };
-
-    const costPatternMap = {
-        'bait': patterns[0],
-        'food': patterns[1],
-        'fuel': patterns[2],
-        'harbour_fee': patterns[3],
-        'oil': patterns[4],
-        'transport': patterns[5],
-        'other': patterns[6],
-    };
 
 }());
