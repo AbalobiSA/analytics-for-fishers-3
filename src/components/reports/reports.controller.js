@@ -8,18 +8,18 @@
 
     reportsController.$inject = ['$state', '$scope', '$http',
         '$rootScope','authService', 'stateService', 'dataService',
-        'StringUtil', 'ResultsUtil', '$ionicPlatform'];
+        'StringUtil', 'ResultsUtil', '$ionicPlatform', 'Analytics'];
 
     function reportsController($state, $scope, $http,
          $rootScope, authService, stateService, dataService,
-            StringUtil, ResultsUtil, $ionicPlatform) {
+            StringUtil, ResultsUtil, $ionicPlatform, ganalytics) {
 
         let ctrl = this;
         const sfdata = dataService;
         const baseTitle = 'Verslag - '
         let responseData;
 
-        ctrl.seaDaysTabSelected = true;
+        ctrl.seaDaysTabSelected = false;
         ctrl.incomeTabSelected = false;
         ctrl.expensesTabSelected = false;
 
@@ -44,6 +44,7 @@
         ]
         const showError = function(err) {
             console.log(`Error: ${JSON.stringify(err, null, 4)}`);
+            ganalytics.trackEvent('reports', 'error', err.toString());
             ctrl.loading = false;
             applyScope();
         };
@@ -84,7 +85,9 @@
  ============================================================================*/
         function requestData(){
             console.log("DEBUG: Requesting data...");
+            ganalytics.trackEvent('reports', 'request_data', 'init');
             ctrl.loading = true;
+            ctrl.tabSelected(0);
             sfdata.queryReports(false)
                 .then(handleResponse)
                 .catch(showError);
@@ -99,6 +102,7 @@
         }
 
         ctrl.requestFreshData = function () {
+            ganalytics.trackEvent('reports', 'request_data', 'refresh');
             ctrl.loading = true;
             sfdata.queryReports(true)
                 .then(handleResponse)
@@ -110,6 +114,7 @@
         const handleResponse = function(response){
             console.log("DEBUG: Response received. Logging info now...");
             console.log(JSON.stringify(response));
+            ganalytics.trackEvent('reports', 'request_data', 'response_received');
             responseData = response.data;
 
             ctrl.loading = false;
@@ -127,7 +132,7 @@
             ctrl.sm = ctrl.sm.toString();
 
             ctrl.yearChange(ctrl.sy);
-
+            ganalytics.trackEvent('reports', 'request_data', 'handled_response');
             applyScope();
         };
 
@@ -198,6 +203,7 @@
         const yearSubject = new Rx.BehaviorSubject(ctrl.selectedyear);
         ctrl.yearChangeObs = yearSubject.asObservable();
         ctrl.yearChange = function(key) {
+            ganalytics.trackEvent('reports', 'year_change', key);
             let selectedMonth = responseData[key];
 
             let months = [];
@@ -223,6 +229,7 @@
         ctrl.monthObs = monthSubject.asObservable();
         ctrl.monthChange = function(index, year) {
             ctrl.selectedMonth = responseData[year][index];
+            ganalytics.trackEvent('reports', 'month_change', year + '-' + ctrl.selectedMonth.month);
             applyScope();
             setTitle()
             monthSubject.onNext(ctrl.selectedMonth);
