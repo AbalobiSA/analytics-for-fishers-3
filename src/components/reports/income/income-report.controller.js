@@ -131,7 +131,7 @@
 
             for (let i = 0; i < currentMonth.species.length; i = i + 1) {
                 let label = currentMonth.species[i].name;
-                labels.push($filter('speciesNameMapper')(label, ctrl.speciesList, 'afr'))
+                labels.push($filter('listKeyMapper')(label, ctrl.speciesList, 'afr'))
                 datasetsIncome.push($filter('quantitiesIncome')(currentMonth.species[i].quantities))
                 colors.push(ctrl.colors[i % ctrl.colors.length]);
             }

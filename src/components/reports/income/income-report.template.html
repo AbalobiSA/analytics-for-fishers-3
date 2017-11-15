@@ -78,7 +78,7 @@
         <h4>Totale uitgawes: <br/>- {{$ctrl.currentMonthCosts | currency:"R "}}</h4>
         <span><h3 class="income-profits">{{($ctrl.currentMonthProfits > 0) ? 'Wins' : 'Verlies'}}: <br/>{{$ctrl.currentMonthProfits | currency:"R "}}</h3></span><span ng-if="$ctrl.currentMonthProfits < 0" class="income-negative-profits"><img width="20px" src="components/reports/income/img/thumbs-down.png"/></span>
         <div class="income-table-entry" ng-repeat="c in $ctrl.currentMonth.species">
-            <p class="income-table-name">{{c.name | speciesNameMapper : $ctrl.speciesList : 'afr' }}</p>
+            <p class="income-table-name">{{c.name | listKeyMapper : $ctrl.speciesList : 'afr' }}</p>
             <span class="income-table-legend-color">
                 <svg height="15" width="15">
                     <circle cx="7" cy="7" r="6" stroke="black" stroke-width="1" fill="{{$ctrl.colors[$index % $ctrl.colors.length]}}"/>

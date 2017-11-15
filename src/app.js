@@ -91,15 +91,15 @@
         }
     })
 
-    app.filter('speciesNameMapper', function() {
+    app.filter('listKeyMapper', function() {
         let availableLangs = ['eng', 'afr'];
-        return function (species, list, lang) {
+        return function (input, list, lang) {
             // console.log('s name mapper', species, list, lang);
             if (availableLangs.indexOf(lang) < 0){
                 lang = 'eng';
             }
             
-            return list[species][lang] || list['not_on_list'].lang;
+            return list[input][lang] || list['not_on_list'].lang;
         }
     })
 
