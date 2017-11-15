@@ -13,11 +13,11 @@
             }
         });
 
-    costReportController.$inject = ['$state', '$http',
+    costReportController.$inject = ['$state', '$http', '$filter',
         '$rootScope', 'authService', 'stateService', 'dataService', 'StringUtil', 'ResultsUtil'];
 
 
-    function costReportController($state, $http,
+    function costReportController($state, $http, $filter,
                                   $rootScope, authService, stateService, dataService, StringUtil, ResultsUtil) {
 
         let ctrl = this;
@@ -102,9 +102,10 @@
                 if (currentMonth.costs[i].value > 0) {
                     // Prettify label text
                     let label = currentMonth.costs[i].name;
-                    let finalLabel = label.substring(0, 1).toUpperCase() + label.substring(1);
+                    label = $filter('costKeysTranslator')(label);
+                    label = $filter('capitalizeKeys')(label);
 
-                    labels.push(finalLabel);
+                    labels.push(label);
                     datasets.push(currentMonth.costs[i].value);
                     colours.push(ctrl.colors[i % ctrl.colors.length]);
                 }
