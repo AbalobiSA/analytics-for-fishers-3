@@ -68,23 +68,6 @@
         let ctx = document.getElementById("cost-chart-area").getContext("2d");
         ctrl.myPie = new Chart(ctx, ctrl.chartConfig);
 
-        // ctrl.currentMonth = {
-        //     month: 0,
-        //     costs: []
-        // };
-
-        // let ctrl = this;
-        // ctrl.loading = false;
-        // ctrl.emailSending = false;
-        // ctrl.showManagerList = false;
-        // ctrl.validEmail = false;
-        // let userId;
-        // let mainEmailAddress;
-
-        // let managedUsers;
-        // let selectedReportUser;
-        // ctrl.mainUserId
-
         /*============================================================================
                 View enter
          ============================================================================*/
@@ -101,38 +84,10 @@
             ctrl.currentMonthTotal = ctrl.month.totalCosts;
             buildChartConfig(ctrl.month);
             ctrl.myPie.update();
+            applyScope();
         };
 
-        // $scope.$on('$ionicView.loaded', function() {
-        //     resetLocalVariables();
-        //
-        // ctrl.requestStatus = 0;
-        // ctrl.loading = true;
-        //
-        // Promise.all([
-        //     dataService.getEmailAddress(true)
-        //         .then(processEmailSuccess)
-        //         .catch(processEmailError),
-        //
-        //     dataService.getManagerUsers()
-        //         .then(managedUsersSuccess)
-        //         .catch(error => console.log(error))
-        // ]).then(results => {
-        //     // console.log("All calls have been made.");
-        //     ctrl.loading = false;
-        //     $scope.$apply();
-        // }).catch(error => {
-        //     console.log("Promise all error: ", error);
-        //     ctrl.loading = false;
-        //     $scope.$apply();
-        // })
-
-        // });
-
-        function resetLocalVariables() {
-            // userId = "";
-            // mainEmailAddress = "";
-        }
+        function resetLocalVariables() {}
 
         const buildChartConfig = function (currentMonth) {
             console.log('building chart config', currentMonth);
@@ -159,6 +114,14 @@
             ctrl.chartConfig.data.datasets[0].data = datasets;
             ctrl.chartConfig.data.datasets[0].backgroundColor = colours;
         };
+
+        function applyScope() {
+            try {
+                $scope.$apply();
+            } catch (ex) {
+                console.log("Scope apply already in progress!");
+            }
+        }
     }
 
 }());

@@ -36,7 +36,7 @@
             options: {
                 legend: {
                     fontSize: 16,
-                    // Disables the removal of data when legend items are clicked
+                    // shows the tooltip on the pie slice on click
                     onClick: function (event, legendItem) {
                         // todo NB: not sure if this method is fullproof
                         let dsmb = ctrl.myPie.data.datasets[0]._meta;
@@ -61,24 +61,6 @@
                     yPadding: 8,
                     displayColors: false,
                     caretPadding: 8,
-                    callbacks:{
-                        // title: function(data, chart) {
-                        //     console.log('render title', data);
-                        //     console.log('render title', chart);
-                        //
-                        //     return chart.labels[data[0].index];
-                        // },
-                        // label: function(data, chart){
-                        //     console.log('render label', data);
-                        //     console.log('render label', data[0]);
-                        //     return 'Number: \t' + ctrl.currentMonth.species[data.index].quantity + '\n';
-                        // },
-                        // afterLabel: function(data, chart){
-                        //     console.log('render footer', data);
-                        //     return 'Income: R\t' + ctrl.currentMonth.species[data.index].value;
-                        // }
-                    },
-
                 }
             }
         };
@@ -93,7 +75,6 @@
                 View enter
          ============================================================================*/
         ctrl.$onInit = function () {
-            console.log('testing#########################', ctrl);
             ctrl.loading = false;
             ctrl.monthObs.subscribe(m => ctrl.onMonthChange(m));
         };
@@ -121,6 +102,7 @@
             buildChartConfig(ctrl.currentMonth);
             buildCalendarConfig(ctrl.currentMonth);
             ctrl.myPie.update();
+            applyScope();
         };
 
         ctrl.getCalendarIcon = function(day) {
@@ -184,37 +166,7 @@
             return Array.from(pos).join(' ');
         };
 
-
-        // $scope.$on('$ionicView.enter', function() {
-        //     console.log('>>>>>>>>>>>>>>>>>>>>>>>>>> start');
-        //     resetLocalVariables();
-        //
-        //     ctrl.requestStatus = 0;
-        //     ctrl.loading = true;
-
-        // Promise.all([
-        //     dataService.getEmailAddress(true)
-        //         .then(processEmailSuccess)
-        //         .catch(processEmailError),
-        //
-        //     dataService.getManagerUsers()
-        //         .then(managedUsersSuccess)
-        //         .catch(error => console.log(error))
-        // ]).then(results => {
-        //     // console.log("All calls have been made.");
-        //     ctrl.loading = false;
-        //     $scope.$apply();
-        // }).catch(error => {
-        //     console.log("Promise all error: ", error);
-        //     ctrl.loading = false;
-        //     $scope.$apply();
-        // })
-        // });
-
-        function resetLocalVariables() {
-            // userId = "";
-            // mainEmailAddress = "";
-        }
+        function resetLocalVariables() {}
 
         const buildChartConfig = function (currentMonth) {
             console.log('building income chart config', currentMonth);
@@ -233,9 +185,6 @@
             ctrl.chartConfig.data.labels = labels;
             ctrl.chartConfig.data.datasets[0].data = datasets;
             ctrl.chartConfig.data.datasets[0].backgroundColor = colours;
-            // ctrl.chartConfig.options.tooltips =  {
-            //     custom: ctrl.customTooltip,
-            // }
         };
 
         const buildCalendarConfig = function(currentMonth) {
@@ -266,6 +215,14 @@
 
             console.log('weeks', weeks);
             ctrl.weeks = weeks;
+        }
+
+        function applyScope() {
+            try {
+                $scope.$apply();
+            } catch (ex) {
+                console.log("Scope apply already in progress!");
+            }
         }
     }
 

@@ -13,7 +13,6 @@
                 speciesList: '<'
             }
         });
-    // .controller('incomeReportController', incomeReportController);
 
     incomeReportController.$inject = ['$state', '$scope', '$http', '$filter',
         '$rootScope', 'authService', 'stateService', 'dataService', 'StringUtil', 'ResultsUtil'];
@@ -96,26 +95,7 @@
         };
 
         let ctxi = document.getElementById("income-chart-area-income").getContext("2d");
-        // let ctxq = document.getElementById("income-chart-area-quantity").getContext("2d");
         ctrl.myPieIncome = new Chart(ctxi, ctrl.chartConfigIncome);
-        // ctrl.myPieQuantity = new Chart(ctxq, ctrl.chartConfigQuantity);
-
-        // ctrl.currentMonth = {
-        //     month: 0,
-        //     costs: []
-        // };
-
-        // let ctrl = this;
-        // ctrl.loading = false;
-        // ctrl.emailSending = false;
-        // ctrl.showManagerList = false;
-        // ctrl.validEmail = false;
-        // let userId;
-        // let mainEmailAddress;
-
-        // let managedUsers;
-        // let selectedReportUser;
-        // ctrl.mainUserId
 
         /*============================================================================
                 View enter
@@ -137,39 +117,10 @@
             ctrl.currentMonthProfits = ctrl.currentMonthTotal-ctrl.currentMonthCosts;
             buildChartConfig(ctrl.currentMonth);
             ctrl.myPieIncome.update();
-            // ctrl.myPieQuantity.update();
+            applyScope();
         };
 
-        // $scope.$on('$ionicView.enter', function() {
-        //     console.log('>>>>>>>>>>>>>>>>>>>>>>>>>> start');
-        //     resetLocalVariables();
-        //
-        //     ctrl.requestStatus = 0;
-        //     ctrl.loading = true;
-
-        // Promise.all([
-        //     dataService.getEmailAddress(true)
-        //         .then(processEmailSuccess)
-        //         .catch(processEmailError),
-        //
-        //     dataService.getManagerUsers()
-        //         .then(managedUsersSuccess)
-        //         .catch(error => console.log(error))
-        // ]).then(results => {
-        //     // console.log("All calls have been made.");
-        //     ctrl.loading = false;
-        //     $scope.$apply();
-        // }).catch(error => {
-        //     console.log("Promise all error: ", error);
-        //     ctrl.loading = false;
-        //     $scope.$apply();
-        // })
-        // });
-
-        function resetLocalVariables() {
-            // userId = "";
-            // mainEmailAddress = "";
-        }
+        function resetLocalVariables() {}
 
         const buildChartConfig = function (currentMonth) {
             console.log('building income chart config', currentMonth);
@@ -188,13 +139,14 @@
             ctrl.chartConfigIncome.data.labels = labels ;
             ctrl.chartConfigIncome.data.datasets[0].data = datasetsIncome;
             ctrl.chartConfigIncome.data.datasets[0].backgroundColor = colors;
-
-            // ctrl.chartConfigQuantity.data.labels = labels;
-            // ctrl.chartConfigQuantity.data.datasets[0].data = datasetsQuantity;
-            // ctrl.chartConfigQuantity.data.datasets[0].backgroundColor = colours;
-            // ctrl.chartConfig.options.tooltips =  {
-            //     custom: ctrl.customTooltip,
-            // }
         };
+
+        function applyScope() {
+            try {
+                $scope.$apply();
+            } catch (ex) {
+                console.log("Scope apply already in progress!");
+            }
+        }
     }
 }());
