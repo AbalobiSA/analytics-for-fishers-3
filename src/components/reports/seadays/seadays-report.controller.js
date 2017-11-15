@@ -10,7 +10,8 @@
             bindings: {
                 colors: '<',
                 monthMap: '<',
-                monthObs: '<'
+                monthObs: '<',
+                year: '<',
             }
         });
 
@@ -169,7 +170,6 @@
         function resetLocalVariables() {}
 
         const buildChartConfig = function (currentMonth) {
-            console.log('building income chart config', currentMonth);
             let labels = ["See dae met vangste", "See dae sonder vangste", "Nie see dae"];
             let datasets = [];
             let colours = ctrl.colors.slice(3,6);
@@ -189,7 +189,7 @@
 
         const buildCalendarConfig = function(currentMonth) {
             const weeks = [];
-            const month = new Date(currentMonth.month);
+            const month = new Date(ctrl.year, currentMonth.month-1, 1);
             const day = month.getDay();
 
             const totalWeeks = Math.ceil(currentMonth.days.length/7);
