@@ -6,10 +6,10 @@
         .module('app')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$state', '$scope', '$http',
+    HomeController.$inject = ['$state', '$scope', '$http', 'Analytics',
         '$rootScope','authService', 'stateService', 'dataService', 'StringUtil'];
 
-    function HomeController($state, $scope, $http, $rootScope, authService, stateService, dataService, StringUtil) {
+    function HomeController($state, $scope, $http, ganalytics, $rootScope, authService, stateService, dataService, StringUtil) {
 
 /*============================================================================
         Variable Declarations
@@ -37,12 +37,11 @@
         View Enter
  ============================================================================*/
         $scope.$on('$ionicView.enter', function() {
-            console.log('home view enter');
-
             var token = localStorage.getItem('id_token');
             console.log("token -> ", token);
             if (token) {
                 $state.go('menu.reports');
+                ganalytics.trackEvent('home', 'redirect', 'reports')
             }
             // vm.isLoading = true;
             // resetLocalVariables();
