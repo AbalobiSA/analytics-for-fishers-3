@@ -1,0 +1,10 @@
+{
+    "mist":{"eng":"There is mist/fog","afr":"Dit is mistig"},
+    "bad_weather":{"eng":"Weather is bad","afr":"Weer is sleg"},
+    "boat_out_of_order":{"eng":"The boat needs to be fixed","afr":"Die boot moet regemaak word"},
+    "boat_no_licence":{"eng":"The boat is not licenced","afr":"Die boot is nie ge-lisensieer nie"},
+    "no_fishing_permit":{"eng":"I don't have a valid permit","afr":"Ek het nie 'n geldige permit nie"},
+    "no_fish":{"eng":"There is no fish at the moment","afr":"Daar is tans nie vis nie"},
+    "out_of_season":{"eng":"I am waiting for the start of the season","afr":"Ek wag vir die begin van die seisoen"},
+    "not_on_list":{"eng":"Other (not on list)","afr":"Ander (nie op lys nie)"}
+}

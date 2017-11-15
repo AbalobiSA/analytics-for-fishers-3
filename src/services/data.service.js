@@ -382,6 +382,11 @@
                 .then(r => r.data);
         }
 
+        function getNoTripReasonsList() {
+            return $http.get("list_no_trip_reasons.json")
+                .then(r => r.data);
+        }
+
 /*============================================================================
         Aggregating Functions
  ============================================================================*/
@@ -482,6 +487,7 @@
             getManagerUsers: getManagerUsers,
             
             getSpeciesList: getSpeciesList,
+            getNoTripReasonsList: getNoTripReasonsList,
             TIME_INTERVALS: TIME_INTERVALS,
             QUANTITY_AGGREGATION_TYPES: QUANTITY_AGGREGATION_TYPES,
             BASE_FISHER_LIST: BASE_FISHER_LIST,
