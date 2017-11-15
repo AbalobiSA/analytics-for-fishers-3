@@ -65,7 +65,6 @@
         ctrl.monthMap = monthMap;
 
         ctrl.getTitle = function() {
-            console.log('get title');
             return 'Verslag'
         }
 
@@ -110,7 +109,7 @@
 
         const handleResponse = function(response){
             console.log("DEBUG: Response received. Logging info now...");
-            console.log(response);
+            console.log(JSON.stringify(response));
             responseData = response.data;
 
             ctrl.loading = false;
@@ -199,13 +198,11 @@
         const yearSubject = new Rx.BehaviorSubject(ctrl.selectedyear);
         ctrl.yearChangeObs = yearSubject.asObservable();
         ctrl.yearChange = function(key) {
-            console.log('year change', key);
             let selectedMonth = responseData[key];
 
             let months = [];
 
             for (let i=0; i < selectedMonth.length; i++) {
-                console.log(selectedMonth[i]);
                 months.push(monthMap[selectedMonth[i].month]);
             }
     
@@ -225,8 +222,6 @@
         const monthSubject = new Rx.BehaviorSubject(ctrl.selectedMonth);
         ctrl.monthObs = monthSubject.asObservable();
         ctrl.monthChange = function(index, year) {
-            console.log('month change', index, year);
-
             ctrl.selectedMonth = responseData[year][index];
             applyScope();
             setTitle()

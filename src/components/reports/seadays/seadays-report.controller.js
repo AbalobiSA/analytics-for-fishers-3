@@ -89,7 +89,6 @@
                 return
             }
             ctrl.currentMonth = m;
-            console.log(m);
             ctrl.currentMonthNoSeadays = ctrl.currentMonth.days.filter(d => d.out === false).length;
             ctrl.currentMonthSeadays = ctrl.currentMonth.days.filter(d => d.out === true).length;
             ctrl.currentMonthCatchdays = ctrl.currentMonth.days.filter(d => d.out === true && d.catch === true).length;
@@ -201,7 +200,6 @@
             const day = month.getDay();
 
             const totalWeeks = Math.ceil(selectedMonth.days.length/7);
-            console.log('tot weeks', totalWeeks);
 
             for(let i = 0; i < totalWeeks*7; i+=7){
                 let week = [];
@@ -221,7 +219,6 @@
                 weeks.push(week);
             }
 
-            console.log('weeks', weeks);
             ctrl.weeks = weeks;
         }
 
