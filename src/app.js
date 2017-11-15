@@ -37,7 +37,6 @@
         ]
 
         return function (quantities) {
-            // todo currently all pages fire this when month changes. cause performance issues
             let out = {}
 
             for (key in quantities) {
