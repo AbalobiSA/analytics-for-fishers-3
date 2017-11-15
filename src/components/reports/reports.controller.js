@@ -113,6 +113,11 @@
 
             ctrl.years = years;
 
+            ctrl.sy = ctrl.years[ctrl.years.length-1];
+            ctrl.sm = responseData[ctrl.sy].length-1;
+
+            ctrl.yearChange(ctrl.sy);
+
             applyScope();
         };
 
@@ -192,6 +197,14 @@
             }
     
             ctrl.months = months;
+
+            if (!(ctrl.sm > 0)){
+                ctrl.sm = 0
+            }else if (ctrl.sm > ctrl.months.length){
+                ctrl.sm = ctrl.months[ctrl.month.length-1];
+            }
+
+            ctrl.monthChange(ctrl.sm, ctrl.sy);
         };
 
         const monthSubject = new Rx.BehaviorSubject(ctrl.selectedMonth);
@@ -200,7 +213,8 @@
             console.log('month change', index, year);
 
             ctrl.selectedMonth = responseData[year][index];
-            monthSubject.onNext(ctrl.selectedMonth)
+            applyScope();
+            monthSubject.onNext(ctrl.selectedMonth);
         };
     }
 

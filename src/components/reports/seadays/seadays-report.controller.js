@@ -71,7 +71,10 @@
 
         ctrl.weeks = [];
 
-
+        let date = new Date();
+        let currentYear = date.getUTCFullYear();
+        let currentMonth = date.getMonth();
+        let currentDay = date.getDate();
         /*============================================================================
                 View enter
          ============================================================================*/
@@ -107,6 +110,10 @@
         };
 
         ctrl.getCalendarIcon = function(day) {
+            if (currentYear == ctrl.year && currentMonth == ctrl.currentMonth.month-1 && day.day > currentDay){
+                return "components/reports/blank.png";
+            }
+
             if(!day.out) {
                 return "components/reports/anchor.png";
             }
@@ -169,14 +176,14 @@
 
         function resetLocalVariables() {}
 
-        const buildChartConfig = function (currentMonth) {
+        const buildChartConfig = function (selectedMonth) {
             let labels = ["See dae met vangste", "See dae sonder vangste", "Nie see dae"];
             let datasets = [];
             let colours = ctrl.colors.slice(3,6);
 
-            let catchdays = ctrl.currentMonth.days.filter(d => d.out === true && d.catch === true).length;
-            let noCatchdays = ctrl.currentMonth.days.filter(d => d.out === true && d.catch === false).length;
-            let noSeadays = ctrl.currentMonth.days.filter(d => d.out === false).length;
+            let catchdays = selectedMonth.days.filter(d => d.out === true && d.catch === true).length;
+            let noCatchdays = selectedMonth.days.filter(d => d.out === true && d.catch === false).length;
+            let noSeadays = selectedMonth.days.filter(d => d.out === false).length;
 
             datasets.push(catchdays);
             datasets.push(noCatchdays);
@@ -187,12 +194,12 @@
             ctrl.chartConfig.data.datasets[0].backgroundColor = colours;
         };
 
-        const buildCalendarConfig = function(currentMonth) {
+        const buildCalendarConfig = function(selectedMonth) {
             const weeks = [];
-            const month = new Date(ctrl.year, currentMonth.month-1, 1);
+            const month = new Date(ctrl.year, selectedMonth.month-1, 1);
             const day = month.getDay();
 
-            const totalWeeks = Math.ceil(currentMonth.days.length/7);
+            const totalWeeks = Math.ceil(selectedMonth.days.length/7);
             console.log('tot weeks', totalWeeks);
 
             for(let i = 0; i < totalWeeks*7; i+=7){
@@ -205,7 +212,7 @@
 
 
 
-                week = week.concat(currentMonth.days.slice(Math.max(i-day, 0), i+7-day));
+                week = week.concat(selectedMonth.days.slice(Math.max(i-day, 0), i+7-day));
 
                 while (week.length < 7) {
                     week.push({day: 0, out: false, catch:false, species:[]});
