@@ -115,6 +115,7 @@
 
             ctrl.sy = ctrl.years[ctrl.years.length-1];
             ctrl.sm = responseData[ctrl.sy].length-1;
+            ctrl.sm = ctrl.sm.toString();
 
             ctrl.yearChange(ctrl.sy);
 
@@ -197,11 +198,13 @@
             }
     
             ctrl.months = months;
+            let sm = parseInt(ctrl.sm)
 
-            if (!(ctrl.sm > 0)){
-                ctrl.sm = 0
-            }else if (ctrl.sm > ctrl.months.length){
-                ctrl.sm = ctrl.months[ctrl.month.length-1];
+            if (!(sm > 0)){
+                ctrl.sm = "0"
+            }else if (sm > ctrl.months.length){
+                let max = ctrl.months.length-1;
+                ctrl.sm = max.toString();
             }
 
             ctrl.monthChange(ctrl.sm, ctrl.sy);
