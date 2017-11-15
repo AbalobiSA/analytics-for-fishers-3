@@ -54,6 +54,12 @@
     .income-negative-profits {
         margin: 0 8px;
     }
+
+    .clear {
+        clear: both; 
+    }
+
+
 </style>
 <div class="cs-spacer"></div>
 
@@ -71,30 +77,33 @@
         <h4>Totale Inkomste: <br/> {{$ctrl.currentMonthTotal | currency:"R "}}</h4>
         <span><h3 class="income-profits">{{($ctrl.currentMonthProfits > 0) ? 'Wins' : 'Verlies'}}: <br/>{{$ctrl.currentMonthProfits | currency:"R "}}</h3></span><span ng-if="$ctrl.currentMonthProfits < 0" class="income-negative-profits"><img width="20px" src="components/reports/income/img/thumbs-down.png"/></span>
         <div class="income-table-entry" ng-repeat="c in $ctrl.currentMonth.species">
-            <p class="income-table-name">{{c.name | capitalizeKeys}}</p>
+            <p class="income-table-name">{{c.name | speciesNameMapper : $ctrl.speciesList : 'afr' }}</p>
             <span class="income-table-legend-color">
                 <svg height="15" width="15">
-                    <circle cx="7" cy="7" r="6" stroke="black" stroke-width="1" fill="{{$ctrl.colorMap[c.name]}}"/>
+                    <circle cx="7" cy="7" r="6" stroke="black" stroke-width="1" fill="{{$ctrl.colors[$index % $ctrl.colors.length]}}"/>
                 </svg>
             </span>
-            <img class="income-table-entry-img" src="{{$ctrl.imageMap[c.name]}}">
+            <img class="income-table-entry-img" src="components/reports/income/img/species/{{c.name | speciesImageMapper : $ctrl.speciesList}}">
             <div class="income-table-entry-footer">
-                <span class="income-table-quantity"><strong>{{c.denomination| capitalizeKeys}}:</strong> {{c.quantity}}</span>
-                <span class="income-table-value">{{c.value | currency:"R "}}</span>
+                <span class="income-table-quantity">
+                    <span ng-repeat="(key, val) in c.quantities | quantitiesKeysFilter"><strong>{{key | quantitiesKeysTranslator}}:</strong> {{val | quantitiesValueSymbol : key}}<br ng-if./></span>
+                </span>
+                <span class="income-table-value">{{c.quantities | quantitiesIncome | currency:"R "}}</span>
             </div>
+            <br class="clear" />
         </div>
     </div>
 
-    <h5>Inkomste uit elke spesie</h5>
-    <div class="vis-tip">Vir meer inligting klik op elke skyfie</div>
+    <h3>Inkomste uit elke spesie</h5>
+    <div class="vis-tip">Vir meer inligting, klik op elke deel van die sirkel of skyfie</div>
     <div id="canvas-holder-income" style="width:100%">
         <canvas id="income-chart-area-income"></canvas>
     </div>
 
-    <h5>Hoeveelheid gevang</h5>
+    <!-- <h5>Hoeveelheid gevang</h5>
     <div class="vis-tip">Vir meer inligting klik op elke skyfie</div>
     <div id="canvas-holder-quantity" style="width:100%">
         <canvas id="income-chart-area-quantity"></canvas>
-    </div>
+    </div> -->
 </div>
 

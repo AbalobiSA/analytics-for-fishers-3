@@ -377,6 +377,11 @@
             return $http(options);
         }
 
+        function getSpeciesList() {
+            return $http.get("list_species.json")
+                .then(r => r.data);
+        }
+
 /*============================================================================
         Aggregating Functions
  ============================================================================*/
@@ -475,7 +480,8 @@
             queryReports: queryReports,
             getEmailAddress: getEmailAddress,
             getManagerUsers: getManagerUsers,
-
+            
+            getSpeciesList: getSpeciesList,
             TIME_INTERVALS: TIME_INTERVALS,
             QUANTITY_AGGREGATION_TYPES: QUANTITY_AGGREGATION_TYPES,
             BASE_FISHER_LIST: BASE_FISHER_LIST,

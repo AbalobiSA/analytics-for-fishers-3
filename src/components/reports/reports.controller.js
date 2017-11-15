@@ -24,6 +24,7 @@
 
         ctrl.loading = false;
         ctrl.months = [];
+        ctrl.speciesList;
 
         ctrl.isNumber = (number) => typeof number === "number";
 
@@ -38,6 +39,20 @@
         ctrl.isManager = false;
         ctrl.fisherList = sfdata.BASE_FISHER_LIST;
         ctrl.selectedFisher = null;
+
+        ctrl.colors = [
+            '#e0f3f8',
+            '#fee090',
+            '#74add1',
+            '#313695',
+            '#ffffbf',
+            '#a50026',
+            '#abd9e9',
+            '#d73027',
+            '#f46d43',
+            '#4575b4',
+            '#fdae61',
+        ]
 
         ctrl.errorToast = function (error) {
             // alert("Error!" , error);
@@ -138,6 +153,10 @@
             ctrl.loading = true;
             sfdata.queryReports(false)
                 .then(handleResponse)
+                .catch(showError);
+
+            sfdata.getSpeciesList()
+                .then(r => ctrl.speciesList = r)
                 .catch(showError);
         }
 
