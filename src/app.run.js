@@ -4,11 +4,18 @@
 
     angular
         .module('app')
+        .config(['AnalyticsProvider', function (AnalyticsProvider) {
+            // GA analytics config
+            AnalyticsProvider.setAccount('UA-109690556-1')  //UU-XXXXXXX-X should be your tracking code
+                .logAllCalls(true)
+                .useDisplayFeatures(true)
+                .setHybridMobileSupport(true);
+         }])
         .run(run);
 
-    run.$inject = ['$ionicPlatform', 'authService'];
+    run.$inject = ['$ionicPlatform', 'authService', 'Analytics'];
 
-    function run($ionicPlatform, authService) {
+    function run($ionicPlatform, authService, ganalytics) {
 
         $ionicPlatform.ready(function () {
             if (window.t && window.cordova && window.cordova.plugins.Keyboard) {
@@ -24,6 +31,8 @@
             if (window.StatusBar) {
                 StatusBar.styleDefault();
             }
+
+            ganalytics.trackEvent('app', 'start');
 
             // Use the authManager from angular-jwt to check for
             // the user's authentication state when the page is

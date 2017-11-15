@@ -1,7 +1,7 @@
 (function () {
 
     let app = angular
-        .module('app', ['ionic', 'auth0.auth0', 'angular-jwt', '720kb.tooltips']);
+        .module('app', ['ionic', 'auth0.auth0', 'angular-jwt', '720kb.tooltips', 'angular-google-analytics']);
     
         // .config(config);
 
