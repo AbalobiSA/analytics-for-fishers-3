@@ -49,7 +49,7 @@
 
 <div>
     <div class="cost-table">
-        <h1>Uitgawes</h1>
+        <h4>Uitgawes</h4>
         <h4>Totale uitgawes: <br/>{{$ctrl.currentMonthTotal | currency:"R "}}</h4>
         <div class="cost-table-entry" ng-repeat="c in $ctrl.month.costs">
             <div class="cost-table-name">{{c.name | costKeysTranslator | capitalizeKeys}}</div>

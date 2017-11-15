@@ -73,7 +73,7 @@
 
 <div>
     <div class="income-table">
-        <h1>Inkomste</h1>
+        <h4>Inkomste</h4>
         <h4>Totale Inkomste: <br/> {{$ctrl.currentMonthTotal | currency:"R "}}</h4>
         <span><h3 class="income-profits">{{($ctrl.currentMonthProfits > 0) ? 'Wins' : 'Verlies'}}: <br/>{{$ctrl.currentMonthProfits | currency:"R "}}</h3></span><span ng-if="$ctrl.currentMonthProfits < 0" class="income-negative-profits"><img width="20px" src="components/reports/income/img/thumbs-down.png"/></span>
         <div class="income-table-entry" ng-repeat="c in $ctrl.currentMonth.species">
