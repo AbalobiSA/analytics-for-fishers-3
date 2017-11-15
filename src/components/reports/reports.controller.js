@@ -16,6 +16,7 @@
 
         let ctrl = this;
         const sfdata = dataService;
+        const baseTitle = 'Verslag - '
         let responseData;
 
         ctrl.seaDaysTabSelected = true;
@@ -62,6 +63,11 @@
             12:'Desember',
         }
         ctrl.monthMap = monthMap;
+
+        ctrl.getTitle = function() {
+            console.log('get title');
+            return 'Verslag'
+        }
 
 /*============================================================================
         Ionic Methods
@@ -159,6 +165,8 @@
                     return ctrl.incomeTabSelected === true;
                 case 2:
                     return ctrl.expensesTabSelected === true;
+                default:
+                    false;
             }
         };
 
@@ -181,7 +189,7 @@
         };
 
         const setTitle = function() {
-            ctrl.title = 'Verslag -  '+ ctrl.sm + ' ' +ctrl.years[0];
+            ctrl.title = 'Verslag -  '+ ctrl.months[ctrl.sm] + ' ' +ctrl.sy;
         };
 
         const yearSubject = new Rx.BehaviorSubject(ctrl.selectedyear);
@@ -217,6 +225,7 @@
 
             ctrl.selectedMonth = responseData[year][index];
             applyScope();
+            setTitle()
             monthSubject.onNext(ctrl.selectedMonth);
         };
     }
