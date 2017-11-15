@@ -9,6 +9,7 @@
             AnalyticsProvider.setAccount('UA-109690556-1')  //UU-XXXXXXX-X should be your tracking code
                 .logAllCalls(true)
                 .useDisplayFeatures(true)
+                .trackUrlParams(true)
                 .setHybridMobileSupport(true);
          }])
         .run(run);
