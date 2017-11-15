@@ -11,6 +11,7 @@
                 colors: '<',
                 monthMap: '<',
                 monthObs: '<',
+                noTripReasonsList: '<',
                 year: '<',
             }
         });
@@ -23,8 +24,6 @@
 
         let ctrl = this;
         ctrl.loadings = false;
-
-        let sfdata = dataService;
 
         // Pie chart config
         ctrl.chartConfig = {
@@ -83,10 +82,6 @@
         ctrl.$onInit = function () {
             ctrl.loading = false;
             ctrl.monthObs.subscribe(m => ctrl.onMonthChange(m));
-
-            sfdata.getNoTripReasonsList()
-            .then(r => ctrl.noTripReasons = r)
-            .catch(showError)
         };
 
         ctrl.onMonthChange = function (m) {
@@ -137,7 +132,7 @@
             let template = "<style>#ttdate { font-weight: bold; display: block; padding: 0; margin: 4px 0; } #tttype { font-weight: normal; display: block; padding: 0; margin: 4px 0 16px 0; } #ttreason { font-weight: normal; display: block; padding: 0; margin: 4px 0; }</style>"
             if(!day.out) {
                 let reason;
-                (!day.has_record) ? reason = 'Geen voorlegging nie' : reason = $filter('listKeyMapper')(day.reason, ctrl.noTripReasons, 'afr') || 'Geen rede verskaf nie';
+                (!day.has_record) ? reason = 'Geen voorlegging nie' : reason = $filter('listKeyMapper')(day.reason, ctrl.noTripReasonsList, 'afr') || 'Geen rede verskaf nie';
 
                 template += '<span id="ttdate">'+day.day+' '+month+'</span>'+
                     '<span id="tttype">Nie see dag</span>'+

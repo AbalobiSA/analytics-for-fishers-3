@@ -93,6 +93,10 @@
             sfdata.getSpeciesList()
                 .then(r => ctrl.speciesList = r)
                 .catch(showError);
+
+            sfdata.getNoTripReasonsList()
+                .then(r => ctrl.noTripReasons = r)
+                .catch(showError)
         }
 
         ctrl.requestFreshData = function () {
