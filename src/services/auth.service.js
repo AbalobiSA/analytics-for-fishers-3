@@ -8,11 +8,11 @@
 
     authService.$inject = ['$rootScope', '$state', 'angularAuth0',
         'authManager', 'jwtHelper', '$location', '$ionicPopup',
-        'stateService', 'dataService'];
+        'stateService', 'dataService', 'Analytics'];
 
     function authService($rootScope, $state, angularAuth0,
                          authManager, jwtHelper, $location, $ionicPopup,
-                        stateService, dataService) {
+                        stateService, dataService, ganalytics) {
 
         let userProfile = JSON.parse(localStorage.getItem('profile')) || {};
 
@@ -60,6 +60,7 @@
             authManager.unauthenticate();
             userProfile = {};
 
+            ganalytics.trackEvent('auth', 'logout');
             $state.go('menu.login');
         }
 
@@ -75,6 +76,8 @@
 
         function onAuthenticated(error, authResult) {
             if (error) {
+                ganalytics.trackEvent('auth', 'login_failed');
+                ganalytics.trackException(error.toString(), false);
                 return $ionicPopup.alert({
                     title: 'Login failed!',
                     template: error
@@ -92,11 +95,15 @@
 
             angularAuth0.getProfile(authResult.idToken, function (error, profileData) {
                 if (error) {
+                    ganalytics.trackException(error.toString(), false);
+                    ganalytics.trackEvent('auth', 'auth0_failure');
                     return console.log(error);
                 }
 
                 localStorage.setItem('profile', JSON.stringify(profileData));
                 userProfile = profileData;
+
+                ganalytics.trackEvent('auth', 'login_success');
 
                 $location.path('/app/home');
             });

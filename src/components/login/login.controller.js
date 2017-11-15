@@ -5,9 +5,9 @@
         .module('app')
         .controller('LoginController', LoginController);
 
-    LoginController.$inject = ['authService', 'stateService'];
+    LoginController.$inject = ['authService', 'stateService', 'Analytics'];
 
-    function LoginController(authService, stateService) {
+    function LoginController(authService, stateService, ganalytics) {
         let vm = this;
 
         vm.username = localStorage.getItem('lastUsername') || "";
@@ -22,10 +22,12 @@
 
         // Log in with username and password
         function login() {
+            ganalytics.trackEvent('login_page', 'attempt_login');
             authService.login(vm.username, vm.password);
         }
 
         function signup() {
+            ganalytics.trackEvent('login_page', 'signup_clicked');
             authService.signup(vm.username, vm.password);
         }
 
