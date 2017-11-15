@@ -13,15 +13,18 @@
             }
         });
 
-    costReportController.$inject = ['$state', '$http', '$filter',
+    costReportController.$inject = ['$state', '$http', '$filter',  'Analytics',
         '$rootScope', 'authService', 'stateService', 'dataService', 'StringUtil', 'ResultsUtil'];
 
 
-    function costReportController($state, $http, $filter,
+    function costReportController($state, $http, $filter, ganalytics,
                                   $rootScope, authService, stateService, dataService, StringUtil, ResultsUtil) {
 
         let ctrl = this;
         ctrl.loadings = false;
+
+        let chartPsuedoClickCount = -1;
+        let chartLegendPsuedoClickCount = -1;
 
         // Pie chart config
         ctrl.chartConfig = {
@@ -34,10 +37,20 @@
                 }]
             },
             options: {
+                onClick: function(evt) {
+                    if(evt.offsetY > 60) {
+                        chartPsuedoClickCount += 1;
+                        ganalytics.trackEvent('report_costs', 'click_chart', undefined, chartPsuedoClickCount);
+                    }
+                },
                 legend: {
                     fontSize: 16,
                     // Disables the removal of data when legend items are clicked
                     onClick: function (event, legendItem) {
+                        if(event.offsetY < 60) {
+                            chartLegendPsuedoClickCount += 1;
+                            ganalytics.trackEvent('report_costs', 'click_chart_legend', undefined, chartLegendPsuedoClickCount);
+                        }
                         // todo NB: not sure if this method is fullproof
                         let dsmb = ctrl.myPie.data.datasets[0]._meta;
                         let dsm;
@@ -72,6 +85,8 @@
                 View enter
          ============================================================================*/
         ctrl.$onInit = function () {
+            ganalytics.trackPage('/app/reports/costs', 'costs');
+            ganalytics.trackEvent('costs', 'page_enter');
             ctrl.loading = false;
             ctrl.monthObs.subscribe(m => ctrl.onMonthChange(m));
         };
@@ -90,15 +105,12 @@
         function resetLocalVariables() {}
 
         const buildChartConfig = function (currentMonth) {
-            console.log('building chart config', currentMonth);
             let labels = [];
             let datasets = [];
             let colours = [];
 
             // Expenses
             for (let i = 0; i < currentMonth.costs.length; i = i + 1) {
-
-                console.log('cost engage')
                 if (currentMonth.costs[i].value > 0) {
                     // Prettify label text
                     let label = currentMonth.costs[i].name;
