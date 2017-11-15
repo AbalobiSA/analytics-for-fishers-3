@@ -14,14 +14,17 @@
             }
         });
 
-    incomeReportController.$inject = ['$state', '$scope', '$http', '$filter',
+    incomeReportController.$inject = ['$state', '$scope', '$http', '$filter', 'Analytics',
         '$rootScope', 'authService', 'stateService', 'dataService', 'StringUtil', 'ResultsUtil'];
 
-    function incomeReportController($state, $scope, $http, $filter,
+    function incomeReportController($state, $scope, $http, $filter, ganalytics,
                                     $rootScope, authService, stateService, dataService, StringUtil, ResultsUtil) {
 
         let ctrl = this;
         ctrl.loadings = false;
+
+        let chartPsuedoClickCount = -1;
+        let chartLegendPsuedoClickCount = -1;
 
         // Pie chart config
         ctrl.chartConfigIncome = {
@@ -34,9 +37,18 @@
                 }]
             },
             options: {
+                onClick: function(evt) {
+                    if(evt.offsetY > 60) {
+                        chartPsuedoClickCount += 1;
+                        ganalytics.trackEvent('report_income', 'click_chart', undefined, chartPsuedoClickCount);
+                    }
+                },
                 legend: {
-                    // Disables the removal of data when legend items are clicked
                     onClick: function (event, legendItem) {
+                        if(event.offsetY < 60) {
+                            chartLegendPsuedoClickCount += 1;
+                            ganalytics.trackEvent('report_seadays', 'click_chart_legend', undefined, chartLegendPsuedoClickCount);
+                        }
                         // todo NB: not sure if this method is fullproof
                         let dsmb = ctrl.myPieIncome.data.datasets[0]._meta;
                         let dsm;
@@ -65,14 +77,9 @@
                     caretPadding: 8,
                     callbacks:{
                         title: function(data, chart) {
-                            console.log('render title', data);
-                            console.log('render title', chart);
-
                             return chart.labels[data[0].index];
                         },
                         label: function(data, chart){
-                            console.log('render label', data);
-                            console.log('render label', data[0]);
                             let s = ctrl.currentMonth.species[data.index];
 
                             let q = $filter('quantitiesKeysFilter')(s.quantities);
@@ -85,7 +92,6 @@
                             return labels;
                         },
                         afterLabel: function(data, chart){
-                            console.log('render footer', data);
                             let inc = $filter('quantitiesIncome')(ctrl.currentMonth.species[data.index].quantities) || 0;
                             return 'Inkomste: ' + $filter('currency')(inc, 'R ', 2);
                         }
@@ -101,6 +107,8 @@
                 View enter
          ============================================================================*/
         ctrl.$onInit = function () {
+            ganalytics.trackPage('/app/reports/income', 'income');
+            ganalytics.trackEvent('income', 'page_enter');
             ctrl.loading = false;
             ctrl.monthObs.subscribe(m => ctrl.onMonthChange(m));
         };
@@ -109,8 +117,6 @@
             if (typeof m === 'undefined' || m === null){
                 return
             }
-            console.log("income month change", m);
-            console.log('colours list ', ctrl.colors);
             ctrl.currentMonth = m;
             ctrl.currentMonthTotal = ctrl.currentMonth.totalIncome;
             ctrl.currentMonthCosts = ctrl.currentMonth.totalCosts;
@@ -123,7 +129,6 @@
         function resetLocalVariables() {}
 
         const buildChartConfig = function (currentMonth) {
-            console.log('building income chart config', currentMonth);
             let labels = [];
             let datasetsIncome = [];
             let datasetsQuantity = [];
