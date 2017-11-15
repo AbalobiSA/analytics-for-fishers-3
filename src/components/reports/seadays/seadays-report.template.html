@@ -112,6 +112,7 @@
                 <img ng-if="day.day > 0" class="calendar-icon" src="{{$ctrl.getCalendarIcon(day)}}"
                      tooltips tooltip-template="{{$ctrl.getTooltipTemplate(day)}}"
                      tooltip-side="{{$ctrl.getTooltipPosition($index, day)}}" tooltip-show-trigger="click"
+                     ng-click="$ctrl.calendarClickEvt($evt, day.day)"
                 >
             </div>
         </div>

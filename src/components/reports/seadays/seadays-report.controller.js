@@ -16,14 +16,23 @@
             }
         });
 
-    seadaysReportController.$inject = ['$state', '$scope', '$http', '$filter',
+    seadaysReportController.$inject = ['$state', '$scope', '$http', '$filter', 'Analytics',
         '$rootScope', 'authService', 'stateService', 'dataService', 'StringUtil', 'ResultsUtil', '$ionicPopover'];
 
-    function seadaysReportController($state, $scope, $http, $filter,
+    function seadaysReportController($state, $scope, $http, $filter, ganalytics,
                                     $rootScope, authService, stateService, dataService, StringUtil, ResultsUtil, $ionicPopover) {
 
         let ctrl = this;
         ctrl.loadings = false;
+
+        let chartPsuedoClickCount = -1;
+        let chartLegendPsuedoClickCount = -1;
+        let calendarTooltipPsuedoClickCount = -1;
+
+        ctrl.calendarClickEvt = function (evt, day) {
+            calendarTooltipPsuedoClickCount += 1;
+            ganalytics.trackEvent('report_seadays', 'click_calendar', day, calendarTooltipPsuedoClickCount);
+        }
 
         // Pie chart config
         ctrl.chartConfig = {
@@ -36,10 +45,20 @@
                 }]
             },
             options: {
+                onClick: function(evt) {
+                    if(evt.offsetY > 60) {
+                        chartPsuedoClickCount += 1;
+                        ganalytics.trackEvent('report_seadays', 'click_chart', undefined, chartPsuedoClickCount);
+                    }
+                },
                 legend: {
                     fontSize: 16,
                     // shows the tooltip on the pie slice on click
                     onClick: function (event, legendItem) {
+                        if(event.offsetY < 60) {
+                            chartLegendPsuedoClickCount += 1;
+                            ganalytics.trackEvent('report_seadays', 'click_chart_legend', undefined, chartLegendPsuedoClickCount);
+                        }
                         // todo NB: not sure if this method is fullproof
                         let dsmb = ctrl.myPie.data.datasets[0]._meta;
                         let dsm;
@@ -80,6 +99,8 @@
                 View enter
          ============================================================================*/
         ctrl.$onInit = function () {
+            ganalytics.trackPage('/app/reports/seadays', 'Seadays');
+            ganalytics.trackEvent('seadays', 'page_enter');
             ctrl.loading = false;
             ctrl.monthObs.subscribe(m => ctrl.onMonthChange(m));
         };
@@ -88,6 +109,7 @@
             if (typeof m === 'undefined' || m === null){
                 return
             }
+            
             ctrl.currentMonth = m;
             ctrl.currentMonthNoSeadays = ctrl.currentMonth.days.filter(d => d.out === false).length;
             ctrl.currentMonthSeadays = ctrl.currentMonth.days.filter(d => d.out === true).length;
@@ -223,6 +245,7 @@
         }
 
         const showError = function(err) {
+            ganalytics.trackEception(err.toString(), false);
             console.log(`Error: ${JSON.stringify(err, null, 4)}`);
             ctrl.loading = false;
             applyScope();
