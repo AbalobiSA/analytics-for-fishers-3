@@ -8,6 +8,7 @@
             templateUrl: 'components/reports/seadays/seadays-report.template.html',
             controller: seadaysReportController,
             bindings: {
+                colors: '<',
                 monthMap: '<',
                 monthObs: '<'
             }
@@ -205,7 +206,7 @@
             console.log('building income chart config', currentMonth);
             let labels = ["See dae met vangste", "See dae sonder vangste", "Nie see dae"];
             let datasets = [];
-            let colours = pattern.generate(['#9CE159', '#9D45B8', '#E7A13D']);
+            let colours = ctrl.colors.slice(3,6);
 
             let catchdays = ctrl.currentMonth.days.filter(d => d.out === true && d.catch === true).length;
             let noCatchdays = ctrl.currentMonth.days.filter(d => d.out === true && d.catch === false).length;
@@ -253,30 +254,5 @@
             ctrl.weeks = weeks;
         }
     }
-
-    const months = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-    ];
-
-    const speciesColorMap = {
-        'snoek': '#9AE34F',
-        'cape_bream': '#FF7400',
-    };
-
-    const speciesImageMap = {
-        'snoek': 'components/reports/income/img/snoek_200.png',
-        'cape_bream': 'components/reports/income/img/capebream_200.png',
-    };
 
 }());
