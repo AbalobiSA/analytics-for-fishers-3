@@ -8,11 +8,11 @@
 
     reportsController.$inject = ['$state', '$scope', '$http',
         '$rootScope','authService', 'stateService', 'dataService',
-        'StringUtil', 'ResultsUtil', '$ionicPlatform', 'Analytics'];
+        'StringUtil', 'ResultsUtil', '$ionicPlatform', 'Analytics', 'localDataService'];
 
     function reportsController($state, $scope, $http,
          $rootScope, authService, stateService, dataService,
-            StringUtil, ResultsUtil, $ionicPlatform, ganalytics) {
+            StringUtil, ResultsUtil, $ionicPlatform, ganalytics, lds) {
 
         let ctrl = this;
         const sfdata = dataService;
@@ -92,13 +92,9 @@
                 .then(handleResponse)
                 .catch(showError);
 
-            sfdata.getSpeciesList()
-                .then(r => ctrl.speciesList = r)
-                .catch(showError);
+            ctrl.speciesList = lds.getSpeciesList();
 
-            sfdata.getNoTripReasonsList()
-                .then(r => ctrl.noTripReasons = r)
-                .catch(showError)
+            ctrl.noTripReasons = lds.getNoTripReasonsList();
         }
 
         ctrl.requestFreshData = function () {
