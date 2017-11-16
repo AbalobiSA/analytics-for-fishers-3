@@ -39,7 +39,7 @@
         return function (quantities) {
             let out = {}
 
-            for (key in quantities) {
+            for (let key in quantities) {
                 if (allowedTypes.indexOf(key) > 1){
                     out[key] = quantities[key];
                 }
@@ -80,7 +80,7 @@
         return function (quantities) {
             // console.log('quant income', quantities, typeof quantities);
             let total = 0;
-            for (key in quantities) {
+            for (let key in quantities) {
                 // console.log('quant income2', key, typeof key);
                 if (key.startsWith('income_') || key == 'price_batch'){
                     total += quantities[key];
