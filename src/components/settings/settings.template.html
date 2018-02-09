@@ -1,0 +1,15 @@
+<style>
+    .settings-margin {
+        top: 48px;
+    }
+
+</style>
+<ion-view ng-controller="settingsController as $ctrl" class="settings-margin">
+    <ion-content overflow-scroll="true">
+
+        <div>
+            <settings-admin ng-show="!$ctrl.authed" pw-subject="$ctrl.pwSubject" err-obs="$ctrl.errObs" style="height: 50vh"></settings-admin>
+            <settings-user-creds ng-show="$ctrl.authed"></settings-user-creds>
+        </div>
+    </ion-content>
+</ion-view>

@@ -89,6 +89,15 @@ angular.module('app').config(function ($stateProvider, $urlRouterProvider, angul
                     templateUrl: "components/charts/catch-days/catch-days.template.html"
                 }
             }
+        })
+
+        .state('menu.settings', {
+            url: "/settings",
+            views: {
+                "menuContent": {
+                    templateUrl: "components/settings/settings.template.html"
+                }
+            }
         });
 
 

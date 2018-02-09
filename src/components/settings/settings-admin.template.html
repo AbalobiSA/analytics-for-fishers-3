@@ -1,0 +1,23 @@
+<ion-view view-title="Instellings">
+
+        <ion-nav-buttons side="right" ng-show="isAuthenticated">
+        </ion-nav-buttons>
+
+        <ion-content class="padding">
+                <h4 class="text-center">
+                    Enter admin password
+                </h4>
+                <div class="list list-inset">
+                        <label class="item item-input">
+                            <input type="password" placeholder="Password" ng-model="$ctrl.password" ng-change="$ctrl.update()">
+                        </label>
+                </div>
+                <button class="button button-block button-calm" ng-disabled="!$ctrl.enabled" ng-click="$ctrl.adminLogin()">Enter</button>
+                <div class="card" style="border-bottom: 5px solid #B71C1C;" ng-show="$ctrl.hasErr">
+                        <div class="item item-text-wrap">
+                            Incorrect Password
+                        </div>
+                        <!-- <div style="height: 3px; background-color: red;"></div> -->
+                    </div>
+            </ion-content>
+</ion-view>
