@@ -86,10 +86,18 @@
             });
         }
 
+        function isTokenExpired(token) {
+            let exp = true;
+            try{
+                exp = jwtHelper.isTokenExpired(token);
+            }catch(e){}
+            return exp;
+        }
+
         function checkAuthOnRefresh() {
             var token = localStorage.getItem('id_token');
             if (token) {
-                if (!jwtHelper.isTokenExpired(token)) {
+                if (!isTokenExpired(token)) {
                     if (!$rootScope.isAuthenticated) {
                         authManager.authenticate();
                     }

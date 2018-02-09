@@ -1,25 +1,8 @@
-<ion-view view-title="My Trips" ng-controller="HomeController as vm">
-
-    <!-- <ion-nav-buttons side="left" ng-show="isAuthenticated">
-        <button menu-toggle="left" class="button button-icon icon ion-navicon abalobi-menu-cheeseburger"></button>
-    </ion-nav-buttons> -->
-
-
+<ion-view view-title="Home" ng-controller="HomeController as vm">
     <ion-content class="padding">
         <!--<h1>Testing</h1>-->
-        <div ng-hide="isAuthenticated">
-            <p>Welcome to Abalobi Fisher Analytics! Please log in:</p>
-            <button class="button button-full button-positive" ng-click="vm.login()">
-                Log In / Sign Up
-            </button>
-        </div>
-        <div ng-show="isAuthenticated">
-            <p>You are logged in as: <br>{{vm.getProfile().email}}</p>
-            <div class="cs-spacer"></div>
-
-            <button class="button btn-main" ng-click="vm.refreshData()">
-                Refresh Data
-            </button>
+        <div>
+            <p>Welcome to Abalobi Fisher Analytics!</p>
 
             <div ng-show="vm.isLoading">
                 <div class="cs-loader-container">
@@ -28,46 +11,23 @@
                 </div>
                 <h4 class="text-center">Loading...</h4>
             </div>
-            <!--<div class="card" ng-repeat="item in vm.recentCatches()" ng-show="!vm.isLoading">-->
-                <!--&lt;!&ndash;{{item}}&ndash;&gt;-->
-                <!--<div class="item infoEntryHeader">-->
-                    <!--Date: <span class="noBold">{{item.date}}</span><br/>-->
-                    <!--Landing site: <span class="noBold">{{item.site_back_up || item.community}}</span>-->
-                <!--</div>-->
-                <!--<div class="item item-text-wrap">-->
-                    <!--<ul class="list">-->
-                        <!--<strong><p>{{item.species}}</p></strong>-->
-                        <!--<p ng-show="item.items !== null">{{item.items}} items</p>-->
-                        <!--<p ng-show="item.crates !== null">{{item.crates}} crates</p>-->
-                        <!--<p ng-show="item.weight !== null">Weight: {{item.weight}} kg</p>-->
-                    <!--</ul>-->
-                <!--</div>-->
-            <!--</div>-->
 
-            <div class="card" ng-repeat="record in vm.recentCatches()">
-                <div class="item infoEntryHeader">
-                    Date: <span class="noBold">{{record.key}}</span><br/>Landing site: <span class="noBold">{{record.site}}</span>
-                </div>
-                <div class="item item-text-wrap">
-                    <ul class="list">
-                        <li class="infoEntry" ng-repeat="entry in record.speciesInfo">
-                            <span class="infoEntryKey">{{entry.key}}</span><span class="infoEntryValue">{{entry.value}}</span>
-                            <br ng-if="entry.fisher"/>
-                            <span class="infoEntryFisherName" ng-if="entry.fisher">{{entry.fisher}}</span>
-                        </li>
-                    </ul>
-                    <!--<pre>{{vm.stringify(record)}}</pre>-->
-                </div>
-            </div>
-
-            <div ng-show="!vm.isLoading && vm.recentCatches() === undefined">
-                <div class="card" >
+            <div ng-show="!vm.isLoading && vm.hasError">
+                <div class="card">
                     <div class="item item-text-wrap">
                         Unable to connect to the server. Please check your internet connection settings or data cap.
+                        <br/> Make sure your manager has set you details correctly in the settings.
                     </div>
                 </div>
             </div>
 
+            <div ng-show="!vm.isLoading && vm.missingCreds">
+                <div class="card">
+                    <div class="item item-text-wrap">
+                        Ask your manager to set your details in the settings to get started.
+                    </div>
+                </div>
+            </div>
         </div>
     </ion-content>
 </ion-view>

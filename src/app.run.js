@@ -14,9 +14,9 @@
          }])
         .run(run);
 
-    run.$inject = ['$ionicPlatform', 'authService', 'Analytics'];
+    run.$inject = ['$ionicPlatform', 'authService', 'Analytics', '$rootScope'];
 
-    function run($ionicPlatform, authService, ganalytics) {
+    function run($ionicPlatform, authService, ganalytics, $rootScope) {
 
         $ionicPlatform.ready(function () {
             if (window.t && window.cordova && window.cordova.plugins.Keyboard) {
@@ -34,6 +34,11 @@
             }
 
             ganalytics.trackEvent('app', 'start');
+
+            $rootScope.$on('tokenHasExpired', function() {
+                console.log("token expired");
+                authService.relogin();
+              });
 
             // Use the authManager from angular-jwt to check for
             // the user's authentication state when the page is

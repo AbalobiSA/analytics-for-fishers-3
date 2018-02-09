@@ -89,7 +89,7 @@
 
             // stateService.setAccessToken();
 
-            console.log(JSON.stringify(authResult, null, 4));
+            // console.log(JSON.stringify(authResult, null, 4));
 
             authManager.authenticate();
 
@@ -109,10 +109,18 @@
             });
         }
 
+        function isTokenExpired(token) {
+            let exp = true;
+            try{
+                exp = jwtHelper.isTokenExpired(token);
+            }catch(e){}
+            return exp;
+        }
+
         function checkAuthOnRefresh() {
             var token = localStorage.getItem('id_token');
             if (token) {
-                if (!jwtHelper.isTokenExpired(token)) {
+                if (!isTokenExpired(token)) {
                     if (!$rootScope.isAuthenticated) {
                         // localStorage.removeItem('access_token');
                         dataService.clearAll();
@@ -122,13 +130,58 @@
             }
         }
 
+        function decodeTokenOrEmpty(token) {
+            let pt = "";
+            try{
+                pt = jwtHelper.decodeToken(token);
+            }catch(ex){}
+            return pt;
+        }
+
+        function isAuthenticated() {
+            checkAuthOnRefresh();
+            let authed = $rootScope.isAuthenticated;
+            let token  = localStorage.getItem('id_token');
+            let pt = decodeTokenOrEmpty(token);
+            let isValid = pt !== "";
+            let isExpired = isTokenExpired(token);
+            
+            return authed && isValid && !isExpired;
+        }
+
+        function relogin(){
+            //todo analytics
+            let sc = localStorage.getItem("czsqwsx") || "";
+
+            if (sc.length == 0) {
+                return new Error("no credentials");
+            }
+
+            let u = "";
+            let p = "";
+
+
+            try{
+                let dc = Base64.decode(Base64.decode(sc));
+                let c = JSON.parse(dc);
+                u = c.u || "";
+                p = c.p || "";
+            }catch(ex){
+                return new Error("no credentials");
+            }
+
+            login(u, p);
+        }
+
         return {
             login: login,
             logout: logout,
             signup: signup,
             loginWithGoogle: loginWithGoogle,
             checkAuthOnRefresh: checkAuthOnRefresh,
-            authenticateAndGetProfile: authenticateAndGetProfile
+            authenticateAndGetProfile: authenticateAndGetProfile,
+            isAuthenticated: isAuthenticated,
+            relogin: relogin
         }
     }
 })();
