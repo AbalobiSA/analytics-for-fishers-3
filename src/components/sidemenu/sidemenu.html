@@ -6,12 +6,12 @@
                 <!---->
             <!--</ion-nav-back-button>-->
             <ion-nav-buttons side="left">
-                <button class="button button-icon" menu-toggle="left">
+                <button class="button button-icon" menu-toggle="left" ng-show="false">
                         <i class="icon ion-navicon abalobi-menu-cheeseburger"></i>
                 </button>
             </ion-nav-buttons>
             <ion-nav-buttons side="right">
-                <button class="button button-icon" ng-click="popover.show($event)">
+                <button class="button button-icon" ng-click="popover.show($event)" ng-show="showSettings">
                     <i class="icon ion-android-more-vertical abalobi-menu-cheeseburger"></i>
                   </button>
             </ion-nav-buttons>
