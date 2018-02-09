@@ -34,13 +34,13 @@
                 vm.isLoading = false;
                 console.log("home is authed");
                 $state.go('menu.reports');
-                ganalytics.trackEvent('home', 'redirect', 'reports')
+                ganalytics.trackEvent('home', 'redirect', 'reports');
             } else {
                 vm.isLoading = true;
                 console.log("home not authed");
                 let err = authService.relogin();
 
-                if (err){
+                if (err) {
                     vm.isLoading = false;
                     $scope.$apply();
                     vm.missingCreds = true;
@@ -56,6 +56,8 @@
                         vm.isLoading = false;
                         $scope.$apply();
                         clearInterval(id);
+                        $state.go('menu.reports');
+                        ganalytics.trackEvent('home', 'relogin', 'reports');
                     }
 
                     if (count > 3) {
