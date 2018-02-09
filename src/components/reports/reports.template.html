@@ -90,6 +90,7 @@
 
     <ion-content overflow-scroll="true" class="tabs-content">
 
+        <p class="padding">You are logged in as: <br>{{$ctrl.getProfile().email}}</p>
         <!-- LOADING SECTION -->
         <button class="btn-main" ng-click="$ctrl.requestFreshData()">Verfris Data</button>
 

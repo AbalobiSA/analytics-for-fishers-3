@@ -109,7 +109,6 @@
 
         const handleResponse = function(response){
             console.log("DEBUG: Response received. Logging info now...");
-            console.log(JSON.stringify(response));
             ganalytics.trackEvent('reports', 'request_data', 'response_received');
             responseData = response.data;
 
@@ -230,6 +229,10 @@
             setTitle()
             monthSubject.onNext(ctrl.selectedMonth);
         };
+
+        ctrl.getProfile = function getProfile() {
+            return JSON.parse(localStorage.getItem('profile'));
+        }
     }
 
 }());
