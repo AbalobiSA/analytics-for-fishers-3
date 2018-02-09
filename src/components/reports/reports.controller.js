@@ -84,6 +84,9 @@
          Data Methods
  ============================================================================*/
         function requestData(){
+            if(!authService.isAuthenticated()) {
+                $state.go('menu.home');
+            }
             console.log("DEBUG: Requesting data...");
             ganalytics.trackEvent('reports', 'request_data', 'init');
             ctrl.loading = true;
@@ -98,6 +101,9 @@
         }
 
         ctrl.requestFreshData = function () {
+            if(!authService.isAuthenticated()) {
+                $state.go('menu.home');
+            }
             ganalytics.trackEvent('reports', 'request_data', 'refresh');
             ctrl.loading = true;
             sfdata.queryReports(true)
