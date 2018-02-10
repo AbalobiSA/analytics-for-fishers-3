@@ -44,6 +44,7 @@
         ]
         const showError = function(err) {
             console.log(`Error: ${JSON.stringify(err, null, 4)}`);
+            ganalytics.trackException('error loading reports data', false);
             ganalytics.trackEvent('reports', 'error', err.toString());
             ctrl.loading = false;
             applyScope();
