@@ -32,12 +32,12 @@
         $scope.$on('$ionicView.enter', function () {
             if (authService.isAuthenticated()) {
                 vm.isLoading = false;
-                console.log("home is authed");
                 $state.go('menu.reports');
                 ganalytics.trackEvent('home', 'redirect', 'reports');
             } else {
                 vm.isLoading = true;
-                console.log("home not authed");
+                vm.isLoading = false;
+                vm.hasError = false;
                 let err = authService.relogin();
 
                 if (err) {
@@ -52,16 +52,16 @@
                     count++;
 
                     if (authService.isAuthenticated()) {
-                        console.log("authed removing loading");
+                        ganalytics.trackEvent('home', 'relogin', 'succes');
                         vm.isLoading = false;
                         $scope.$apply();
                         clearInterval(id);
                         $state.go('menu.reports');
-                        ganalytics.trackEvent('home', 'relogin', 'reports');
                     }
 
                     if (count > 3) {
-                        console.log("failed removing loading");
+                        ganalytics.trackException('unable to reauthenticate user', false);
+                        ganalytics.trackEvent('home', 'relogin', 'fail');
                         vm.isLoading = false;
                         vm.hasError = true;
                         $scope.$apply();
