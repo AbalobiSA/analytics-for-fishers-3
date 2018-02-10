@@ -15,7 +15,7 @@
 
     app.filter('costKeysTranslator', function() {
         const costTypeMap = {
-            'bait': 'ass',
+            'bait': 'aas',
             'fuel': 'brandstof',
             'food': 'voedsel',
             'harbour_fee': 'hawe_fooi',
