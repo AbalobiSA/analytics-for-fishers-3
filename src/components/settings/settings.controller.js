@@ -26,9 +26,12 @@
             // NB this is currently not designed to be secure but provide a means for 
             // current users not to change the currently logged in user
             if (pw !== 'c'){
+                ganalytics.trackEvent('settings', 'admin', 'incorrect-password');
+                ganalytics.trackException('incorrect settings admin password entered', false);
                 errSubject.onNext(true);
                 return;
             }
+            ganalytics.trackEvent('settings', 'admin', 'successful-login');
             ctrl.authed = true;
         });
     }
