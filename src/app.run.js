@@ -6,17 +6,17 @@
         .module('app')
         .config(['AnalyticsProvider', function (AnalyticsProvider) {
             // GA analytics config
-            AnalyticsProvider.setAccount('UA-109690556-1')  //UU-XXXXXXX-X should be your tracking code
+            AnalyticsProvider.setAccount('UA-109690556-1') //UU-XXXXXXX-X should be your tracking code
                 .logAllCalls(true)
                 .useDisplayFeatures(true)
                 .trackUrlParams(true)
                 .setHybridMobileSupport(true);
-         }])
+        }])
         .run(run);
 
-    run.$inject = ['$ionicPlatform', 'authService', 'Analytics', '$rootScope'];
+    run.$inject = ['$ionicPlatform', 'authService', 'Analytics', '$rootScope', '$state'];
 
-    function run($ionicPlatform, authService, ganalytics, $rootScope) {
+    function run($ionicPlatform, authService, ganalytics, $rootScope, $state) {
 
         $ionicPlatform.ready(function () {
             if (window.t && window.cordova && window.cordova.plugins.Keyboard) {
@@ -35,10 +35,14 @@
 
             ganalytics.trackEvent('app', 'start');
 
-            $rootScope.$on('tokenHasExpired', function() {
+            $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+                ganalytics.trackPage(toState.url);
+            });
+
+            $rootScope.$on('tokenHasExpired', function () {
                 console.log("token expired");
                 authService.relogin();
-              });
+            });
 
             // Use the authManager from angular-jwt to check for
             // the user's authentication state when the page is
