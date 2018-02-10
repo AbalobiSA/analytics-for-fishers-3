@@ -2,21 +2,21 @@
     <ion-content class="padding">
         <!--<h1>Testing</h1>-->
         <div>
-            <p>Welcome to Abalobi Fisher Analytics!</p>
+            <h4>Welcome to Abalobi Fisher Reports!</h4>
 
             <div ng-show="vm.isLoading">
                 <div class="cs-loader-container">
                     <div class="cs-loader">
                     </div>
                 </div>
-                <h4 class="text-center">Loading...</h4>
+                <h4 class="text-center">Vul inligting in...</h4>
             </div>
 
             <div ng-show="!vm.isLoading && vm.hasError">
                 <div class="card">
                     <div class="item item-text-wrap">
-                        Unable to connect to the server. Please check your internet connection settings or data cap.
-                        <br/> Make sure your manager has set you details correctly in the settings.
+                        As jy nie enige aksie kan doen nie. Kyk asseblief na jou internet instellings of data.
+                        <br/> Maak seker dat jou plaaslike Abalobi Bestuurder jou besonderhede reg ingevul het.
                     </div>
                 </div>
             </div>
@@ -24,7 +24,7 @@
             <div ng-show="!vm.isLoading && vm.missingCreds">
                 <div class="card">
                     <div class="item item-text-wrap">
-                        Ask your manager to set your details in the settings to get started.
+                            Vra jou plaaslike Abalobi Bestuurder om jou besonderhede in te vul sodat jy kan begin.
                     </div>
                 </div>
             </div>
