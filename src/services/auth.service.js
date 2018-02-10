@@ -103,7 +103,7 @@
                 localStorage.setItem('profile', JSON.stringify(profileData));
                 userProfile = profileData;
 
-                ganalytics.trackEvent('auth', 'login_success');
+                ganalytics.trackEvent('auth', 'login_success', Base64.encode(userProfile.email));
 
                 $location.path('/app/home');
             });
