@@ -6,14 +6,9 @@
         .module('app')
         .controller('settingsController', settingsController);
 
-    settingsController.$inject = ['$state', '$scope', '$http',
-        '$rootScope', 'authService', 'stateService', 'dataService',
-        'StringUtil', 'ResultsUtil', '$ionicPlatform', 'Analytics', 'localDataService'
-    ];
+    settingsController.$inject = ['Analytics'];
 
-    function settingsController($state, $scope, $http,
-        $rootScope, authService, stateService, dataService,
-        StringUtil, ResultsUtil, $ionicPlatform, ganalytics, lds) {
+    function settingsController(ganalytics) {
 
         let ctrl = this;
         ctrl.authed = false;
