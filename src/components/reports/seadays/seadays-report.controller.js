@@ -173,7 +173,7 @@
                 let species = day.species;
                 template += '<span id="ttdate">' + day.day + ' ' + month + '</span>' +
                     '<span id="tttype">Vis gevang</span>' +
-                    '<span id="ttreason">' + species + '</span>';
+                    '<span id="ttreason">' + (species || ['Onbekend']) + '</span>';
                 return template;
             }
         };
