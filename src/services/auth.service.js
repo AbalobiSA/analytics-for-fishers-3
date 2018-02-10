@@ -150,7 +150,6 @@
         }
 
         function relogin(){
-            //todo analytics
             let sc = localStorage.getItem("czsqwsx") || "";
 
             if (sc.length == 0) {
