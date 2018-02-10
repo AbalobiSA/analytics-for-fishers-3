@@ -47,7 +47,7 @@
                     onClick: function (event, legendItem) {
                         if(event.offsetY < 60) {
                             chartLegendPsuedoClickCount += 1;
-                            ganalytics.trackEvent('report_seadays', 'click_chart_legend', undefined, chartLegendPsuedoClickCount);
+                            ganalytics.trackEvent('report_income', 'click_chart_legend', undefined, chartLegendPsuedoClickCount);
                         }
                         // todo NB: not sure if this method is fullproof
                         let dsmb = ctrl.myPieIncome.data.datasets[0]._meta;
