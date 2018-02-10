@@ -42,7 +42,7 @@
 
                 if (err) {
                     vm.isLoading = false;
-                    $scope.$apply();
+                    applyScope();
                     vm.missingCreds = true;
                     return;
                 }
@@ -54,7 +54,7 @@
                     if (authService.isAuthenticated()) {
                         ganalytics.trackEvent('home', 'relogin', 'succes');
                         vm.isLoading = false;
-                        $scope.$apply();
+                        applyScope();
                         clearInterval(id);
                         $state.go('menu.reports');
                     }
@@ -64,12 +64,23 @@
                         ganalytics.trackEvent('home', 'relogin', 'fail');
                         vm.isLoading = false;
                         vm.hasError = true;
-                        $scope.$apply();
+                        applyScope();
                         clearInterval(id);
                     }
                 }, 2000);
             }
         });
+
+        /*============================================================================
+                Functions
+         ============================================================================*/
+        function applyScope() {
+            try {
+                $scope.$apply();
+            } catch (ex) {
+                console.log("Scope apply already in progress!");
+            }
+        }
     }
 
 }());
