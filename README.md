@@ -51,3 +51,14 @@ Then, do the following:
     
 Now, open Android Studio, import the `platforms/android` folder as a 
 gradle project, build & run on your device.
+
+## Troubleshooting
+
+Clone the app and cd into the folder.
+Run these commands in terminal to be able to build for android, you may need to use sudo:
+
+    $ bower i
+    $ yarn
+    $ chmod +x hooks/after_prepare/010_add_platform_class.js
+    $ ionic cordova platform add android@6.4.0
+    $ ionic cordova run android --livereload
