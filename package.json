@@ -6,16 +6,13 @@
         "babel": "^6.23.0",
         "babel-preset-es2015": "^6.24.1",
         "browserify": "^14.4.0",
-        "cordova-android": "6.4.0",
-        "cordova-plugin-console": "^1.0.7",
-        "cordova-plugin-device": "^1.1.7",
-        "cordova-plugin-ionic-keyboard": "^2.1.3",
-        "cordova-plugin-ionic-webview": "^3.1.2",
-        "cordova-plugin-splashscreen": "^3.2.2",
-        "cordova-plugin-statusbar": "^2.1.3",
-        "cordova-plugin-whitelist": "^1.2.2",
+        "cordova-android": "^4.1.1",
+        "cordova-plugin-console": "~1.0.3",
+        "cordova-plugin-device": "~1.1.2",
+        "cordova-plugin-splashscreen": "~3.2.2",
+        "cordova-plugin-statusbar": "~2.1.3",
+        "cordova-plugin-whitelist": "~1.2.2",
         "es6-promise": "^4.1.1",
-        "escape-string-regexp": "^1.0.5",
         "gulp": "^3.5.6",
         "gulp-babel": "^6.1.2",
         "gulp-concat": "^2.2.0",
@@ -23,8 +20,7 @@
         "gulp-plumber": "^1.1.0",
         "gulp-rename": "^1.2.0",
         "gulp-sass": "^2.0.4",
-        "ionic-plugin-keyboard": "^2.2.1",
-        "lodash": "^4.17.11",
+        "ionic-plugin-keyboard": "~2.2.1",
         "path": "^0.12.7",
         "run-sequence": "^2.0.0",
         "rxjs": "^5.4.2",
@@ -59,11 +55,7 @@
             "cordova-plugin-splashscreen": {},
             "cordova-plugin-statusbar": {},
             "cordova-plugin-whitelist": {},
-            "ionic-plugin-keyboard": {},
-            "cordova-plugin-ionic-webview": {
-                "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
-            },
-            "cordova-plugin-ionic-keyboard": {}
+            "ionic-plugin-keyboard": {}
         },
         "platforms": [
             "android"
