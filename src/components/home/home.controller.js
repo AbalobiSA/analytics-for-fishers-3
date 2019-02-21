@@ -58,7 +58,8 @@
         };
 
         function handleDataSuccess(response) {
-            aggregateCatchesByDate(response.data.records);
+            console.log("handleDataSuccess: ", response);
+            aggregateCatchesByDate(response.data);
             vm.isManager = response.data.is_manager;
             console.log("Data returned with success.");
             vm.isLoading = false;
@@ -66,6 +67,7 @@
         }
 
         function handleDataError(error) {
+            console.log("handleDataError: ", error);
             recentCatches = undefined;
             console.log(error);
             vm.isLoading = false;
@@ -116,6 +118,8 @@
 
         // Add Aggregate Code to combine catches on the same trip
         function aggregateCatchesByDate(catches) {
+            console.log('aggregateCatchesByData');
+            console.log(catches);
             Rx.Observable.from(catches)
                 .groupBy(record => record.date)
                 .flatMap(aggregateInfo)

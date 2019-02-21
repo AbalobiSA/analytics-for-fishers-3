@@ -85,9 +85,13 @@
                         recentCatches = undefined;
                         $http(options)
                             .then(response => {
+                                console.log(response);
                                 recentCatches = response;
                                 resolve(recentCatches);
-                            }).catch(error => reject(error));
+                            }).catch(error => {
+                                console.log("Error: ", error);
+                                reject(error);
+                            });
                     }
                     else {
                         console.log("Sending back cached data.");
