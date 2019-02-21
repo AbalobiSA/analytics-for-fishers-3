@@ -20,7 +20,7 @@
  ============================================================================*/
 
         // let SERVER_IP = "http://localhost:8080";
-        let SERVER_IP = "http://197.85.186.65:8080";
+        let SERVER_IP = "https://server.abalobi.org";
 
         let recentCatches;
 

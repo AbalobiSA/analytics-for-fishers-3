@@ -62,7 +62,7 @@
                 Id = ctrl.mainUserId
             }
 
-            let endpoint = 'http://197.85.186.65:8080/pdf-report?ownerId='+ Id +"&destEmail="+ctrl.email;
+            let endpoint = 'https://server.abalobi.org/pdf-report?ownerId='+ Id +"&destEmail="+ctrl.email;
             // let endpoint = 'http://localhost:8080/pdf-report?ownerId='+ Id +"&destEmail="+ctrl.email;
             console.log("sending -> "+endpoint);
             ctrl.emailSending = true;
